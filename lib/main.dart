@@ -49,7 +49,7 @@ class LoginScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0),
               ),
               padding: EdgeInsets.symmetric(vertical: 10.0, horizontal: 40.0),
-              color: Colors.greenAccent,
+              color: Colors.blue,
               child: Text(
                 'Sign up',
                 style: TextStyle(fontSize: 30, color: Colors.white),
