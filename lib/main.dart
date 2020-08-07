@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
-import 'Views/login_Screen.dart';
+import 'screens//login_Screen.dart';
+import 'screens/input_collections_screen.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+        accentColor: Colors.greenAccent,
+      ),
       home: LoginScreen(),
+      routes: {
+        'InputCollectionScreen': (ctx) => InputCollectionScreen(),
+      },
     );
   }
 }
