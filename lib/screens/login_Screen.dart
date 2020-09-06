@@ -40,8 +40,8 @@ class _LoginScreenState extends State<LoginScreen> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          print(_emailFieldController);
-          print(_passwordFieldController);
+          print(_emailFieldController.text);
+          print(_passwordFieldController.text);
         },
         child: Text("Login",
             textAlign: TextAlign.center,
@@ -51,10 +51,6 @@ class _LoginScreenState extends State<LoginScreen> {
     );
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Welcome back'),
-        backgroundColor: Theme.of(context).primaryColor,
-      ),
       body: Center(
         child: Container(
           color: Colors.white,
@@ -64,13 +60,13 @@ class _LoginScreenState extends State<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-//                SizedBox(
-//                  height: 155.0,
-//                  child: Image.asset(
-//                    "assets/logo.png",
-//                    fit: BoxFit.contain,
-//                  ),
-//                ),
+                SizedBox(
+                  height: 155.0,
+                  child: Image.asset(
+                    "images/logo.jpg",
+                    fit: BoxFit.contain,
+                  ),
+                ),
                 SizedBox(height: 45.0),
                 emailField,
                 SizedBox(height: 25.0),
