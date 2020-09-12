@@ -55,7 +55,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                 style: TextStyle(fontSize: 20),
               ),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              color: Colors.amber,
+              color: Colors.blue,
             ),
           )
         ],
