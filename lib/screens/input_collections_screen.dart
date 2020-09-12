@@ -25,12 +25,22 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                   children: <Widget>[
                     Container(
 //                      color: Colors.amber,
-                      height: MediaQuery.of(context).size.height * 0.4,
+                      height: MediaQuery.of(context).size.height * 0.5,
                       child: TeaAcquiringInput(),
                     ),
                     Container(
+                      child: Text(
+                        'DEDUCTIONS',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 10,
+                        ),
+                      ),
+                    ),
+                    Container(
 //                      color: Colors.blue,
-                      height: MediaQuery.of(context).size.height * 0.6,
+                      height: MediaQuery.of(context).size.height * 0.4,
                       child: TeaDeductionInput(),
                     )
                   ],
@@ -38,12 +48,18 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
               ),
             ),
           ),
-          RaisedButton.icon(
-            onPressed: () {},
-            icon: Icon(Icons.add),
-            label: Text('Save'),
-            materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-            color: Theme.of(context).accentColor,
+          Container(
+            height: MediaQuery.of(context).size.height * 0.05,
+            child: RaisedButton.icon(
+              onPressed: () {},
+              icon: Icon(Icons.add),
+              label: Text(
+                'SAVE',
+                style: TextStyle(fontSize: 20),
+              ),
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              color: Colors.amber,
+            ),
           )
         ],
       ),

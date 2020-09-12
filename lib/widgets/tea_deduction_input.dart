@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import '../constants.dart';
+
 class TeaDeductionInput extends StatefulWidget {
   @override
   _TeaDeductionInputState createState() => _TeaDeductionInputState();
@@ -15,32 +17,76 @@ class _TeaDeductionInputState extends State<TeaDeductionInput> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        Container(
-          width: MediaQuery.of(context).size.width * 0.3,
-          child: TextField(
-            decoration: InputDecoration(labelText: 'Water'),
-            controller: _waterLevelController,
+    final double width = 0.2;
+
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Container(
+            width: MediaQuery.of(context).size.width * width,
+            child: TextField(
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.lightGreen,
+                labelText: 'Water',
+                labelStyle: kTextFieldLabelStyle,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(13.0),
+                  ),
+                ),
+              ),
+              controller: _waterLevelController,
+              style: TextStyle(fontSize: 40),
+            ),
           ),
-        ),
-        Container(
-          width: MediaQuery.of(context).size.width * 0.3,
-          child: TextField(
-            decoration: InputDecoration(labelText: 'Course leaf'),
-            controller: _courseLeafController,
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.05,
           ),
-        ),
-        Container(
-          width: MediaQuery.of(context).size.width * 0.3,
-          child: TextField(
-            decoration: InputDecoration(labelText: 'Other'),
-            controller: _otherDeductController,
+          Container(
+            width: MediaQuery.of(context).size.width * width,
+            child: TextField(
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.lightGreen,
+                labelText: 'Course Leaf',
+                labelStyle: kTextFieldLabelStyle,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(13.0),
+                  ),
+                ),
+              ),
+              controller: _courseLeafController,
+              style: TextStyle(fontSize: 40),
+            ),
           ),
-        ),
-      ],
+          SizedBox(
+            width: MediaQuery.of(context).size.width * 0.05,
+          ),
+          Container(
+            width: MediaQuery.of(context).size.width * width,
+            child: TextField(
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: Colors.lightGreen,
+                labelText: 'Others',
+                labelStyle: kTextFieldLabelStyle,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(13.0),
+                  ),
+                ),
+              ),
+              controller: _otherDeductController,
+              style: TextStyle(fontSize: 40),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

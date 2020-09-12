@@ -17,131 +17,146 @@ class _TeaAcquiringInputState extends State<TeaAcquiringInput> {
 
   @override
   Widget build(BuildContext context) {
-    final double width = 0.25;
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-        children: <Widget>[
-          Container(
-            width: MediaQuery.of(context).size.width * width,
-            child: TextField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.lightGreen,
-                labelText: 'Supplier no',
-                labelStyle: kTextFieldLabelStyle,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(13.0),
-                  ),
+    final double width = 0.15;
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: <Widget>[
+        Container(
+          width: MediaQuery.of(context).size.width * width,
+          child: TextField(
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(vertical: 40.0),
+              filled: true,
+              fillColor: Colors.lightGreen,
+              labelText: 'Supplier no',
+              labelStyle: kTextFieldLabelStyle,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(13.0),
                 ),
+                borderSide: BorderSide.none,
               ),
-              controller: _supplierController,
             ),
+            controller: _supplierController,
+            style: TextStyle(fontSize: 40),
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.005,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * width,
-            child: TextField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.lightGreen,
-                labelText: 'Type of container',
-                labelStyle: kTextFieldLabelStyle,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(13.0),
-                  ),
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.005,
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width * width,
+          child: TextField(
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(vertical: 40.0),
+              filled: true,
+              fillColor: Colors.lightGreen,
+              labelText: 'Container type',
+              labelStyle: kTextFieldLabelStyle,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(13.0),
                 ),
+                borderSide: BorderSide.none,
               ),
-              controller: _containerTypeController,
             ),
+            controller: _containerTypeController,
+            style: TextStyle(fontSize: 40),
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.005,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * width,
-            child: TextField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.lightGreen,
-                labelText: 'No of container',
-                labelStyle: kTextFieldLabelStyle,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(13.0),
-                  ),
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.005,
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width * width,
+          child: TextField(
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(vertical: 40.0),
+              filled: true,
+              fillColor: Colors.lightGreen,
+              labelText: 'No of container',
+              labelStyle: kTextFieldLabelStyle,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(13.0),
                 ),
+                borderSide: BorderSide.none,
               ),
-              controller: _containerNoController,
             ),
+            controller: _containerNoController,
+            style: TextStyle(fontSize: 40),
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.005,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * width,
-            child: TextField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.lightGreen,
-                labelText: 'Gross weight',
-                labelStyle: kTextFieldLabelStyle,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(13.0),
-                  ),
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.005,
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width * width,
+          child: TextField(
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(vertical: 40.0),
+              filled: true,
+              fillColor: Colors.lightGreen,
+              labelText: 'Gross weight',
+              labelStyle: kTextFieldLabelStyle,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(13.0),
                 ),
+                borderSide: BorderSide.none,
               ),
-              controller: _grossWeightController,
             ),
+            controller: _grossWeightController,
+            style: TextStyle(fontSize: 40),
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.005,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * width,
-            child: TextField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.lightGreen,
-                labelText: 'Leaf grade',
-                labelStyle: kTextFieldLabelStyle,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(13.0),
-                  ),
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.005,
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width * width,
+          child: TextField(
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(vertical: 40.0),
+              filled: true,
+              fillColor: Colors.lightGreen,
+              labelText: 'Leaf grade',
+              labelStyle: kTextFieldLabelStyle,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(13.0),
                 ),
+                borderSide: BorderSide.none,
               ),
-              controller: _leafGradeController,
             ),
+            controller: _leafGradeController,
+            style: TextStyle(fontSize: 40),
           ),
-          SizedBox(
-            width: MediaQuery.of(context).size.width * 0.005,
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width * width,
-            child: TextField(
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.lightGreen,
-                labelText: 'Box no',
-                labelStyle: kTextFieldLabelStyle,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(13.0),
-                  ),
+        ),
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.005,
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width * width,
+          child: TextField(
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(vertical: 40.0),
+              filled: true,
+              fillColor: Colors.lightGreen,
+              labelText: 'Box no',
+              labelStyle: kTextFieldLabelStyle,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.all(
+                  Radius.circular(13.0),
                 ),
+                borderSide: BorderSide.none,
               ),
-              controller: _boxNoController,
             ),
+            controller: _boxNoController,
+            style: TextStyle(fontSize: 40),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

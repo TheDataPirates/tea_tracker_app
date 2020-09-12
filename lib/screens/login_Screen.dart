@@ -62,22 +62,22 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 SizedBox(
-                  height: 155.0,
+                  height: MediaQuery.of(context).size.height * 0.3,
                   child: Image.asset(
                     "images/logo.jpg",
                     fit: BoxFit.contain,
                   ),
                 ),
-                SizedBox(height: 45.0),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                 emailField,
-                SizedBox(height: 25.0),
+                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
                 passwordField,
                 SizedBox(
-                  height: 35.0,
+                  height: MediaQuery.of(context).size.height * 0.2,
                 ),
                 loginButon,
                 SizedBox(
-                  height: 15.0,
+                  height: MediaQuery.of(context).size.height * 0.1,
                 ),
               ],
             ),
