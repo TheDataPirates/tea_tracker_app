@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:teatracker/widgets/tea_acquiring_input.dart';
+import 'package:teatracker/widgets/tea_deduction_input.dart';
 
 class InputCollectionScreen extends StatefulWidget {
   @override
@@ -6,17 +8,6 @@ class InputCollectionScreen extends StatefulWidget {
 }
 
 class _InputCollectionScreenState extends State<InputCollectionScreen> {
-  //stored textfield values to below variable
-  final _suplierController = TextEditingController();
-  final _containerTypeController = TextEditingController();
-  final _containerNoController = TextEditingController();
-  final _grossWeightController = TextEditingController();
-  final _leafGradeController = TextEditingController();
-  final _boxNoController = TextEditingController();
-  final _waterLevelController = TextEditingController();
-  final _courseLeafController = TextEditingController();
-  final _otherDeductController = TextEditingController();
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,44 +23,16 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
                   children: <Widget>[
-                    TextField(
-                      decoration: InputDecoration(labelText: 'Supplier no'),
-                      controller: _suplierController,
+                    Container(
+//                      color: Colors.amber,
+                      height: MediaQuery.of(context).size.height * 0.4,
+                      child: TeaAcquiringInput(),
                     ),
-                    TextField(
-                      decoration:
-                          InputDecoration(labelText: 'Type of container'),
-                      controller: _containerTypeController,
-                    ),
-                    TextField(
-                      decoration:
-                          InputDecoration(labelText: 'No of containers'),
-                      controller: _containerNoController,
-                    ),
-                    TextField(
-                      decoration: InputDecoration(labelText: 'Gross weight'),
-                      controller: _grossWeightController,
-                    ),
-                    TextField(
-                      decoration: InputDecoration(labelText: 'Leaf grade'),
-                      controller: _leafGradeController,
-                    ),
-                    TextField(
-                      decoration: InputDecoration(labelText: 'Box no'),
-                      controller: _boxNoController,
-                    ),
-                    TextField(
-                      decoration: InputDecoration(labelText: 'Water'),
-                      controller: _waterLevelController,
-                    ),
-                    TextField(
-                      decoration: InputDecoration(labelText: 'Course leaf'),
-                      controller: _courseLeafController,
-                    ),
-                    TextField(
-                      decoration: InputDecoration(labelText: 'Other'),
-                      controller: _otherDeductController,
-                    ),
+                    Container(
+//                      color: Colors.blue,
+                      height: MediaQuery.of(context).size.height * 0.6,
+                      child: TeaDeductionInput(),
+                    )
                   ],
                 ),
               ),

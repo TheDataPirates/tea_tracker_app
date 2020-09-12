@@ -6,32 +6,33 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _emailFieldController = TextEditingController();
-  final _passwordFieldController = TextEditingController();
+  static final _emailFieldController = TextEditingController();
+  static final _passwordFieldController = TextEditingController();
+
+  static TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+
+  final emailField = TextField(
+    controller: _emailFieldController,
+    obscureText: false,
+    style: style,
+    decoration: InputDecoration(
+      contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+      hintText: "Email",
+      border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
+    ),
+  );
+  final passwordField = TextField(
+    controller: _passwordFieldController,
+    obscureText: true,
+    style: style,
+    decoration: InputDecoration(
+        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+        hintText: "Password",
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
+  );
 
   @override
   Widget build(BuildContext context) {
-    TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
-    final emailField = TextField(
-      controller: _emailFieldController,
-      obscureText: false,
-      style: style,
-      decoration: InputDecoration(
-        contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-        hintText: "Email",
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(32.0)),
-      ),
-    );
-    final passwordField = TextField(
-      controller: _passwordFieldController,
-      obscureText: true,
-      style: style,
-      decoration: InputDecoration(
-          contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-          hintText: "Password",
-          border:
-              OutlineInputBorder(borderRadius: BorderRadius.circular(32.0))),
-    );
     final loginButon = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
@@ -40,6 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
+          Navigator.of(context).pushNamed("InputCollectionScreen");
           print(_emailFieldController.text);
           print(_passwordFieldController.text);
         },
@@ -49,7 +51,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 color: Colors.white, fontWeight: FontWeight.bold)),
       ),
     );
-
     return Scaffold(
       body: Center(
         child: Container(
