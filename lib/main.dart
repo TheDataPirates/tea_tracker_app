@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:teatracker/screens/lot_screen_list_screen.dart';
 import 'screens//login_Screen.dart';
 import 'screens/input_collections_screen.dart';
 
@@ -16,6 +17,7 @@ class MyApp extends StatelessWidget {
       home: LoginScreen(),
       routes: {
         'InputCollectionScreen': (ctx) => InputCollectionScreen(),
+        'LotListScreen': (ctx) => LotListScreen()
       },
     );
   }

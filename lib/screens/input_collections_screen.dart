@@ -48,14 +48,16 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
           Container(
             height: MediaQuery.of(context).size.height * 0.05,
             child: RaisedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
               icon: Icon(Icons.add),
               label: Text(
                 'SAVE',
                 style: TextStyle(fontSize: 20),
               ),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              color: Colors.blue,
+              color: Colors.amber,
             ),
           )
         ],

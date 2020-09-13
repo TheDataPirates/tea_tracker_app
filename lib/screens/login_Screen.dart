@@ -41,7 +41,7 @@ class _LoginScreenState extends State<LoginScreen> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          Navigator.of(context).pushNamed("InputCollectionScreen");
+          Navigator.of(context).pushNamed('LotListScreen');
           print(_emailFieldController.text);
           print(_passwordFieldController.text);
         },
@@ -56,30 +56,38 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Container(
           color: Colors.white,
           child: Padding(
-            padding: const EdgeInsets.all(36.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.3,
-                  child: Image.asset(
-                    "images/logo.jpg",
-                    fit: BoxFit.contain,
+            padding: const EdgeInsets.all(30.0),
+            child: SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.3,
+                    child: Image.asset(
+                      "images/logo.jpg",
+                      fit: BoxFit.contain,
+                    ),
                   ),
-                ),
-                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-                emailField,
-                SizedBox(height: MediaQuery.of(context).size.height * 0.05),
-                passwordField,
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.2,
-                ),
-                loginButon,
-                SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.1,
-                ),
-              ],
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.15),
+                  Container(
+                    child: emailField,
+                    height: MediaQuery.of(context).size.height * 0.1,
+                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                  Container(
+                    child: passwordField,
+                    height: MediaQuery.of(context).size.height * 0.1,
+                  ),
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.05,
+                  ),
+                  loginButon,
+                  SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.1,
+                  ),
+                ],
+              ),
             ),
           ),
         ),
