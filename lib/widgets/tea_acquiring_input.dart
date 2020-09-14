@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:teatracker/constants.dart';
 
 class TeaAcquiringInput extends StatefulWidget {
+  final Function onSaveAcquiring;
+  TeaAcquiringInput(this.onSaveAcquiring);
+
   @override
   _TeaAcquiringInputState createState() => _TeaAcquiringInputState();
 }

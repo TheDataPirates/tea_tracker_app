@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:teatracker/providers/tea_collections.dart';
 
 class LotListScreen extends StatefulWidget {
   @override
@@ -23,6 +25,29 @@ class _LotListScreenState extends State<LotListScreen> {
             },
           )
         ],
+      ),
+      body: Consumer<TeaCollections>(
+        child: Center(
+          child: const Text('Got no lots yet, start adding some!'),
+        ),
+        builder: (ctx, teaCollections, ch) => teaCollections.lot_items.length <=
+                0
+            ? ch
+            : ListView.builder(
+                itemCount: teaCollections.lot_items.length,
+                itemBuilder: (ctx, i) => Card(
+                  elevation: 10.0,
+                  child: ListTile(
+                    leading: Icon(Icons.insert_emoticon),
+                    title: Text(teaCollections.lot_items[i].supplier_id),
+                    subtitle: Text(teaCollections.lot_items[i].container_type),
+                    trailing: Icon(Icons.more_vert),
+                    onTap: () {
+                      // Go to detail page ...
+                    },
+                  ),
+                ),
+              ),
       ),
     );
   }

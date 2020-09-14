@@ -17,7 +17,7 @@ class _TeaDeductionInputState extends State<TeaDeductionInput> {
 
   @override
   Widget build(BuildContext context) {
-    final double width = 0.2;
+    final double deduct_width = 0.2;
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
@@ -26,7 +26,7 @@ class _TeaDeductionInputState extends State<TeaDeductionInput> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            width: MediaQuery.of(context).size.width * width,
+            width: MediaQuery.of(context).size.width * deduct_width,
             child: TextField(
               decoration: InputDecoration(
                 filled: true,
@@ -47,7 +47,7 @@ class _TeaDeductionInputState extends State<TeaDeductionInput> {
             width: MediaQuery.of(context).size.width * 0.05,
           ),
           Container(
-            width: MediaQuery.of(context).size.width * width,
+            width: MediaQuery.of(context).size.width * deduct_width,
             child: TextField(
               decoration: InputDecoration(
                 filled: true,
@@ -68,7 +68,7 @@ class _TeaDeductionInputState extends State<TeaDeductionInput> {
             width: MediaQuery.of(context).size.width * 0.05,
           ),
           Container(
-            width: MediaQuery.of(context).size.width * width,
+            width: MediaQuery.of(context).size.width * deduct_width,
             child: TextField(
               decoration: InputDecoration(
                 filled: true,
