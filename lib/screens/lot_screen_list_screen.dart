@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teatracker/providers/tea_collections.dart';
+import 'package:teatracker/screens/list_tile_lot_screen.dart';
 
 class LotListScreen extends StatefulWidget {
   @override
@@ -38,12 +39,48 @@ class _LotListScreenState extends State<LotListScreen> {
                 itemBuilder: (ctx, i) => Card(
                   elevation: 10.0,
                   child: ListTile(
-                    leading: Icon(Icons.insert_emoticon),
-                    title: Text(teaCollections.lot_items[i].supplier_id),
-                    subtitle: Text(teaCollections.lot_items[i].container_type),
-                    trailing: Icon(Icons.more_vert),
+                    leading: CircleAvatar(
+                      radius: 30.0,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: FittedBox(
+                            child: Text(
+                                "${teaCollections.lot_items[i].leaf_grade}")),
+                      ),
+                    ),
+                    title: Row(
+                      children: [
+                        Text(teaCollections.lot_items[i].supplier_id),
+                        Text("${teaCollections.lot_items[i].gross_weight}")
+                      ],
+                    ),
+                    subtitle: Row(
+                      children: [
+                        Text(teaCollections.lot_items[i].container_type),
+                        Text("${teaCollections.lot_items[i].no_of_containers}")
+                      ],
+                    ),
                     onTap: () {
-                      // Go to detail page ...
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => ListTileLot(
+                                  supplier_id:
+                                      teaCollections.lot_items[i].supplier_id,
+                                  container_type: teaCollections
+                                      .lot_items[i].container_type,
+                                  no_of_containers: teaCollections
+                                      .lot_items[i].no_of_containers,
+                                  gross_weight:
+                                      teaCollections.lot_items[i].gross_weight,
+                                  leaf_grade:
+                                      teaCollections.lot_items[i].leaf_grade,
+                                  water: teaCollections.lot_items[i].water,
+                                  course_leaf:
+                                      teaCollections.lot_items[i].course_leaf,
+                                  other: teaCollections.lot_items[i].other,
+                                )),
+                      );
                     },
                   ),
                 ),

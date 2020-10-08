@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teatracker/providers/tea_collections.dart';
+import 'package:teatracker/widgets/tea_acquiring_input.dart';
 
 import '../constants.dart';
 
@@ -14,130 +15,44 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
   final double width = 0.15;
   final double deduct_width = 0.2;
 
-  static final _supplierController = TextEditingController();
-  static final _containerTypeController = TextEditingController();
-  static final _containerNoController = TextEditingController();
-  static final _grossWeightController = TextEditingController();
-  static final _leafGradeController = TextEditingController();
-  static final _boxNoController = TextEditingController();
-
   final _waterLevelController = TextEditingController();
   final _courseLeafController = TextEditingController();
   final _otherDeductController = TextEditingController();
 
-  final supplier_no = TextField(
-    decoration: InputDecoration(
-      contentPadding: const EdgeInsets.symmetric(vertical: 40.0),
-      filled: true,
-      fillColor: Colors.lightGreen,
-      labelText: 'Supplier no',
-      labelStyle: kTextFieldLabelStyle,
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(13.0),
-        ),
-        borderSide: BorderSide.none,
-      ),
-    ),
-    controller: _supplierController,
-    style: TextStyle(fontSize: 40),
-  );
-  final container_type = TextField(
-    decoration: InputDecoration(
-      contentPadding: const EdgeInsets.symmetric(vertical: 40.0),
-      filled: true,
-      fillColor: Colors.lightGreen,
-      labelText: 'Container type',
-      labelStyle: kTextFieldLabelStyle,
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(13.0),
-        ),
-        borderSide: BorderSide.none,
-      ),
-    ),
-    controller: _containerTypeController,
-    style: TextStyle(fontSize: 40),
-  );
-  final no_of_container = TextField(
-    decoration: InputDecoration(
-      contentPadding: const EdgeInsets.symmetric(vertical: 40.0),
-      filled: true,
-      fillColor: Colors.lightGreen,
-      labelText: 'No of container',
-      labelStyle: kTextFieldLabelStyle,
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(13.0),
-        ),
-        borderSide: BorderSide.none,
-      ),
-    ),
-    controller: _containerNoController,
-    style: TextStyle(fontSize: 40),
-  );
-  final gross_weight = TextField(
-    decoration: InputDecoration(
-      contentPadding: const EdgeInsets.symmetric(vertical: 40.0),
-      filled: true,
-      fillColor: Colors.lightGreen,
-      labelText: 'Gross weight',
-      labelStyle: kTextFieldLabelStyle,
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(13.0),
-        ),
-        borderSide: BorderSide.none,
-      ),
-    ),
-    controller: _grossWeightController,
-    style: TextStyle(fontSize: 40),
-  );
-  final leaf_grade = TextField(
-    decoration: InputDecoration(
-      contentPadding: const EdgeInsets.symmetric(vertical: 40.0),
-      filled: true,
-      fillColor: Colors.lightGreen,
-      labelText: 'Leaf grade',
-      labelStyle: kTextFieldLabelStyle,
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(13.0),
-        ),
-        borderSide: BorderSide.none,
-      ),
-    ),
-    controller: _leafGradeController,
-    style: TextStyle(fontSize: 40),
-  );
-  final box_no = TextField(
-    decoration: InputDecoration(
-      contentPadding: const EdgeInsets.symmetric(vertical: 40.0),
-      filled: true,
-      fillColor: Colors.lightGreen,
-      labelText: 'Box no',
-      labelStyle: kTextFieldLabelStyle,
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.all(
-          Radius.circular(13.0),
-        ),
-        borderSide: BorderSide.none,
-      ),
-    ),
-    controller: _boxNoController,
-    style: TextStyle(fontSize: 40),
-  );
-
-  void saveLot() {
-    if (_supplierController.text.isEmpty) {
-      return;
+  Future<void> saveLot() async {
+    if (TeaAcquiringInput.supplierController.text.isEmpty) {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('AlertDialog'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('No supplier name entered'),
+                  Text('Please Enter again'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              FlatButton(
+                child: Text("OK"),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
     }
     Provider.of<TeaCollections>(context, listen: false).addLot(
-        _supplierController.text,
-        _containerTypeController.text,
-        int.parse(_containerNoController.text),
-        double.parse(_grossWeightController.text),
-        _leafGradeController.text,
+        TeaAcquiringInput.supplierController.text,
+        TeaAcquiringInput.containerTypeController.text,
+        int.parse(TeaAcquiringInput.containerNoController.text),
+        double.parse(TeaAcquiringInput.grossWeightController.text),
+        TeaAcquiringInput.leafGradeController.text,
         double.parse(_waterLevelController.text),
         double.parse(_courseLeafController.text),
         double.parse(_otherDeductController.text));
@@ -164,37 +79,34 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                         children: <Widget>[
                           Container(
                               width: MediaQuery.of(context).size.width * width,
-                              child: supplier_no),
+                              child: TeaAcquiringInput.supplier_no),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.005,
                           ),
                           Container(
                               width: MediaQuery.of(context).size.width * width,
-                              child: container_type),
+                              child: TeaAcquiringInput.container_type),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.005,
                           ),
                           Container(
                               width: MediaQuery.of(context).size.width * width,
-                              child: no_of_container),
+                              child: TeaAcquiringInput.no_of_container),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.005,
                           ),
                           Container(
                               width: MediaQuery.of(context).size.width * width,
-                              child: gross_weight),
+                              child: TeaAcquiringInput.gross_weight),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.005,
                           ),
                           Container(
                               width: MediaQuery.of(context).size.width * width,
-                              child: leaf_grade),
+                              child: TeaAcquiringInput.leaf_grade),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.005,
                           ),
-                          Container(
-                              width: MediaQuery.of(context).size.width * width,
-                              child: box_no),
                         ],
                       ),
                     ),
