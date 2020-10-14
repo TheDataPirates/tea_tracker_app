@@ -32,6 +32,12 @@ class _LoginScreenState extends State<LoginScreen> {
   );
 
   @override
+  void dispose() {
+    _emailFieldController.dispose();
+    _passwordFieldController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final loginButon = Material(
       elevation: 5.0,

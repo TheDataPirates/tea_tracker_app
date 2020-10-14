@@ -6,3 +6,10 @@ const kTextFieldLabelStyle = TextStyle(
   color: Colors.white,
   height: 2,
 );
+
+const kTextLotlistStyle = TextStyle(
+  fontSize: 25,
+  fontWeight: FontWeight.w700,
+  color: Colors.black,
+  height: 2,
+);

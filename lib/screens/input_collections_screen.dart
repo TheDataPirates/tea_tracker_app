@@ -3,24 +3,41 @@ import 'package:provider/provider.dart';
 import 'package:teatracker/providers/tea_collections.dart';
 import 'package:teatracker/widgets/tea_acquiring_input.dart';
 
-import '../constants.dart';
-
 class InputCollectionScreen extends StatefulWidget {
   @override
   _InputCollectionScreenState createState() => _InputCollectionScreenState();
 }
 
 class _InputCollectionScreenState extends State<InputCollectionScreen> {
-  //media query width for row
-  final double width = 0.15;
-  final double deduct_width = 0.2;
+  final _supplierController = TextEditingController();
+  final _containerTypeController = TextEditingController();
+  final _containerNoController = TextEditingController();
+  final _grossWeightController = TextEditingController();
+  final _leafGradeController = TextEditingController();
 
   final _waterLevelController = TextEditingController();
   final _courseLeafController = TextEditingController();
   final _otherDeductController = TextEditingController();
 
+  @override
+  void dispose() {
+    _supplierController.dispose();
+    _containerTypeController.dispose();
+    _containerNoController.dispose();
+    _grossWeightController.dispose();
+    _leafGradeController.dispose();
+    _waterLevelController.dispose();
+    _courseLeafController.dispose();
+    _otherDeductController.dispose();
+    super.dispose();
+  }
+
+  //media query width for row
+  final double width = 0.15;
+  final double deduct_width = 0.2;
+
   Future<void> saveLot() async {
-    if (TeaAcquiringInput.supplierController.text.isEmpty) {
+    if (_supplierController.text.isEmpty) {
       return showDialog<void>(
         context: context,
         barrierDismissible: false, // user must tap button!
@@ -48,11 +65,11 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
       );
     }
     Provider.of<TeaCollections>(context, listen: false).addLot(
-        TeaAcquiringInput.supplierController.text,
-        TeaAcquiringInput.containerTypeController.text,
-        int.parse(TeaAcquiringInput.containerNoController.text),
-        double.parse(TeaAcquiringInput.grossWeightController.text),
-        TeaAcquiringInput.leafGradeController.text,
+        _supplierController.text,
+        _containerTypeController.text,
+        int.parse(_containerNoController.text),
+        double.parse(_grossWeightController.text),
+        _leafGradeController.text,
         double.parse(_waterLevelController.text),
         double.parse(_courseLeafController.text),
         double.parse(_otherDeductController.text));
@@ -77,33 +94,38 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          Container(
-                              width: MediaQuery.of(context).size.width * width,
-                              child: TeaAcquiringInput.supplier_no),
+                          InputField(
+                              labelText: 'Supplier No',
+                              width: width,
+                              editingController: _supplierController),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.005,
                           ),
-                          Container(
-                              width: MediaQuery.of(context).size.width * width,
-                              child: TeaAcquiringInput.container_type),
+                          InputField(
+                              labelText: 'Container Type',
+                              width: width,
+                              editingController: _containerTypeController),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.005,
                           ),
-                          Container(
-                              width: MediaQuery.of(context).size.width * width,
-                              child: TeaAcquiringInput.no_of_container),
+                          InputField(
+                              labelText: 'Container No',
+                              width: width,
+                              editingController: _containerNoController),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.005,
                           ),
-                          Container(
-                              width: MediaQuery.of(context).size.width * width,
-                              child: TeaAcquiringInput.gross_weight),
+                          InputField(
+                              labelText: 'Gross weight',
+                              width: width,
+                              editingController: _grossWeightController),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.005,
                           ),
-                          Container(
-                              width: MediaQuery.of(context).size.width * width,
-                              child: TeaAcquiringInput.leaf_grade),
+                          InputField(
+                              labelText: 'Leaf Grade',
+                              width: width,
+                              editingController: _leafGradeController),
                           SizedBox(
                             width: MediaQuery.of(context).size.width * 0.005,
                           ),
@@ -129,69 +151,24 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width *
-                                  deduct_width,
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.lightGreen,
-                                  labelText: 'Water',
-                                  labelStyle: kTextFieldLabelStyle,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(13.0),
-                                    ),
-                                  ),
-                                ),
-                                controller: _waterLevelController,
-                                style: TextStyle(fontSize: 40),
-                              ),
-                            ),
+                            InputField(
+                                labelText: 'Water %',
+                                width: deduct_width,
+                                editingController: _waterLevelController),
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.05,
                             ),
-                            Container(
-                              width: MediaQuery.of(context).size.width *
-                                  deduct_width,
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.lightGreen,
-                                  labelText: 'Course Leaf',
-                                  labelStyle: kTextFieldLabelStyle,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(13.0),
-                                    ),
-                                  ),
-                                ),
-                                controller: _courseLeafController,
-                                style: TextStyle(fontSize: 40),
-                              ),
-                            ),
+                            InputField(
+                                labelText: 'Course Leaf %',
+                                width: deduct_width,
+                                editingController: _courseLeafController),
                             SizedBox(
                               width: MediaQuery.of(context).size.width * 0.05,
                             ),
-                            Container(
-                              width: MediaQuery.of(context).size.width *
-                                  deduct_width,
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  filled: true,
-                                  fillColor: Colors.lightGreen,
-                                  labelText: 'Others',
-                                  labelStyle: kTextFieldLabelStyle,
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(13.0),
-                                    ),
-                                  ),
-                                ),
-                                controller: _otherDeductController,
-                                style: TextStyle(fontSize: 40),
-                              ),
-                            ),
+                            InputField(
+                                labelText: 'Other %',
+                                width: deduct_width,
+                                editingController: _otherDeductController),
                           ],
                         ),
                       ),

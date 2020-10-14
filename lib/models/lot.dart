@@ -7,6 +7,7 @@ class Lot {
   final double water;
   final double course_leaf;
   final double other;
+  bool fromCache = false;
 
   Lot(
       {this.supplier_id,
@@ -16,5 +17,13 @@ class Lot {
       this.leaf_grade,
       this.water,
       this.course_leaf,
-      this.other});
+      this.other,
+      this.fromCache});
+
+//  factory Lot.fromJson(Map<String, dynamic> json) {
+//    return Lot(
+//        supplier_id: json['supplier_id'],
+//        container_type: json['container_type'],
+//        no_of_containers: json['no_of_containers']);
+//  }
 }

@@ -64,22 +64,11 @@ class _LotListScreenState extends State<LotListScreen> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => ListTileLot(
-                                  supplier_id:
-                                      teaCollections.lot_items[i].supplier_id,
-                                  container_type: teaCollections
-                                      .lot_items[i].container_type,
-                                  no_of_containers: teaCollections
-                                      .lot_items[i].no_of_containers,
-                                  gross_weight:
-                                      teaCollections.lot_items[i].gross_weight,
-                                  leaf_grade:
-                                      teaCollections.lot_items[i].leaf_grade,
-                                  water: teaCollections.lot_items[i].water,
-                                  course_leaf:
-                                      teaCollections.lot_items[i].course_leaf,
-                                  other: teaCollections.lot_items[i].other,
-                                )),
+                          builder: (context) => ListTileLot(
+                            supplier_id:
+                                teaCollections.lot_items[i].supplier_id,
+                          ),
+                        ),
                       );
                     },
                   ),

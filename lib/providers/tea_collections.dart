@@ -9,7 +9,7 @@ class TeaCollections with ChangeNotifier {
     return [..._lot_items];
   }
 
-  static LocalStorage storage = new LocalStorage('lot');
+  static LocalStorage storage = new LocalStorage('lotCollected');
 
   void addLot(String supNo, String contType, int noOfCont, double gWeight,
       String lGrade, double water, double cLeaf, double other) {
@@ -25,22 +25,27 @@ class TeaCollections with ChangeNotifier {
         other: other);
 
     _lot_items.add(newLot); // add new obj to items array
-    saveLocalLot(newLot);
-    getLotFromCache(newLot);
+//    saveLocalLot(newLot);
+//    getLotFromCache();
     notifyListeners();
   }
 
-  void saveLocalLot(Lot newlot) async {
-    await storage.ready;
-    storage.setItem("${newlot.supplier_id}", newlot);
-  }
-
-  Future<void> getLotFromCache(Lot newlot) async {
-    await storage.ready;
-    Map<String, dynamic> data = storage.getItem('${newlot.supplier_id}');
-    if (data == null) {
-      return null;
-    }
-    print(data['supplier_id']);
-  }
+//  void saveLocalLot(Lot newlot) async {
+//    await storage.ready;
+//    storage.setItem("lotCollected", newlot);
+//    print("save is ok");
+//  }
+//
+//  Future<void> getLotFromCache() async {
+//    await storage.ready;
+//    Map<String, dynamic> data = storage.getItem('lotCollected');
+//    if (data == null) {
+//      print("null lot");
+//      return null;
+//    }
+//    Lot savedLot = Lot.fromJson(data);
+//    savedLot.fromCache = true; //to indicate post is pulled from cache
+//    print("saved");
+////    return post;
+//  }
 }
