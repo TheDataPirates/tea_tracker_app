@@ -68,11 +68,11 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
         _supplierController.text,
         _containerTypeController.text,
         int.parse(_containerNoController.text),
-        double.parse(_grossWeightController.text),
+        int.parse(_grossWeightController.text),
         _leafGradeController.text,
-        double.parse(_waterLevelController.text),
-        double.parse(_courseLeafController.text),
-        double.parse(_otherDeductController.text));
+        int.parse(_waterLevelController.text),
+        int.parse(_courseLeafController.text),
+        int.parse(_otherDeductController.text));
     Navigator.of(context).pop();
   }
 

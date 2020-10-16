@@ -27,52 +27,65 @@ class _LotListScreenState extends State<LotListScreen> {
           )
         ],
       ),
-      body: Consumer<TeaCollections>(
-        child: Center(
-          child: const Text('Got no lots yet, start adding some!'),
-        ),
-        builder: (ctx, teaCollections, ch) => teaCollections.lot_items.length <=
-                0
-            ? ch
-            : ListView.builder(
-                itemCount: teaCollections.lot_items.length,
-                itemBuilder: (ctx, i) => Card(
-                  elevation: 10.0,
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      radius: 30.0,
-                      child: Padding(
-                        padding: const EdgeInsets.all(6.0),
-                        child: FittedBox(
-                            child: Text(
-                                "${teaCollections.lot_items[i].leaf_grade}")),
-                      ),
-                    ),
-                    title: Row(
-                      children: [
-                        Text(teaCollections.lot_items[i].supplier_id),
-                        Text("${teaCollections.lot_items[i].gross_weight}")
-                      ],
-                    ),
-                    subtitle: Row(
-                      children: [
-                        Text(teaCollections.lot_items[i].container_type),
-                        Text("${teaCollections.lot_items[i].no_of_containers}")
-                      ],
-                    ),
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ListTileLot(
-                            supplier_id:
-                                teaCollections.lot_items[i].supplier_id,
+      body: FutureBuilder(
+        future: Provider.of<TeaCollections>(context, listen: false)
+            .fetchAndSetLotData(),
+        builder: (ctx, snapshot) => snapshot.connectionState ==
+                ConnectionState.waiting
+            ? Center(
+                child: CircularProgressIndicator(),
+              )
+            : Consumer<TeaCollections>(
+                child: Center(
+                  child: const Text('Got no lots yet, start adding some!'),
+                ),
+                builder: (ctx, teaCollections, ch) => teaCollections
+                            .lot_items.length <=
+                        0
+                    ? ch
+                    : ListView.builder(
+                        itemCount: teaCollections.lot_items.length,
+                        itemBuilder: (ctx, i) => Card(
+                          elevation: 10.0,
+                          child: ListTile(
+                            leading: CircleAvatar(
+                              radius: 30.0,
+                              child: Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: FittedBox(
+                                    child: Text(
+                                        "${teaCollections.lot_items[i].leaf_grade}")),
+                              ),
+                            ),
+                            title: Row(
+                              children: [
+                                Text(teaCollections.lot_items[i].supplier_id),
+                                Text(
+                                    "${teaCollections.lot_items[i].gross_weight}")
+                              ],
+                            ),
+                            subtitle: Row(
+                              children: [
+                                Text(
+                                    teaCollections.lot_items[i].container_type),
+                                Text(
+                                    "${teaCollections.lot_items[i].no_of_containers}")
+                              ],
+                            ),
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => ListTileLot(
+                                    supplier_id:
+                                        teaCollections.lot_items[i].supplier_id,
+                                  ),
+                                ),
+                              );
+                            },
                           ),
                         ),
-                      );
-                    },
-                  ),
-                ),
+                      ),
               ),
       ),
     );

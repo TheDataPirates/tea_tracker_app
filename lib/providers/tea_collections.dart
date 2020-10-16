@@ -1,5 +1,7 @@
+import 'dart:ffi';
+
 import 'package:flutter/foundation.dart';
-import 'package:localstorage/localstorage.dart';
+import 'package:teatracker/helpers/db_helper.dart';
 import 'package:teatracker/models/lot.dart';
 
 class TeaCollections with ChangeNotifier {
@@ -9,10 +11,8 @@ class TeaCollections with ChangeNotifier {
     return [..._lot_items];
   }
 
-  static LocalStorage storage = new LocalStorage('lotCollected');
-
-  void addLot(String supNo, String contType, int noOfCont, double gWeight,
-      String lGrade, double water, double cLeaf, double other) {
+  void addLot(String supNo, String contType, int noOfCont, int gWeight,
+      String lGrade, int water, int cLeaf, int other) {
     //create lot object
     final newLot = Lot(
         supplier_id: supNo,
@@ -25,27 +25,35 @@ class TeaCollections with ChangeNotifier {
         other: other);
 
     _lot_items.add(newLot); // add new obj to items array
-//    saveLocalLot(newLot);
-//    getLotFromCache();
+
     notifyListeners();
+    DBHelper.insert('lots', {
+      'supplier_id': newLot.supplier_id,
+      'container_type': newLot.container_type,
+      'no_of_containers': newLot.no_of_containers,
+      'leaf_grade': newLot.leaf_grade,
+      'g_weight': newLot.gross_weight,
+      'water': newLot.water,
+      'course_leaf': newLot.course_leaf,
+      'other': newLot.other
+    });
   }
 
-//  void saveLocalLot(Lot newlot) async {
-//    await storage.ready;
-//    storage.setItem("lotCollected", newlot);
-//    print("save is ok");
-//  }
-//
-//  Future<void> getLotFromCache() async {
-//    await storage.ready;
-//    Map<String, dynamic> data = storage.getItem('lotCollected');
-//    if (data == null) {
-//      print("null lot");
-//      return null;
-//    }
-//    Lot savedLot = Lot.fromJson(data);
-//    savedLot.fromCache = true; //to indicate post is pulled from cache
-//    print("saved");
-////    return post;
-//  }
+  Future<void> fetchAndSetLotData() async {
+    final dataList = await DBHelper.getData('lots');
+    _lot_items = dataList
+        .map(
+          (item) => Lot(
+              supplier_id: item['supplier_id'],
+              container_type: item['container_type'],
+              no_of_containers: item['no_of_containers'],
+              leaf_grade: item['leaf_grade'],
+              gross_weight: item['g_weight'],
+              water: item['water'],
+              course_leaf: item['course_leaf'],
+              other: item['other']),
+        )
+        .toList();
+    notifyListeners();
+  }
 }
