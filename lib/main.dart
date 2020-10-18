@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:teatracker/providers/tea_collections.dart';
 import 'package:teatracker/screens/list_tile_lot_screen.dart';
 import 'package:teatracker/screens/lot_screen_list_screen.dart';
+import 'package:teatracker/screens/supplier_input_screen.dart';
 import 'screens//login_Screen.dart';
 import 'screens/input_collections_screen.dart';
 
@@ -24,12 +25,21 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.green,
           accentColor: Colors.greenAccent,
+          textTheme: TextTheme(
+            headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
+            headline2: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
+            headline3: TextStyle(fontSize: 53, fontWeight: FontWeight.bold),
+            headline4: TextStyle(fontSize: 40),
+            headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+            bodyText2: TextStyle(fontSize: 14.0),
+          ),
         ),
         home: LoginScreen(),
         routes: {
           'InputCollectionScreen': (ctx) => InputCollectionScreen(),
           'LotListScreen': (ctx) => LotListScreen(),
-          'ListTileLotScreen': (ctx) => ListTileLot()
+          'ListTileLotScreen': (ctx) => ListTileLot(),
+          'SupplierInputScreen': (ctx) => SupplierInputScreen()
         },
       ),
     );

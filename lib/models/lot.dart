@@ -1,4 +1,5 @@
 class Lot {
+  final String lotId;
   final String supplier_id;
   final String container_type;
   final int no_of_containers;
@@ -9,6 +10,7 @@ class Lot {
   final int other;
 
   Lot({
+    this.lotId,
     this.supplier_id,
     this.container_type,
     this.no_of_containers,

@@ -65,6 +65,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
       );
     }
     Provider.of<TeaCollections>(context, listen: false).addLot(
+        DateTime.now().toString(), //get now time as lot ID
         _supplierController.text,
         _containerTypeController.text,
         int.parse(_containerNoController.text),

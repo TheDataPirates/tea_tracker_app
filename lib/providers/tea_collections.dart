@@ -11,10 +11,11 @@ class TeaCollections with ChangeNotifier {
     return [..._lot_items];
   }
 
-  void addLot(String supNo, String contType, int noOfCont, int gWeight,
-      String lGrade, int water, int cLeaf, int other) {
+  void addLot(String Id, String supNo, String contType, int noOfCont,
+      int gWeight, String lGrade, int water, int cLeaf, int other) {
     //create lot object
     final newLot = Lot(
+        lotId: Id,
         supplier_id: supNo,
         container_type: contType,
         no_of_containers: noOfCont,
@@ -28,6 +29,7 @@ class TeaCollections with ChangeNotifier {
 
     notifyListeners();
     DBHelper.insert('lots', {
+      'lotId': newLot.lotId,
       'supplier_id': newLot.supplier_id,
       'container_type': newLot.container_type,
       'no_of_containers': newLot.no_of_containers,
@@ -44,6 +46,7 @@ class TeaCollections with ChangeNotifier {
     _lot_items = dataList
         .map(
           (item) => Lot(
+              lotId: item['lotId'],
               supplier_id: item['supplier_id'],
               container_type: item['container_type'],
               no_of_containers: item['no_of_containers'],
@@ -54,6 +57,12 @@ class TeaCollections with ChangeNotifier {
               other: item['other']),
         )
         .toList();
+    notifyListeners();
+  }
+
+  void deleteLot(String id) {
+    _lot_items.removeWhere((lot) => lot.lotId == id);
+    DBHelper.deleteLot('lots', id); // deleting lot permanently
     notifyListeners();
   }
 }

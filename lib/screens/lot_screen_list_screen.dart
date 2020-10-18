@@ -17,13 +17,12 @@ class _LotListScreenState extends State<LotListScreen> {
         title: Text('Tea Collections'),
         actions: [
           IconButton(
+            tooltip: "printing",
             icon: Icon(
-              Icons.add,
+              Icons.print,
               size: 40,
             ),
-            onPressed: () {
-              Navigator.of(context).pushNamed("InputCollectionScreen");
-            },
+            onPressed: () {},
           )
         ],
       ),
@@ -54,23 +53,34 @@ class _LotListScreenState extends State<LotListScreen> {
                                 padding: const EdgeInsets.all(6.0),
                                 child: FittedBox(
                                     child: Text(
-                                        "${teaCollections.lot_items[i].leaf_grade}")),
+                                  "${teaCollections.lot_items[i].leaf_grade}",
+                                  style: Theme.of(context).textTheme.headline3,
+                                )),
                               ),
                             ),
-                            title: Row(
-                              children: [
-                                Text(teaCollections.lot_items[i].supplier_id),
-                                Text(
-                                    "${teaCollections.lot_items[i].gross_weight}")
-                              ],
+                            title: Text(
+                              "${teaCollections.lot_items[i].gross_weight} KG",
+                              style: Theme.of(context).textTheme.headline1,
                             ),
                             subtitle: Row(
                               children: [
                                 Text(
-                                    teaCollections.lot_items[i].container_type),
+                                  "Container type : ${teaCollections.lot_items[i].container_type} ->>",
+                                  style: Theme.of(context).textTheme.headline4,
+                                ),
                                 Text(
-                                    "${teaCollections.lot_items[i].no_of_containers}")
+                                  "  Units ${teaCollections.lot_items[i].no_of_containers}",
+                                  style: Theme.of(context).textTheme.headline3,
+                                )
                               ],
+                            ),
+                            trailing: IconButton(
+                              // deleting displayed lot by pass lot id
+                              icon: Icon(Icons.delete),
+                              onPressed: () {
+                                teaCollections.deleteLot(
+                                    teaCollections.lot_items[i].lotId);
+                              },
                             ),
                             onTap: () {
                               Navigator.push(
@@ -87,6 +97,13 @@ class _LotListScreenState extends State<LotListScreen> {
                         ),
                       ),
               ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        backgroundColor: Theme.of(context).accentColor,
+        child: const Icon(Icons.add),
+        onPressed: () {
+          Navigator.of(context).pushNamed("InputCollectionScreen");
+        },
       ),
     );
   }

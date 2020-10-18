@@ -47,7 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
         minWidth: MediaQuery.of(context).size.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
-          Navigator.of(context).pushNamed('LotListScreen');
+          Navigator.of(context).pushNamed('SupplierInputScreen');
           print(_emailFieldController.text);
           print(_passwordFieldController.text);
         },

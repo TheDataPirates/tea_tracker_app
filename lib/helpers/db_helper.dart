@@ -8,7 +8,7 @@ class DBHelper {
     return await sql.openDatabase(path.join(dbPath, 'teaLots.db'),
         onCreate: (db, version) {
       return db.execute(
-          'CREATE TABLE lots(supplier_id TEXT PRIMARY KEY,container_type TEXT, no_of_containers INTEGER,leaf_grade TEXT, g_weight INTEGER, water INTEGER, course_leaf INTEGER, other INTEGER)');
+          'CREATE TABLE lots(lotId TEXT PRIMARY KEY, supplier_id TEXT ,container_type TEXT, no_of_containers INTEGER,leaf_grade TEXT, g_weight INTEGER, water INTEGER, course_leaf INTEGER, other INTEGER)');
     },
         version:
             1); // opendb method do create db name as teaLot.db and create table lots if not exists.
@@ -23,5 +23,10 @@ class DBHelper {
   static Future<List<Map<String, dynamic>>> getData(String table) async {
     final db = await DBHelper.database();
     return db.query(table);
+  }
+
+  static Future<void> deleteLot(String table, String id) async {
+    final db = await DBHelper.database();
+    await db.delete(table, where: 'lotId = ?', whereArgs: [id]);
   }
 }
