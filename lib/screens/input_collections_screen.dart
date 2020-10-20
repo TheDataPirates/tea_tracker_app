@@ -9,7 +9,6 @@ class InputCollectionScreen extends StatefulWidget {
 }
 
 class _InputCollectionScreenState extends State<InputCollectionScreen> {
-  final _supplierController = TextEditingController();
   final _containerTypeController = TextEditingController();
   final _containerNoController = TextEditingController();
   final _grossWeightController = TextEditingController();
@@ -21,7 +20,6 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
 
   @override
   void dispose() {
-    _supplierController.dispose();
     _containerTypeController.dispose();
     _containerNoController.dispose();
     _grossWeightController.dispose();
@@ -37,7 +35,8 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
   final double deduct_width = 0.2;
 
   Future<void> saveLot() async {
-    if (_supplierController.text.isEmpty) {
+    if (_containerTypeController.text.isEmpty ||
+        _containerNoController.text.isEmpty) {
       return showDialog<void>(
         context: context,
         barrierDismissible: false, // user must tap button!
@@ -64,9 +63,12 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
         },
       );
     }
+
+    final currentSupplier = Provider.of<TeaCollections>(context, listen: false)
+        .newSupplier; // get supplier id which entered on sup input screen via provider
     Provider.of<TeaCollections>(context, listen: false).addLot(
         DateTime.now().toString(), //get now time as lot ID
-        _supplierController.text,
+        currentSupplier.supplierId,
         _containerTypeController.text,
         int.parse(_containerNoController.text),
         int.parse(_grossWeightController.text),
@@ -95,13 +97,13 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
-                          InputField(
-                              labelText: 'Supplier No',
-                              width: width,
-                              editingController: _supplierController),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.005,
-                          ),
+//                          InputField(
+//                              labelText: 'Supplier No',
+//                              width: width,
+//                              editingController: _supplierController),
+//                          SizedBox(
+//                            width: MediaQuery.of(context).size.width * 0.005,
+//                          ),
                           InputField(
                               labelText: 'Container Type',
                               width: width,

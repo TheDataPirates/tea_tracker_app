@@ -5,6 +5,12 @@ import 'package:teatracker/providers/tea_collections.dart';
 import 'package:teatracker/screens/list_tile_lot_screen.dart';
 
 class LotListScreen extends StatefulWidget {
+  final supplierID;
+  final supplierName;
+
+  const LotListScreen({Key key, this.supplierID, this.supplierName})
+      : super(key: key);
+
   @override
   _LotListScreenState createState() => _LotListScreenState();
 }
@@ -12,9 +18,11 @@ class LotListScreen extends StatefulWidget {
 class _LotListScreenState extends State<LotListScreen> {
   @override
   Widget build(BuildContext context) {
+//    final currentSupplier =
+//        Provider.of<TeaCollections>(context, listen: false).newSupplier;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Tea Collections'),
+        title: Text('ID: ${widget.supplierID}    NAME: ${widget.supplierName}'),
         actions: [
           IconButton(
             tooltip: "printing",
@@ -22,7 +30,9 @@ class _LotListScreenState extends State<LotListScreen> {
               Icons.print,
               size: 40,
             ),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushNamed("PrintScreen");
+            },
           )
         ],
       ),
@@ -52,10 +62,12 @@ class _LotListScreenState extends State<LotListScreen> {
                               child: Padding(
                                 padding: const EdgeInsets.all(6.0),
                                 child: FittedBox(
-                                    child: Text(
-                                  "${teaCollections.lot_items[i].leaf_grade}",
-                                  style: Theme.of(context).textTheme.headline3,
-                                )),
+                                  child: Text(
+                                    "${teaCollections.lot_items[i].leaf_grade}",
+                                    style:
+                                        Theme.of(context).textTheme.headline3,
+                                  ),
+                                ),
                               ),
                             ),
                             title: Text(
@@ -102,7 +114,7 @@ class _LotListScreenState extends State<LotListScreen> {
         backgroundColor: Theme.of(context).accentColor,
         child: const Icon(Icons.add),
         onPressed: () {
-          Navigator.of(context).pushNamed("InputCollectionScreen");
+          Navigator.pushNamed(context, "InputCollectionScreen");
         },
       ),
     );

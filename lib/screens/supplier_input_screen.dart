@@ -1,5 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:teatracker/providers/tea_collections.dart';
+import 'package:teatracker/screens/lot_screen_list_screen.dart';
 
 import '../constants.dart';
 
@@ -33,7 +36,11 @@ class SupplierInputScreen extends StatelessWidget {
                         filled: true,
                         contentPadding:
                             EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                        border: OutlineInputBorder(),
+                        border: OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(40.0),
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -52,7 +59,11 @@ class SupplierInputScreen extends StatelessWidget {
                         contentPadding:
                             EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                         labelText: "Supplier Name :",
-                        border: OutlineInputBorder(),
+                        border: OutlineInputBorder(
+                          borderRadius: const BorderRadius.all(
+                            Radius.circular(40.0),
+                          ),
+                        ),
                       ),
                     ),
                   )
@@ -65,7 +76,19 @@ class SupplierInputScreen extends StatelessWidget {
 //            height: MediaQuery.of(context).size.height * 0.05,
             child: RaisedButton.icon(
               onPressed: () {
-                Navigator.of(context).pushNamed("LotListScreen");
+                Provider.of<TeaCollections>(context, listen: false)
+                    .saveSupplier(supplierNoEditingController.text,
+                        supplierNameEditingController.text);
+
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LotListScreen(
+                      supplierID: supplierNoEditingController.text,
+                      supplierName: supplierNameEditingController.text,
+                    ),
+                  ),
+                );
               },
               icon: Icon(Icons.add),
               label: Text(

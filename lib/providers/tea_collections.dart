@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/foundation.dart';
 import 'package:teatracker/helpers/db_helper.dart';
 import 'package:teatracker/models/lot.dart';
+import '../models/supplier.dart';
 
 class TeaCollections with ChangeNotifier {
   List<Lot> _lot_items = [];
@@ -10,6 +11,11 @@ class TeaCollections with ChangeNotifier {
   List<Lot> get lot_items {
     return [..._lot_items];
   }
+
+  Supplier _newSupplier = Supplier("unknown",
+      "unknown"); //set default value otherwise throws exception cant find supplierID
+
+  Supplier get newSupplier => _newSupplier;
 
   void addLot(String Id, String supNo, String contType, int noOfCont,
       int gWeight, String lGrade, int water, int cLeaf, int other) {
@@ -30,7 +36,7 @@ class TeaCollections with ChangeNotifier {
     notifyListeners();
     DBHelper.insert('lots', {
       'lotId': newLot.lotId,
-      'supplier_id': newLot.supplier_id,
+      'supplier_id': _newSupplier.supplierId,
       'container_type': newLot.container_type,
       'no_of_containers': newLot.no_of_containers,
       'leaf_grade': newLot.leaf_grade,
@@ -43,6 +49,7 @@ class TeaCollections with ChangeNotifier {
 
   Future<void> fetchAndSetLotData() async {
     final dataList = await DBHelper.getData('lots');
+
     _lot_items = dataList
         .map(
           (item) => Lot(
@@ -63,6 +70,12 @@ class TeaCollections with ChangeNotifier {
   void deleteLot(String id) {
     _lot_items.removeWhere((lot) => lot.lotId == id);
     DBHelper.deleteLot('lots', id); // deleting lot permanently
+    notifyListeners();
+  }
+
+  void saveSupplier(String supId, String supName) {
+    _newSupplier = Supplier(supId, supName);
+
     notifyListeners();
   }
 }
