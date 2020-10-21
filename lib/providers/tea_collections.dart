@@ -61,11 +61,36 @@ class TeaCollections with ChangeNotifier {
       'course_leaf': newLot.course_leaf,
       'other': newLot.other,
       'date': newLot.date,
+      'is_deleted': newLot.isDeleted
     });
   }
 
-  Future<void> fetchAndSetLotData() async {
-    final dataList = await DBHelper.getData('lots');
+//  Future<void> fetchAndSetLotData() async {
+//    final dataList = await DBHelper.getData('lots');
+//
+//    _lot_items = dataList
+//        .map(
+//          (item) => Lot(
+//            lotId: item['lotId'],
+//            supplier_id: item['supplier_id'],
+//            supplier_name: item['supplier_name'],
+//            container_type: item['container_type'],
+//            no_of_containers: item['no_of_containers'],
+//            leaf_grade: item['leaf_grade'],
+//            gross_weight: item['g_weight'],
+//            water: item['water'],
+//            course_leaf: item['course_leaf'],
+//            other: item['other'],
+//            date: item['date'],
+//          ),
+//        )
+//        .toList();
+//    notifyListeners();
+//  }
+
+  Future<void> fetchAndSetLotDataWhereIsDeleted(String id, String date) async {
+    final dataList = await DBHelper.getDataWhereConditions(
+        0, id, date); //raw query to get isdeleted = 0
 
     _lot_items = dataList
         .map(
@@ -81,6 +106,7 @@ class TeaCollections with ChangeNotifier {
             course_leaf: item['course_leaf'],
             other: item['other'],
             date: item['date'],
+            isDeleted: item['is_deleted'],
           ),
         )
         .toList();
@@ -89,8 +115,21 @@ class TeaCollections with ChangeNotifier {
 
   void deleteLot(String id) {
     _lot_items.removeWhere((lot) => lot.lotId == id);
-//    DBHelper.deleteLot('lots', id); // deleting lot permanently
+    DBHelper.deleteLot(1, id); // setting isDeleted = 1 in sqldb
     notifyListeners();
+  }
+
+  int totalDeducts() {
+    // use in print screen
+    try {
+      int total = 0;
+      lot_items.forEach(
+          (item) => {total += item.water + item.course_leaf + item.other});
+      print(total);
+      return total;
+    } catch (e) {
+      print(e);
+    }
   }
 
   void saveSupplier(String supId, String supName) {

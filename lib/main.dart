@@ -20,8 +20,8 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: TeaCollections(),
+    return ChangeNotifierProvider(
+      create: (_) => TeaCollections(),
       child: MaterialApp(
         theme: ThemeData(
           primarySwatch: Colors.green,

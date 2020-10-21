@@ -18,8 +18,8 @@ class LotListScreen extends StatefulWidget {
 class _LotListScreenState extends State<LotListScreen> {
   @override
   Widget build(BuildContext context) {
-//    final currentSupplier =
-//        Provider.of<TeaCollections>(context, listen: false).newSupplier;
+    final currentDate =
+        Provider.of<TeaCollections>(context, listen: false).getCurrentDate();
     Future<void> _showMyDialog(String id) async {
       return showDialog<void>(
         context: context,
@@ -75,7 +75,8 @@ class _LotListScreenState extends State<LotListScreen> {
       ),
       body: FutureBuilder(
         future: Provider.of<TeaCollections>(context, listen: false)
-            .fetchAndSetLotData(),
+            .fetchAndSetLotDataWhereIsDeleted(widget.supplierID,
+                currentDate), //fetching lot details which is deleted 0
         builder: (ctx, snapshot) => snapshot.connectionState ==
                 ConnectionState.waiting
             ? Center(

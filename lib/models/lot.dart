@@ -10,6 +10,7 @@ class Lot {
   final int course_leaf;
   final int other;
   final String date;
+  final int isDeleted;
 
   Lot(
       {this.lotId,
@@ -22,12 +23,6 @@ class Lot {
       this.water,
       this.course_leaf,
       this.other,
-      this.date});
-
-//  factory Lot.fromJson(Map<String, dynamic> json) {
-//    return Lot(
-//        supplier_id: json['supplier_id'],
-//        container_type: json['container_type'],
-//        no_of_containers: json['no_of_containers']);
-//  }
+      this.date,
+      this.isDeleted = 0});
 }

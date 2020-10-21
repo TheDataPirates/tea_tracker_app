@@ -8,11 +8,10 @@ class DBHelper {
     return await sql.openDatabase(path.join(dbPath, 'teaLots.db'),
         onCreate: (db, version) {
       return db.execute(
-          'CREATE TABLE lots(lotId TEXT PRIMARY KEY, supplier_id TEXT,supplier_name TEXT ,container_type TEXT, no_of_containers INTEGER,leaf_grade TEXT, g_weight INTEGER, water INTEGER, course_leaf INTEGER, other INTEGER,date TEXT)');
+          'CREATE TABLE lots(lotId TEXT PRIMARY KEY, supplier_id TEXT,supplier_name TEXT ,container_type TEXT, no_of_containers INTEGER,leaf_grade TEXT, g_weight INTEGER, water INTEGER, course_leaf INTEGER, other INTEGER,date TEXT,is_deleted INTEGER)');
     },
         version:
             1); // opendb method do create db name as teaLot.db and create table lots if not exists.
-    //leaf_grade TEXT,gross_weight INTEGER,water INTEGER,course_leaf INTEGER,other INTEGER
   }
 
   static Future<void> insert(String table, Map<String, Object> data) async {
@@ -25,8 +24,30 @@ class DBHelper {
     return db.query(table);
   }
 
-  static Future<void> deleteLot(String table, String id) async {
+//  static Future<List<Map<String, dynamic>>> getDataIsDeleted(
+//      int isDeleted) async {
+//    final db = await DBHelper.database();
+//    return await db
+//        .rawQuery('SELECT * FROM lots WHERE is_deleted=?', ['$isDeleted']);
+//  }
+
+  static Future<List<Map<String, dynamic>>> getDataWhereConditions(
+      int isDeleted, String id, String date) async {
     final db = await DBHelper.database();
-    await db.delete(table, where: 'lotId = ?', whereArgs: [id]);
+    return await db.rawQuery(
+        'SELECT * FROM lots WHERE is_deleted=? AND supplier_id=? AND date=?',
+        ['$isDeleted', id, date]);
+  }
+
+//  static Future<void> deleteLot(String table, String id) async {
+//    final db = await DBHelper.database();
+//    await db.delete(table, where: 'lotId = ?', whereArgs: [id]);
+//  }
+  static Future<void> deleteLot(int value, String id) async {
+    final db = await DBHelper.database();
+    int count = await db.rawUpdate(
+        'UPDATE lots SET is_deleted = ?  WHERE lotId = ?', ['$value', '$id']);
+
+    print('updated: $count');
   }
 }
