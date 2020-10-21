@@ -39,12 +39,13 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context).size;
     final loginButon = Material(
       elevation: 5.0,
       borderRadius: BorderRadius.circular(30.0),
       color: Theme.of(context).primaryColor,
       child: MaterialButton(
-        minWidth: MediaQuery.of(context).size.width,
+        minWidth: mediaQuery.width,
         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
         onPressed: () {
           Navigator.of(context).pushNamed('SupplierInputScreen');
@@ -69,28 +70,28 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.3,
+                    height: mediaQuery.height * 0.3,
                     child: Image.asset(
                       "images/logo.jpg",
                       fit: BoxFit.contain,
                     ),
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.15),
+                  SizedBox(height: mediaQuery.height * 0.15),
                   Container(
                     child: emailField,
-                    height: MediaQuery.of(context).size.height * 0.1,
+                    height: mediaQuery.height * 0.1,
                   ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+                  SizedBox(height: mediaQuery.height * 0.01),
                   Container(
                     child: passwordField,
-                    height: MediaQuery.of(context).size.height * 0.1,
+                    height: mediaQuery.height * 0.1,
                   ),
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.05,
+                    height: mediaQuery.height * 0.05,
                   ),
                   loginButon,
                   SizedBox(
-                    height: MediaQuery.of(context).size.height * 0.1,
+                    height: mediaQuery.height * 0.1,
                   ),
                 ],
               ),

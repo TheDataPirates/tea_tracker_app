@@ -30,8 +30,11 @@ class MyApp extends StatelessWidget {
             headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
             headline2: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
             headline3: TextStyle(fontSize: 53, fontWeight: FontWeight.bold),
-            headline4: TextStyle(fontSize: 40),
-            headline6: TextStyle(fontSize: 36.0, fontStyle: FontStyle.italic),
+            headline4: TextStyle(fontSize: 40, fontStyle: FontStyle.italic),
+            headline6: TextStyle(
+                fontSize: 36.0,
+                fontStyle: FontStyle.italic,
+                color: Colors.white),
             bodyText1: TextStyle(fontSize: 24.0),
             bodyText2: TextStyle(fontSize: 14.0),
           ),

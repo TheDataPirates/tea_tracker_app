@@ -6,23 +6,9 @@ import '../constants.dart';
 
 class ListTileLot extends StatelessWidget {
   final String supplier_id;
-//  final String container_type;
-//  final int no_of_containers;
-//  final double gross_weight;
-//  final String leaf_grade;
-//  final double water;
-//  final double course_leaf;
-//  final double other;
 
   ListTileLot({
     this.supplier_id,
-//      this.container_type,
-//      this.no_of_containers,
-//      this.gross_weight,
-//      this.leaf_grade,
-//      this.water,
-//      this.course_leaf,
-//      this.other
   });
 
   @override
@@ -45,7 +31,7 @@ class ListTileLot extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Supplier :", style: kTextLotlistStyle),
+                  const Text("Supplier :", style: kTextLotlistStyle),
                   Text(selectedLot.supplier_id, style: kTextLotlistStyle),
                 ],
               ),
@@ -58,7 +44,7 @@ class ListTileLot extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Container type :", style: kTextLotlistStyle),
+                  const Text("Container type :", style: kTextLotlistStyle),
                   Text(selectedLot.container_type, style: kTextLotlistStyle),
                 ],
               ),
@@ -71,7 +57,8 @@ class ListTileLot extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Number of containers :", style: kTextLotlistStyle),
+                  const Text("Number of containers :",
+                      style: kTextLotlistStyle),
                   Text("${selectedLot.no_of_containers}",
                       style: kTextLotlistStyle),
                 ],
@@ -85,7 +72,7 @@ class ListTileLot extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Gross weight :", style: kTextLotlistStyle),
+                  const Text("Gross weight :", style: kTextLotlistStyle),
                   Text(selectedLot.gross_weight.toString(),
                       style: kTextLotlistStyle),
                 ],
@@ -99,7 +86,7 @@ class ListTileLot extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Leaf grade :", style: kTextLotlistStyle),
+                  const Text("Leaf grade :", style: kTextLotlistStyle),
                   Text(selectedLot.leaf_grade, style: kTextLotlistStyle)
                 ],
               ),
@@ -112,7 +99,7 @@ class ListTileLot extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Water % :", style: kTextLotlistStyle),
+                  const Text("Water % :", style: kTextLotlistStyle),
                   Text(selectedLot.water.toString(), style: kTextLotlistStyle)
                 ],
               ),
@@ -125,7 +112,7 @@ class ListTileLot extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Course leaf % :", style: kTextLotlistStyle),
+                  const Text("Course leaf % :", style: kTextLotlistStyle),
                   Text(selectedLot.course_leaf.toString(),
                       style: kTextLotlistStyle)
                 ],
@@ -139,7 +126,7 @@ class ListTileLot extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Other % :", style: kTextLotlistStyle),
+                  const Text("Other % :", style: kTextLotlistStyle),
                   Text(selectedLot.other.toString(), style: kTextLotlistStyle)
                 ],
               ),

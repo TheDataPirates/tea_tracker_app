@@ -12,6 +12,51 @@ class SupplierInputScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future<void> saveLot() async {
+      if (supplierNoEditingController.text.isEmpty ||
+          supplierNameEditingController.text.isEmpty) {
+        return showDialog<void>(
+          context: context,
+          barrierDismissible: false, // user must tap button!
+          builder: (BuildContext context) {
+            return AlertDialog(
+              title: const Text('AlertDialog'),
+              content: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    const Text('No supplier name entered'),
+                    const Text('Please Enter again'),
+                  ],
+                ),
+              ),
+              actions: <Widget>[
+                FlatButton(
+                  child: const Text("OK"),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
+            );
+          },
+        );
+      } else {
+        Provider.of<TeaCollections>(context, listen: false).saveSupplier(
+            supplierNoEditingController.text,
+            supplierNameEditingController.text);
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => LotListScreen(
+              supplierID: supplierNoEditingController.text,
+              supplierName: supplierNameEditingController.text,
+            ),
+          ),
+        );
+      }
+    }
+
     return Scaffold(
       body: Column(
         children: [
@@ -28,7 +73,7 @@ class SupplierInputScreen extends StatelessWidget {
                     child: TextField(
                       controller: supplierNoEditingController,
                       obscureText: false,
-                      style: TextStyle(fontSize: 40.0),
+                      style: const TextStyle(fontSize: 40.0),
                       decoration: InputDecoration(
                         labelText: "Supplier No :",
                         labelStyle: kTextFieldLabelStyle,
@@ -51,7 +96,7 @@ class SupplierInputScreen extends StatelessWidget {
                     width: MediaQuery.of(context).size.width * 0.5,
                     child: TextField(
                       controller: supplierNameEditingController,
-                      style: TextStyle(fontSize: 40.0),
+                      style: const TextStyle(fontSize: 40.0),
                       decoration: InputDecoration(
                         fillColor: Colors.lightGreen,
                         filled: true,
@@ -76,24 +121,12 @@ class SupplierInputScreen extends StatelessWidget {
 //            height: MediaQuery.of(context).size.height * 0.05,
             child: RaisedButton.icon(
               onPressed: () {
-                Provider.of<TeaCollections>(context, listen: false)
-                    .saveSupplier(supplierNoEditingController.text,
-                        supplierNameEditingController.text);
-
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => LotListScreen(
-                      supplierID: supplierNoEditingController.text,
-                      supplierName: supplierNameEditingController.text,
-                    ),
-                  ),
-                );
+                saveLot();
               },
               icon: Icon(Icons.add),
-              label: Text(
+              label: const Text(
                 'SAVE',
-                style: TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 20),
               ),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               color: Colors.amber,

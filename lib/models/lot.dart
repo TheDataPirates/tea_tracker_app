@@ -1,6 +1,7 @@
 class Lot {
   final String lotId;
   final String supplier_id;
+  final String supplier_name;
   final String container_type;
   final int no_of_containers;
   final int gross_weight;
@@ -8,18 +9,20 @@ class Lot {
   final int water;
   final int course_leaf;
   final int other;
+  final String date;
 
-  Lot({
-    this.lotId,
-    this.supplier_id,
-    this.container_type,
-    this.no_of_containers,
-    this.gross_weight,
-    this.leaf_grade,
-    this.water,
-    this.course_leaf,
-    this.other,
-  });
+  Lot(
+      {this.lotId,
+      this.supplier_id,
+      this.supplier_name,
+      this.container_type,
+      this.no_of_containers,
+      this.gross_weight,
+      this.leaf_grade,
+      this.water,
+      this.course_leaf,
+      this.other,
+      this.date});
 
 //  factory Lot.fromJson(Map<String, dynamic> json) {
 //    return Lot(

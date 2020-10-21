@@ -36,92 +36,143 @@ class _PrintScreenState extends State<PrintScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final getCurrDate =
+        Provider.of<TeaCollections>(context, listen: false).getCurrentDate();
     final mediaQuery = MediaQuery.of(context).size;
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.fromLTRB(8.0, 20.0, 8.0, 10.0),
-        child: Column(
-          children: [
-            Expanded(
-              child: SingleChildScrollView(
-                child: FutureBuilder(
-                  future: Provider.of<TeaCollections>(context, listen: false)
-                      .fetchAndSetLotData(),
-                  builder: (ctx, snapshot) =>
-                      snapshot.connectionState == ConnectionState.waiting
-                          ? Center(
-                              child: CircularProgressIndicator(),
-                            )
-                          : Consumer<TeaCollections>(
-                              child: Center(
-                                child: const Text('Got no lots yet'),
-                              ),
-                              builder: (ctx, teaCollections, ch) =>
-                                  teaCollections.lot_items.length <= 0
-                                      ? ch
-                                      : ListView.builder(
-                                          scrollDirection: Axis.vertical,
-                                          shrinkWrap: true,
-                                          itemCount:
-                                              teaCollections.lot_items.length,
-                                          itemBuilder: (ctx, i) => Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              CardContainer(
-                                                mediaQuery: mediaQuery,
-                                                lotData: teaCollections
-                                                    .lot_items[i]
-                                                    .container_type,
-                                                labelText: 'Container type',
-                                              ),
-                                              CardContainer(
-                                                  mediaQuery: mediaQuery,
-                                                  lotData: teaCollections
-                                                      .lot_items[i].leaf_grade,
-                                                  labelText: 'Grade of GL'),
-                                              CardContainer(
-                                                  mediaQuery: mediaQuery,
-                                                  lotData: teaCollections
-                                                      .lot_items[i]
-                                                      .no_of_containers,
-                                                  labelText:
-                                                      'Number of Containers'),
-                                              CardContainer(
-                                                  mediaQuery: mediaQuery,
-                                                  lotData: teaCollections
-                                                      .lot_items[i]
-                                                      .gross_weight,
-                                                  labelText: 'Gross Weight'),
-                                            ],
-                                          ),
+      body: Column(
+        children: [
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FutureBuilder(
+                future: Provider.of<TeaCollections>(context, listen: false)
+                    .fetchAndSetLotData(),
+                builder: (ctx, snapshot) => snapshot.connectionState ==
+                        ConnectionState.waiting
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : Consumer<TeaCollections>(
+                        child: Center(
+                          child: const Text('Got no lots yet'),
+                        ),
+                        builder: (ctx, teaCollections, ch) =>
+                            teaCollections.lot_items.length <= 0
+                                ? ch
+                                : ListView.builder(
+                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true,
+                                    itemCount: teaCollections.lot_items.length,
+                                    itemBuilder: (ctx, i) => Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        CardContainer(
+                                          mediaQuery: mediaQuery,
+                                          lotData: teaCollections
+                                              .lot_items[i].container_type,
+                                          labelText: 'Container type',
                                         ),
-                            ),
-                ),
+                                        CardContainer(
+                                            mediaQuery: mediaQuery,
+                                            lotData: teaCollections
+                                                .lot_items[i].leaf_grade,
+                                            labelText: 'Grade of GL'),
+                                        CardContainer(
+                                            mediaQuery: mediaQuery,
+                                            lotData: teaCollections
+                                                .lot_items[i].no_of_containers,
+                                            labelText: 'Number of Containers'),
+                                        CardContainer(
+                                            mediaQuery: mediaQuery,
+                                            lotData: teaCollections
+                                                .lot_items[i].gross_weight,
+                                            labelText: 'Gross Weight'),
+                                      ],
+                                    ),
+                                  ),
+                      ),
               ),
             ),
-            Container(
-              child: Text(
-                'DEDUCTIONS',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 15,
-                ),
+          ),
+          Container(
+            child: Text(
+              'DEDUCTIONS',
+              style: TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.bold,
+                letterSpacing: 15,
               ),
             ),
-            Container(
+          ),
+          Padding(
+            padding:
+                const EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0),
+            child: Container(
               height: mediaQuery.height * 0.2,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('total deductions '),
-                  Text("$deductions"),
+                  Container(
+                    width: mediaQuery.width * 0.2,
+                    height: mediaQuery.height * 0.1,
+                    child: Card(
+                      elevation: 15,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      color: const Color(0xff43a047),
+                      child: Center(
+                        child: Text(
+                          getCurrDate,
+                          style: TextStyle(color: Colors.white, fontSize: 40),
+                        ),
+                      ),
+                    ),
+                  ),
+                  Text(
+                    'Total deductions ',
+                    style: Theme.of(context).textTheme.headline4,
+                  ),
+                  Container(
+                    width: mediaQuery.width * 0.2,
+                    height: mediaQuery.height * 0.1,
+                    child: Card(
+                      elevation: 15,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20.0),
+                      ),
+                      color: const Color(0xff43a047),
+                      child: Center(
+                        child: Text(
+                          "$deductions %",
+                          style: TextStyle(color: Colors.white, fontSize: 40),
+                        ),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
-          ],
-        ),
+          ),
+          Container(
+            height: mediaQuery.height * 0.05,
+            width: double.infinity,
+            child: RaisedButton.icon(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              icon: const Icon(Icons.print),
+              label: const Text(
+                'PRINT',
+                style: TextStyle(fontSize: 20),
+              ),
+              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+              color: Colors.amber,
+            ),
+          )
+        ],
       ),
     );
   }

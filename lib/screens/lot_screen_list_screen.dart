@@ -20,13 +20,50 @@ class _LotListScreenState extends State<LotListScreen> {
   Widget build(BuildContext context) {
 //    final currentSupplier =
 //        Provider.of<TeaCollections>(context, listen: false).newSupplier;
+    Future<void> _showMyDialog(String id) async {
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Warning !'),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  const Text('Your are going to delete the lot'),
+                  const Text('Would you like to approve of this action?'),
+                ],
+              ),
+            ),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('Approve'),
+                onPressed: () {
+                  Provider.of<TeaCollections>(context, listen: false)
+                      .deleteLot(id);
+
+                  Navigator.of(context).pop();
+                },
+              ),
+              TextButton(
+                child: const Text('Not Approve'),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         title: Text('ID: ${widget.supplierID}    NAME: ${widget.supplierName}'),
         actions: [
           IconButton(
             tooltip: "printing",
-            icon: Icon(
+            icon: const Icon(
               Icons.print,
               size: 40,
             ),
@@ -88,9 +125,9 @@ class _LotListScreenState extends State<LotListScreen> {
                             ),
                             trailing: IconButton(
                               // deleting displayed lot by pass lot id
-                              icon: Icon(Icons.delete),
+                              icon: const Icon(Icons.delete),
                               onPressed: () {
-                                teaCollections.deleteLot(
+                                _showMyDialog(
                                     teaCollections.lot_items[i].lotId);
                               },
                             ),

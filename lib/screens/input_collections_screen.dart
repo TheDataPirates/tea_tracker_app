@@ -67,20 +67,25 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
     final currentSupplier = Provider.of<TeaCollections>(context, listen: false)
         .newSupplier; // get supplier id which entered on sup input screen via provider
     Provider.of<TeaCollections>(context, listen: false).addLot(
-        DateTime.now().toString(), //get now time as lot ID
-        currentSupplier.supplierId,
-        _containerTypeController.text,
-        int.parse(_containerNoController.text),
-        int.parse(_grossWeightController.text),
-        _leafGradeController.text,
-        int.parse(_waterLevelController.text),
-        int.parse(_courseLeafController.text),
-        int.parse(_otherDeductController.text));
+      DateTime.now().toString(), //get now time as lot ID
+      currentSupplier.supplierId,
+      currentSupplier.supplierName,
+      _containerTypeController.text,
+      int.parse(_containerNoController.text),
+      int.parse(_grossWeightController.text),
+      _leafGradeController.text,
+      int.parse(_waterLevelController.text),
+      int.parse(_courseLeafController.text),
+      int.parse(_otherDeductController.text),
+      Provider.of<TeaCollections>(context, listen: false)
+          .getCurrentDate(), //get current data & save
+    );
     Navigator.of(context).pop();
   }
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -93,7 +98,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                   children: <Widget>[
                     Container(
 //                      color: Colors.amber,
-                      height: MediaQuery.of(context).size.height * 0.5,
+                      height: mediaQuery.height * 0.5,
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                         children: <Widget>[
@@ -109,36 +114,36 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                               width: width,
                               editingController: _containerTypeController),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.005,
+                            width: mediaQuery.width * 0.005,
                           ),
                           InputField(
                               labelText: 'Container No',
                               width: width,
                               editingController: _containerNoController),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.005,
+                            width: mediaQuery.width * 0.005,
                           ),
                           InputField(
                               labelText: 'Gross weight',
                               width: width,
                               editingController: _grossWeightController),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.005,
+                            width: mediaQuery.width * 0.005,
                           ),
                           InputField(
                               labelText: 'Leaf Grade',
                               width: width,
                               editingController: _leafGradeController),
                           SizedBox(
-                            width: MediaQuery.of(context).size.width * 0.005,
+                            width: mediaQuery.width * 0.005,
                           ),
                         ],
                       ),
                     ),
                     Container(
-                      child: Text(
+                      child: const Text(
                         'DEDUCTIONS',
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 30,
                           fontWeight: FontWeight.bold,
                           letterSpacing: 10,
@@ -147,7 +152,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                     ),
                     Container(
 //                      color: Colors.blue,
-                      height: MediaQuery.of(context).size.height * 0.4,
+                      height: mediaQuery.height * 0.4,
                       child: SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: Row(
@@ -159,14 +164,14 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                 width: deduct_width,
                                 editingController: _waterLevelController),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.05,
+                              width: mediaQuery.width * 0.05,
                             ),
                             InputField(
                                 labelText: 'Course Leaf %',
                                 width: deduct_width,
                                 editingController: _courseLeafController),
                             SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.05,
+                              width: mediaQuery.width * 0.05,
                             ),
                             InputField(
                                 labelText: 'Other %',
@@ -182,13 +187,13 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
             ),
           ),
           Container(
-            height: MediaQuery.of(context).size.height * 0.05,
+            height: mediaQuery.height * 0.05,
             child: RaisedButton.icon(
               onPressed: saveLot,
-              icon: Icon(Icons.add),
-              label: Text(
+              icon: const Icon(Icons.add),
+              label: const Text(
                 'SAVE',
-                style: TextStyle(fontSize: 20),
+                style: const TextStyle(fontSize: 20),
               ),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               color: Colors.amber,
