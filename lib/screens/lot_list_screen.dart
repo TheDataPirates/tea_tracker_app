@@ -16,47 +16,47 @@ class LotListScreen extends StatefulWidget {
 }
 
 class _LotListScreenState extends State<LotListScreen> {
+  Future<void> _showMyDialog(String id) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Warning !'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                const Text('Your are going to delete the lot'),
+                const Text('Would you like to approve of this action?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Approve'),
+              onPressed: () {
+                Provider.of<TeaCollections>(context, listen: false)
+                    .deleteLot(id);
+
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Not Approve'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final currentDate =
         Provider.of<TeaCollections>(context, listen: false).getCurrentDate();
-    Future<void> _showMyDialog(String id) async {
-      return showDialog<void>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Warning !'),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  const Text('Your are going to delete the lot'),
-                  const Text('Would you like to approve of this action?'),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Approve'),
-                onPressed: () {
-                  Provider.of<TeaCollections>(context, listen: false)
-                      .deleteLot(id);
-
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                child: const Text('Not Approve'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
-
     return Scaffold(
       appBar: AppBar(
         title: Text('ID: ${widget.supplierID}    NAME: ${widget.supplierName}'),
@@ -76,7 +76,7 @@ class _LotListScreenState extends State<LotListScreen> {
       body: FutureBuilder(
         future: Provider.of<TeaCollections>(context, listen: false)
             .fetchAndSetLotDataWhereIsDeleted(widget.supplierID,
-                currentDate), //fetching lot details which is deleted 0
+                currentDate), //fetching lot details which is deleted 0 & supplierID & Date
         builder: (ctx, snapshot) => snapshot.connectionState ==
                 ConnectionState.waiting
             ? Center(
@@ -125,6 +125,8 @@ class _LotListScreenState extends State<LotListScreen> {
                               ],
                             ),
                             trailing: IconButton(
+                              iconSize: 50,
+                              color: Colors.red,
                               // deleting displayed lot by pass lot id
                               icon: const Icon(Icons.delete),
                               onPressed: () {

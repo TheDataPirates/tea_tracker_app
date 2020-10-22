@@ -13,6 +13,8 @@ class TeaCollections with ChangeNotifier {
     return [..._lot_items];
   }
 
+  int lotTotDeduct;
+
   Supplier _newSupplier;
 //  = Supplier("unknown",
 //      "unknown"); //set default value otherwise throws exception cant find supplierID
@@ -30,6 +32,8 @@ class TeaCollections with ChangeNotifier {
       int water,
       int cLeaf,
       int other,
+      int deducts,
+      int nWeight,
       String date) {
     //create lot object
     final newLot = Lot(
@@ -43,6 +47,8 @@ class TeaCollections with ChangeNotifier {
       water: water,
       course_leaf: cLeaf,
       other: other,
+      deductions: deducts,
+      net_weight: nWeight,
       date: date,
     );
 
@@ -60,11 +66,13 @@ class TeaCollections with ChangeNotifier {
       'water': newLot.water,
       'course_leaf': newLot.course_leaf,
       'other': newLot.other,
+      'deductions': newLot.deductions,
+      'net_weight': newLot.net_weight,
       'date': newLot.date,
       'is_deleted': newLot.isDeleted
     });
   }
-
+//getting all records
 //  Future<void> fetchAndSetLotData() async {
 //    final dataList = await DBHelper.getData('lots');
 //
@@ -105,6 +113,8 @@ class TeaCollections with ChangeNotifier {
             water: item['water'],
             course_leaf: item['course_leaf'],
             other: item['other'],
+            deductions: item['deductions'],
+            net_weight: item['net_weight'],
             date: item['date'],
             isDeleted: item['is_deleted'],
           ),
@@ -114,17 +124,30 @@ class TeaCollections with ChangeNotifier {
   }
 
   void deleteLot(String id) {
-    _lot_items.removeWhere((lot) => lot.lotId == id);
+    _lot_items
+        .removeWhere((lot) => lot.lotId == id); // remove lot from the array
     DBHelper.deleteLot(1, id); // setting isDeleted = 1 in sqldb
     notifyListeners();
+  }
+
+  int calDeduct(int water, int cleaf, int other, int gweight) {
+    // calculated deductions lot wise
+    int deductPercnt = water + cleaf + other;
+    double deductDouble = ((gweight * deductPercnt) / 100);
+    lotTotDeduct = deductDouble.toInt();
+    return deductDouble.toInt();
+  }
+
+  int calNetWeight(int gWeight) {
+    // calculate net weight lot wise
+    return (gWeight - lotTotDeduct);
   }
 
   int totalDeducts() {
     // use in print screen
     try {
       int total = 0;
-      lot_items.forEach(
-          (item) => {total += item.water + item.course_leaf + item.other});
+      lot_items.forEach((item) => total += item.deductions);
       print(total);
       return total;
     } catch (e) {

@@ -8,7 +8,7 @@ class DBHelper {
     return await sql.openDatabase(path.join(dbPath, 'teaLots.db'),
         onCreate: (db, version) {
       return db.execute(
-          'CREATE TABLE lots(lotId TEXT PRIMARY KEY, supplier_id TEXT,supplier_name TEXT ,container_type TEXT, no_of_containers INTEGER,leaf_grade TEXT, g_weight INTEGER, water INTEGER, course_leaf INTEGER, other INTEGER,date TEXT,is_deleted INTEGER)');
+          'CREATE TABLE lots(lotId TEXT PRIMARY KEY, supplier_id TEXT,supplier_name TEXT ,container_type TEXT, no_of_containers INTEGER,leaf_grade TEXT, g_weight INTEGER, water INTEGER, course_leaf INTEGER, other INTEGER,deductions INTEGER,net_weight INTEGER,date TEXT,is_deleted INTEGER)');
     },
         version:
             1); // opendb method do create db name as teaLot.db and create table lots if not exists.
@@ -24,13 +24,6 @@ class DBHelper {
     return db.query(table);
   }
 
-//  static Future<List<Map<String, dynamic>>> getDataIsDeleted(
-//      int isDeleted) async {
-//    final db = await DBHelper.database();
-//    return await db
-//        .rawQuery('SELECT * FROM lots WHERE is_deleted=?', ['$isDeleted']);
-//  }
-
   static Future<List<Map<String, dynamic>>> getDataWhereConditions(
       int isDeleted, String id, String date) async {
     final db = await DBHelper.database();
@@ -43,6 +36,7 @@ class DBHelper {
 //    final db = await DBHelper.database();
 //    await db.delete(table, where: 'lotId = ?', whereArgs: [id]);
 //  }
+
   static Future<void> deleteLot(int value, String id) async {
     final db = await DBHelper.database();
     int count = await db.rawUpdate(

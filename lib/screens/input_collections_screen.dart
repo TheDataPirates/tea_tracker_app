@@ -63,8 +63,9 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
         },
       );
     }
+    final provider = Provider.of<TeaCollections>(context, listen: false);
 
-    final currentSupplier = Provider.of<TeaCollections>(context, listen: false)
+    final currentSupplier = provider
         .newSupplier; // get supplier id which entered on sup input screen via provider
     Provider.of<TeaCollections>(context, listen: false).addLot(
       DateTime.now().toString(), //get now time as lot ID
@@ -77,8 +78,16 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
       int.parse(_waterLevelController.text),
       int.parse(_courseLeafController.text),
       int.parse(_otherDeductController.text),
-      Provider.of<TeaCollections>(context, listen: false)
-          .getCurrentDate(), //get current data & save
+      provider.calDeduct(
+        int.parse(_waterLevelController.text),
+        int.parse(_courseLeafController.text),
+        int.parse(_otherDeductController.text),
+        int.parse(_grossWeightController.text),
+      ),
+      provider.calNetWeight(
+        int.parse(_grossWeightController.text),
+      ),
+      provider.getCurrentDate(), //get current data & save
     );
     Navigator.of(context).pop();
   }

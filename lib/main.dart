@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:teatracker/providers/tea_collections.dart';
 import 'package:teatracker/screens/list_tile_lot_screen.dart';
-import 'package:teatracker/screens/lot_screen_list_screen.dart';
+import 'package:teatracker/screens/lot_list_screen.dart';
 import 'package:teatracker/screens/print_screen.dart';
 import 'package:teatracker/screens/supplier_input_screen.dart';
 import 'screens//login_Screen.dart';

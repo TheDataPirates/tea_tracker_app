@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teatracker/providers/tea_collections.dart';
-import 'package:teatracker/screens/lot_screen_list_screen.dart';
+import 'package:teatracker/screens/lot_list_screen.dart';
 
 import '../constants.dart';
 
@@ -76,9 +76,7 @@ class SupplierInputScreen extends StatelessWidget {
                       style: const TextStyle(fontSize: 40.0),
                       decoration: InputDecoration(
                         labelText: "Supplier No :",
-                        labelStyle: kTextFieldLabelStyle,
-                        fillColor: Colors.lightGreen,
-                        filled: true,
+                        labelStyle: kTextLotlistStyle,
                         contentPadding:
                             EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                         border: OutlineInputBorder(
@@ -98,9 +96,7 @@ class SupplierInputScreen extends StatelessWidget {
                       controller: supplierNameEditingController,
                       style: const TextStyle(fontSize: 40.0),
                       decoration: InputDecoration(
-                        fillColor: Colors.lightGreen,
-                        filled: true,
-                        labelStyle: kTextFieldLabelStyle,
+                        labelStyle: kTextLotlistStyle,
                         contentPadding:
                             EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                         labelText: "Supplier Name :",

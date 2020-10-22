@@ -9,6 +9,8 @@ class Lot {
   final int water;
   final int course_leaf;
   final int other;
+  final int deductions; // calculated fields
+  final int net_weight; //calculated fields
   final String date;
   final int isDeleted;
 
@@ -23,6 +25,8 @@ class Lot {
       this.water,
       this.course_leaf,
       this.other,
+      this.deductions,
+      this.net_weight,
       this.date,
       this.isDeleted = 0});
 }

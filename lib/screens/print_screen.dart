@@ -114,7 +114,7 @@ class _PrintScreenState extends State<PrintScreen> {
                       color: const Color(0xff43a047),
                       child: Center(
                         child: Text(
-                          "$deductions %",
+                          "$deductions KG",
                           style: TextStyle(color: Colors.white, fontSize: 40),
                         ),
                       ),
@@ -129,7 +129,10 @@ class _PrintScreenState extends State<PrintScreen> {
             width: double.infinity,
             child: RaisedButton.icon(
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.popUntil(
+                  context,
+                  ModalRoute.withName("SupplierInputScreen"),
+                );
               },
               icon: const Icon(Icons.print),
               label: const Text(
