@@ -12,6 +12,33 @@ class InputCollectionScreen extends StatefulWidget {
 }
 
 class _InputCollectionScreenState extends State<InputCollectionScreen> {
+  Future<void> _showMyDialog() async {
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Warning !'),
+          content: ListBody(
+            children: <Widget>[
+              const Text('Your are missing or added extra container'),
+              const Text('Please try again'),
+            ],
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Okay'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  var count = 0;
   final GlobalKey<FormBuilderState> _fbkey = GlobalKey<FormBuilderState>();
   var _editedLot = Lot(
       container_type: '',
@@ -27,12 +54,10 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
       container4: 0,
       container5: 0);
 
-  final _containerNoController = TextEditingController();
+  String noOfControllers;
 
   @override
   void dispose() {
-    _containerNoController.dispose();
-
     super.dispose();
   }
 
@@ -42,42 +67,53 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
 
   Future<void> saveLot() async {
     if (_fbkey.currentState.validate()) {
-      _fbkey.currentState.save();
-      print(_fbkey.currentState.value);
+      _fbkey.currentState
+          .save(); //save func will trigger count++ inside itself.
+      if (count == int.parse(noOfControllers)) {
+        //check here no of containers is equal to entered containers
+        print(noOfControllers);
+        print(count);
+        print(_fbkey.currentState.value);
 
-      final provider = Provider.of<TeaCollections>(context, listen: false);
+        final provider = Provider.of<TeaCollections>(context, listen: false);
 
-      final currentSupplier = provider
-          .newSupplier; // get supplier id which entered on sup input screen via provider
-      Provider.of<TeaCollections>(context, listen: false).addLot(
-          DateTime.now().toString(),
-          //get now time as lot ID
-          currentSupplier.supplierId,
-          currentSupplier.supplierName,
-          _editedLot.container_type,
-          _editedLot.no_of_containers,
-          _editedLot.gross_weight,
-          _editedLot.leaf_grade,
-          _editedLot.water,
-          _editedLot.course_leaf,
-          _editedLot.other,
-          provider.calDeduct(
+        final currentSupplier = provider
+            .newSupplier; // get supplier id which entered on sup input screen via provider
+        Provider.of<TeaCollections>(context, listen: false).addLot(
+            DateTime.now().toString(),
+            //get now time as lot ID
+            currentSupplier.supplierId,
+            currentSupplier.supplierName,
+            _editedLot.container_type,
+            _editedLot.no_of_containers,
+            _editedLot.gross_weight,
+            _editedLot.leaf_grade,
             _editedLot.water,
             _editedLot.course_leaf,
             _editedLot.other,
-            _editedLot.gross_weight,
-          ),
-          provider.calNetWeight(
-            _editedLot.gross_weight,
-          ),
-          provider.getCurrentDate(),
-          _editedLot.container1,
-          _editedLot.container2,
-          _editedLot.container3,
-          _editedLot.container4,
-          _editedLot.container5 //get current data & save
-          );
-      Navigator.of(context).pop();
+            provider.calDeduct(
+              _editedLot.water,
+              _editedLot.course_leaf,
+              _editedLot.other,
+              _editedLot.gross_weight,
+            ),
+            provider.calNetWeight(
+              _editedLot.gross_weight,
+            ),
+            provider.getCurrentDate(),
+            _editedLot.container1,
+            _editedLot.container2,
+            _editedLot.container3,
+            _editedLot.container4,
+            _editedLot.container5 //get current data & save
+            );
+        Navigator.of(context).pop();
+      } else {
+        count =
+            0; //count should be 0 if not after click okay condition not true
+        _showMyDialog();
+        print('not valid');
+      }
     }
     return;
   }
@@ -158,7 +194,14 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                   // initialValue:
 
                                   validators: [
-                                    FormBuilderValidators.required()
+                                    FormBuilderValidators.required(),
+                                    // ignore: missing_return
+                                    (val) {
+                                      if (!val.isEmpty) {
+                                        noOfControllers = val;
+                                      }
+                                      return null;
+                                    },
                                   ],
                                   items: ['1', '2', '3', '4', '5']
                                       .map((container) => DropdownMenuItem(
@@ -184,7 +227,6 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                 ),
                               ),
                             ),
-//
                             SizedBox(
                               width: mediaQuery.width * 0.005,
                             ),
@@ -250,9 +292,11 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                             InputField(
                               labelText: 'Container 1',
                               width: 0.15,
+                              // ignore: missing_return
                               validator: [],
                               onSave: (value) {
                                 if (!value.isEmpty) {
+                                  count += 1;
                                   _editedLot = Lot(
                                       container_type: _editedLot.container_type,
                                       no_of_containers:
@@ -292,6 +336,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                               validator: [],
                               onSave: (value) {
                                 if (!value.isEmpty) {
+                                  count += 1;
                                   _editedLot = Lot(
                                       container_type: _editedLot.container_type,
                                       no_of_containers:
@@ -331,6 +376,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                               validator: [],
                               onSave: (value) {
                                 if (!value.isEmpty) {
+                                  count += 1;
                                   _editedLot = Lot(
                                       container_type: _editedLot.container_type,
                                       no_of_containers:
@@ -370,6 +416,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                               validator: [],
                               onSave: (value) {
                                 if (!value.isEmpty) {
+                                  count += 1;
                                   _editedLot = Lot(
                                       container_type: _editedLot.container_type,
                                       no_of_containers:
@@ -409,6 +456,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                               validator: [],
                               onSave: (value) {
                                 if (!value.isEmpty) {
+                                  count += 1;
                                   _editedLot = Lot(
                                     container_type: _editedLot.container_type,
                                     no_of_containers:
