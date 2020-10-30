@@ -34,23 +34,32 @@ class TeaCollections with ChangeNotifier {
       int other,
       int deducts,
       int nWeight,
-      String date) {
+      String date,
+      int cont1,
+      int cont2,
+      int cont3,
+      int cont4,
+      int cont5) {
     //create lot object
     final newLot = Lot(
-      lotId: Id,
-      supplier_id: supNo,
-      supplier_name: supName,
-      container_type: contType,
-      no_of_containers: noOfCont,
-      gross_weight: gWeight,
-      leaf_grade: lGrade,
-      water: water,
-      course_leaf: cLeaf,
-      other: other,
-      deductions: deducts,
-      net_weight: nWeight,
-      date: date,
-    );
+        lotId: Id,
+        supplier_id: supNo,
+        supplier_name: supName,
+        container_type: contType,
+        no_of_containers: noOfCont,
+        gross_weight: gWeight,
+        leaf_grade: lGrade,
+        water: water,
+        course_leaf: cLeaf,
+        other: other,
+        deductions: deducts,
+        net_weight: nWeight,
+        date: date,
+        container1: cont1,
+        container2: cont2,
+        container3: cont3,
+        container4: cont4,
+        container5: cont5);
 
     _lot_items.add(newLot); // add new obj to items array
 
@@ -69,7 +78,12 @@ class TeaCollections with ChangeNotifier {
       'deductions': newLot.deductions,
       'net_weight': newLot.net_weight,
       'date': newLot.date,
-      'is_deleted': newLot.isDeleted
+      'is_deleted': newLot.isDeleted,
+      'container1': newLot.container1,
+      'container2': newLot.container2,
+      'container3': newLot.container3,
+      'container4': newLot.container4,
+      'container5': newLot.container5,
     });
   }
 //getting all records

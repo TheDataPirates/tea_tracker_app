@@ -8,7 +8,7 @@ class DBHelper {
     return await sql.openDatabase(path.join(dbPath, 'teaLots.db'),
         onCreate: (db, version) {
       return db.execute(
-          'CREATE TABLE lots(lotId TEXT PRIMARY KEY, supplier_id TEXT,supplier_name TEXT ,container_type TEXT, no_of_containers INTEGER,leaf_grade TEXT, g_weight INTEGER, water INTEGER, course_leaf INTEGER, other INTEGER,deductions INTEGER,net_weight INTEGER,date TEXT,is_deleted INTEGER)');
+          'CREATE TABLE lots(lotId TEXT PRIMARY KEY, supplier_id TEXT,supplier_name TEXT ,container_type TEXT, no_of_containers INTEGER,leaf_grade TEXT, g_weight INTEGER, water INTEGER, course_leaf INTEGER, other INTEGER,deductions INTEGER,net_weight INTEGER,date TEXT,is_deleted INTEGER,container1 INTEGER,container2 INTEGER,container3 INTEGER,container4 INTEGER,container5 INTEGER)');
     },
         version:
             1); // opendb method do create db name as teaLot.db and create table lots if not exists.

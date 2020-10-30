@@ -139,8 +139,7 @@ class _LotListScreenState extends State<LotListScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ListTileLot(
-                                    supplier_id:
-                                        teaCollections.lot_items[i].supplier_id,
+                                    lot_id: teaCollections.lot_items[i].lotId,
                                   ),
                                 ),
                               );
