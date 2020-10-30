@@ -19,9 +19,12 @@ class DBHelper {
     db.insert(table, data, conflictAlgorithm: sql.ConflictAlgorithm.replace);
   }
 
-  static Future<List<Map<String, dynamic>>> getData(String table) async {
+  static Future<List<Map<String, dynamic>>> getData(
+      int isDeleted, String date) async {
     final db = await DBHelper.database();
-    return db.query(table);
+    return await db.rawQuery(
+        'SELECT * FROM lots WHERE is_deleted=?  AND date=?',
+        ['$isDeleted', date]);
   }
 
   static Future<List<Map<String, dynamic>>> getDataWhereConditions(

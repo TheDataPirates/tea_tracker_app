@@ -2,20 +2,15 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teatracker/providers/tea_collections.dart';
-import 'package:teatracker/screens/list_tile_lot_screen.dart';
 
-class LotListScreen extends StatefulWidget {
-  final supplierID;
-  final supplierName;
+import 'list_tile_lot_screen.dart';
 
-  const LotListScreen({Key key, this.supplierID, this.supplierName})
-      : super(key: key);
-
+class AllLotsScreen extends StatefulWidget {
   @override
-  _LotListScreenState createState() => _LotListScreenState();
+  _AllLotsScreenState createState() => _AllLotsScreenState();
 }
 
-class _LotListScreenState extends State<LotListScreen> {
+class _AllLotsScreenState extends State<AllLotsScreen> {
   Future<void> _showMyDialog(String id) async {
     await showDialog<void>(
       context: context,
@@ -42,7 +37,7 @@ class _LotListScreenState extends State<LotListScreen> {
               },
             ),
             TextButton(
-              child: const Text('Not Approve'),
+              child: const Text('Decline'),
               onPressed: () {
                 Navigator.of(context).pop();
               },
@@ -59,24 +54,27 @@ class _LotListScreenState extends State<LotListScreen> {
         Provider.of<TeaCollections>(context, listen: false).getCurrentDate();
     return Scaffold(
       appBar: AppBar(
-        title: Text('ID: ${widget.supplierID}    NAME: ${widget.supplierName}'),
-        actions: [
-          IconButton(
-            tooltip: "printing",
-            icon: const Icon(
-              Icons.print,
-              size: 40,
-            ),
-            onPressed: () {
-              Navigator.of(context).pushNamed("PrintScreen");
-            },
-          )
-        ],
+        title: Text('DATE: $currentDate'),
+//        actions: [
+//          IconButton(
+//
+//            icon: const Icon(
+//              Icons.print,
+//              size: 40,
+//            ),
+//            onPressed: () {
+//              Navigator.popUntil(
+//                context,
+//                ModalRoute.withName("MainMenuScreen"),
+//              );
+//            },
+//          )
+//        ],
       ),
       body: FutureBuilder(
         future: Provider.of<TeaCollections>(context, listen: false)
-            .fetchAndSetLotDataWhereIsDeleted(widget.supplierID,
-                currentDate), //fetching lot details which is deleted 0 & supplierID & Date
+            .fetchAndSetLotData(
+                currentDate), //fetching lot details which is deleted 0 & Date
         builder: (ctx, snapshot) => snapshot.connectionState ==
                 ConnectionState.waiting
             ? Center(
@@ -115,7 +113,7 @@ class _LotListScreenState extends State<LotListScreen> {
                             subtitle: Row(
                               children: [
                                 Text(
-                                  "Container type : ${teaCollections.lot_items[i].container_type} ->>",
+                                  "Supplier : ${teaCollections.lot_items[i].supplier_name} ->>",
                                   style: Theme.of(context).textTheme.headline4,
                                 ),
                                 Text(
@@ -151,9 +149,12 @@ class _LotListScreenState extends State<LotListScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).accentColor,
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.home),
         onPressed: () {
-          Navigator.pushNamed(context, "InputCollectionScreen");
+          Navigator.popUntil(
+            context,
+            ModalRoute.withName("MainMenuScreen"),
+          );
         },
       ),
     );

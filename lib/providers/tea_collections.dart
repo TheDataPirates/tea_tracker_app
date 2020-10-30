@@ -86,29 +86,38 @@ class TeaCollections with ChangeNotifier {
       'container5': newLot.container5,
     });
   }
+
 //getting all records
-//  Future<void> fetchAndSetLotData() async {
-//    final dataList = await DBHelper.getData('lots');
-//
-//    _lot_items = dataList
-//        .map(
-//          (item) => Lot(
-//            lotId: item['lotId'],
-//            supplier_id: item['supplier_id'],
-//            supplier_name: item['supplier_name'],
-//            container_type: item['container_type'],
-//            no_of_containers: item['no_of_containers'],
-//            leaf_grade: item['leaf_grade'],
-//            gross_weight: item['g_weight'],
-//            water: item['water'],
-//            course_leaf: item['course_leaf'],
-//            other: item['other'],
-//            date: item['date'],
-//          ),
-//        )
-//        .toList();
-//    notifyListeners();
-//  }
+  Future<void> fetchAndSetLotData(String date) async {
+    final dataList = await DBHelper.getData(0, date);
+    _lot_items = [];
+    _lot_items = dataList
+        .map(
+          (item) => Lot(
+            lotId: item['lotId'],
+            supplier_id: item['supplier_id'],
+            supplier_name: item['supplier_name'],
+            container_type: item['container_type'],
+            no_of_containers: item['no_of_containers'],
+            leaf_grade: item['leaf_grade'],
+            gross_weight: item['g_weight'],
+            water: item['water'],
+            course_leaf: item['course_leaf'],
+            other: item['other'],
+            deductions: item['deductions'],
+            net_weight: item['net_weight'],
+            date: item['date'],
+            isDeleted: item['is_deleted'],
+            container1: item['container1'],
+            container2: item['container2'],
+            container3: item['container3'],
+            container4: item['container4'],
+            container5: item['container5'],
+          ),
+        )
+        .toList();
+    notifyListeners();
+  }
 
   Future<void> fetchAndSetLotDataWhereIsDeleted(String id, String date) async {
     final dataList = await DBHelper.getDataWhereConditions(
@@ -131,6 +140,11 @@ class TeaCollections with ChangeNotifier {
             net_weight: item['net_weight'],
             date: item['date'],
             isDeleted: item['is_deleted'],
+            container1: item['container1'],
+            container2: item['container2'],
+            container3: item['container3'],
+            container4: item['container4'],
+            container5: item['container5'],
           ),
         )
         .toList();

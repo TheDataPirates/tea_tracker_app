@@ -119,9 +119,9 @@ class SupplierInputScreen extends StatelessWidget {
               onPressed: () {
                 saveLot();
               },
-              icon: Icon(Icons.add),
+              icon: Icon(Icons.navigate_next),
               label: const Text(
-                'SAVE',
+                'NEXT',
                 style: const TextStyle(fontSize: 20),
               ),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,

@@ -131,7 +131,7 @@ class _PrintScreenState extends State<PrintScreen> {
               onPressed: () {
                 Navigator.popUntil(
                   context,
-                  ModalRoute.withName("SupplierInputScreen"),
+                  ModalRoute.withName("MainMenuScreen"),
                 );
               },
               icon: const Icon(Icons.print),
