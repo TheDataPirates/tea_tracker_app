@@ -10,7 +10,7 @@ class InputField extends StatelessWidget {
       @required this.labelText,
       @required this.width,
       TextEditingController editingController,
-      @required this.validator,
+      this.validator,
       @required this.onSave,
       this.keytype})
       : _editingController = editingController,
@@ -34,7 +34,7 @@ class InputField extends StatelessWidget {
           decoration: InputDecoration(
             errorStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
             contentPadding: const EdgeInsets.symmetric(vertical: 40.0),
-            filled: true,
+//            filled: true,/**/
 //          fillColor: Colors.lightGreen,
             labelText: labelText,
             labelStyle: TextStyle(color: Colors.green, fontSize: 30),

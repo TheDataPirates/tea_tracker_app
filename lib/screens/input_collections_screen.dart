@@ -20,7 +20,12 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
       leaf_grade: '',
       water: 0,
       course_leaf: 0,
-      other: 0);
+      other: 0,
+      container1: 0,
+      container2: 0,
+      container3: 0,
+      container4: 0,
+      container5: 0);
 
   final _containerNoController = TextEditingController();
 
@@ -45,28 +50,33 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
       final currentSupplier = provider
           .newSupplier; // get supplier id which entered on sup input screen via provider
       Provider.of<TeaCollections>(context, listen: false).addLot(
-        DateTime.now().toString(),
-        //get now time as lot ID
-        currentSupplier.supplierId,
-        currentSupplier.supplierName,
-        _editedLot.container_type,
-        _editedLot.no_of_containers,
-        _editedLot.gross_weight,
-        _editedLot.leaf_grade,
-        _editedLot.water,
-        _editedLot.course_leaf,
-        _editedLot.other,
-        provider.calDeduct(
+          DateTime.now().toString(),
+          //get now time as lot ID
+          currentSupplier.supplierId,
+          currentSupplier.supplierName,
+          _editedLot.container_type,
+          _editedLot.no_of_containers,
+          _editedLot.gross_weight,
+          _editedLot.leaf_grade,
           _editedLot.water,
           _editedLot.course_leaf,
           _editedLot.other,
-          _editedLot.gross_weight,
-        ),
-        provider.calNetWeight(
-          _editedLot.gross_weight,
-        ),
-        provider.getCurrentDate(), //get current data & save
-      );
+          provider.calDeduct(
+            _editedLot.water,
+            _editedLot.course_leaf,
+            _editedLot.other,
+            _editedLot.gross_weight,
+          ),
+          provider.calNetWeight(
+            _editedLot.gross_weight,
+          ),
+          provider.getCurrentDate(),
+          _editedLot.container1,
+          _editedLot.container2,
+          _editedLot.container3,
+          _editedLot.container4,
+          _editedLot.container5 //get current data & save
+          );
       Navigator.of(context).pop();
     }
     return;
@@ -89,7 +99,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                     children: <Widget>[
                       Container(
 //                      color: Colors.amber,
-                        height: mediaQuery.height * 0.5,
+                        height: mediaQuery.height * 0.3,
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                           children: <Widget>[
@@ -99,36 +109,82 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                               validator: [FormBuilderValidators.required()],
                               onSave: (value) {
                                 _editedLot = Lot(
-                                    container_type: value,
-                                    no_of_containers:
-                                        _editedLot.no_of_containers,
-                                    gross_weight: _editedLot.gross_weight,
-                                    leaf_grade: _editedLot.leaf_grade,
-                                    water: _editedLot.water,
-                                    course_leaf: _editedLot.course_leaf,
-                                    other: _editedLot.other);
+                                  container_type: value,
+                                  no_of_containers: _editedLot.no_of_containers,
+                                  gross_weight: _editedLot.gross_weight,
+                                  leaf_grade: _editedLot.leaf_grade,
+                                  water: _editedLot.water,
+                                  course_leaf: _editedLot.course_leaf,
+                                  other: _editedLot.other,
+                                  container1: _editedLot.container1,
+                                  container2: _editedLot.container2,
+                                  container3: _editedLot.container3,
+                                  container4: _editedLot.container4,
+                                  container5: _editedLot.container5,
+                                );
                               },
                             ),
                             SizedBox(
                               width: mediaQuery.width * 0.005,
                             ),
-                            InputField(
-                              labelText: 'No of Containers',
-                              width: width,
-                              editingController: _containerNoController,
-                              validator: [FormBuilderValidators.required()],
-                              onSave: (value) {
-                                _editedLot = Lot(
-                                    container_type: _editedLot.container_type,
-                                    no_of_containers: int.parse(value),
-                                    gross_weight: _editedLot.gross_weight,
-                                    leaf_grade: _editedLot.leaf_grade,
-                                    water: _editedLot.water,
-                                    course_leaf: _editedLot.course_leaf,
-                                    other: _editedLot.other);
-                              },
-                              keytype: TextInputType.number,
+                            Card(
+                              elevation: 10,
+                              child: Container(
+                                width: mediaQuery.width * width,
+                                child: FormBuilderDropdown(
+                                  attribute: "No of Containers",
+                                  decoration: InputDecoration(
+                                    labelText: "No of Containers",
+                                    errorStyle: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700),
+                                    contentPadding: const EdgeInsets.symmetric(
+                                        vertical: 40.0),
+                                    labelStyle: TextStyle(
+                                        color: Colors.green,
+                                        fontSize: 30,
+                                        fontWeight: FontWeight.w700),
+                                    enabledBorder: OutlineInputBorder(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(13.0),
+                                      ),
+                                      borderSide: BorderSide.none,
+                                    ),
+                                  ),
+                                  style: TextStyle(
+                                      fontSize: 40,
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold),
+                                  // initialValue:
+
+                                  validators: [
+                                    FormBuilderValidators.required()
+                                  ],
+                                  items: ['1', '2', '3', '4', '5']
+                                      .map((container) => DropdownMenuItem(
+                                          value: container,
+                                          child: Text("$container")))
+                                      .toList(),
+                                  onSaved: (value) {
+                                    _editedLot = Lot(
+                                      container_type: _editedLot.container_type,
+                                      no_of_containers: int.parse(value),
+                                      gross_weight: _editedLot.gross_weight,
+                                      leaf_grade: _editedLot.leaf_grade,
+                                      water: _editedLot.water,
+                                      course_leaf: _editedLot.course_leaf,
+                                      other: _editedLot.other,
+                                      container1: _editedLot.container1,
+                                      container2: _editedLot.container2,
+                                      container3: _editedLot.container3,
+                                      container4: _editedLot.container4,
+                                      container5: _editedLot.container5,
+                                    );
+                                  },
+                                ),
+                              ),
                             ),
+//
                             SizedBox(
                               width: mediaQuery.width * 0.005,
                             ),
@@ -138,14 +194,19 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                               validator: [FormBuilderValidators.required()],
                               onSave: (value) {
                                 _editedLot = Lot(
-                                    container_type: _editedLot.container_type,
-                                    no_of_containers:
-                                        _editedLot.no_of_containers,
-                                    gross_weight: int.parse(value),
-                                    leaf_grade: _editedLot.leaf_grade,
-                                    water: _editedLot.water,
-                                    course_leaf: _editedLot.course_leaf,
-                                    other: _editedLot.other);
+                                  container_type: _editedLot.container_type,
+                                  no_of_containers: _editedLot.no_of_containers,
+                                  gross_weight: int.parse(value),
+                                  leaf_grade: _editedLot.leaf_grade,
+                                  water: _editedLot.water,
+                                  course_leaf: _editedLot.course_leaf,
+                                  other: _editedLot.other,
+                                  container1: _editedLot.container1,
+                                  container2: _editedLot.container2,
+                                  container3: _editedLot.container3,
+                                  container4: _editedLot.container4,
+                                  container5: _editedLot.container5,
+                                );
                               },
                               keytype: TextInputType.number,
                             ),
@@ -158,16 +219,21 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                               validator: [FormBuilderValidators.required()],
                               onSave: (value) {
                                 _editedLot = Lot(
-                                    container_type: _editedLot.container_type,
-                                    no_of_containers:
-                                        _editedLot.no_of_containers,
-                                    gross_weight: _editedLot.gross_weight,
-                                    leaf_grade: value,
-                                    water: _editedLot.water,
-                                    course_leaf: _editedLot.course_leaf,
-                                    other: _editedLot.other);
+                                  container_type: _editedLot.container_type,
+                                  no_of_containers: _editedLot.no_of_containers,
+                                  gross_weight: _editedLot.gross_weight,
+                                  leaf_grade: value,
+                                  water: _editedLot.water,
+                                  course_leaf: _editedLot.course_leaf,
+                                  other: _editedLot.other,
+                                  container1: _editedLot.container1,
+                                  container2: _editedLot.container2,
+                                  container3: _editedLot.container3,
+                                  container4: _editedLot.container4,
+                                  container5: _editedLot.container5,
+                                );
                               },
-                              keytype: TextInputType.number,
+//                              keytype: TextInputType.number,
                             ),
                             SizedBox(
                               width: mediaQuery.width * 0.005,
@@ -176,18 +242,230 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                         ),
                       ),
                       Container(
-                        child: const Text(
-                          'DEDUCTIONS',
-                          style: const TextStyle(
-                            fontSize: 30,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 10,
+                        height: mediaQuery.height * 0.2,
+                        padding: EdgeInsets.only(top: 80),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                          children: [
+                            InputField(
+                              labelText: 'Container 1',
+                              width: 0.15,
+                              validator: [],
+                              onSave: (value) {
+                                if (!value.isEmpty) {
+                                  _editedLot = Lot(
+                                      container_type: _editedLot.container_type,
+                                      no_of_containers:
+                                          _editedLot.no_of_containers,
+                                      gross_weight: _editedLot.gross_weight,
+                                      leaf_grade: _editedLot.leaf_grade,
+                                      water: _editedLot.water,
+                                      course_leaf: _editedLot.course_leaf,
+                                      other: _editedLot.other,
+                                      container1: int.parse(value),
+                                      container2: _editedLot.container2,
+                                      container3: _editedLot.container3,
+                                      container4: _editedLot.container3,
+                                      container5: _editedLot.container5);
+                                } else {
+                                  _editedLot = Lot(
+                                      container_type: _editedLot.container_type,
+                                      no_of_containers:
+                                          _editedLot.no_of_containers,
+                                      gross_weight: _editedLot.gross_weight,
+                                      leaf_grade: _editedLot.leaf_grade,
+                                      water: _editedLot.water,
+                                      course_leaf: _editedLot.course_leaf,
+                                      other: _editedLot.other,
+                                      container1: _editedLot.container1,
+                                      container2: _editedLot.container2,
+                                      container3: _editedLot.container3,
+                                      container4: _editedLot.container4,
+                                      container5: _editedLot.container5);
+                                }
+                              },
+                              keytype: TextInputType.number,
+                            ),
+                            InputField(
+                              labelText: 'Container 2',
+                              width: 0.15,
+                              validator: [],
+                              onSave: (value) {
+                                if (!value.isEmpty) {
+                                  _editedLot = Lot(
+                                      container_type: _editedLot.container_type,
+                                      no_of_containers:
+                                          _editedLot.no_of_containers,
+                                      gross_weight: _editedLot.gross_weight,
+                                      leaf_grade: _editedLot.leaf_grade,
+                                      water: _editedLot.water,
+                                      course_leaf: _editedLot.course_leaf,
+                                      other: _editedLot.other,
+                                      container1: _editedLot.container1,
+                                      container2: int.parse(value),
+                                      container3: _editedLot.container3,
+                                      container4: _editedLot.container3,
+                                      container5: _editedLot.container5);
+                                } else {
+                                  _editedLot = Lot(
+                                      container_type: _editedLot.container_type,
+                                      no_of_containers:
+                                          _editedLot.no_of_containers,
+                                      gross_weight: _editedLot.gross_weight,
+                                      leaf_grade: _editedLot.leaf_grade,
+                                      water: _editedLot.water,
+                                      course_leaf: _editedLot.course_leaf,
+                                      other: _editedLot.other,
+                                      container1: _editedLot.container1,
+                                      container2: _editedLot.container2,
+                                      container3: _editedLot.container3,
+                                      container4: _editedLot.container4,
+                                      container5: _editedLot.container5);
+                                }
+                              },
+                              keytype: TextInputType.number,
+                            ),
+                            InputField(
+                              labelText: 'Container 3',
+                              width: 0.15,
+                              validator: [],
+                              onSave: (value) {
+                                if (!value.isEmpty) {
+                                  _editedLot = Lot(
+                                      container_type: _editedLot.container_type,
+                                      no_of_containers:
+                                          _editedLot.no_of_containers,
+                                      gross_weight: _editedLot.gross_weight,
+                                      leaf_grade: _editedLot.leaf_grade,
+                                      water: _editedLot.water,
+                                      course_leaf: _editedLot.course_leaf,
+                                      other: _editedLot.other,
+                                      container1: _editedLot.container1,
+                                      container2: _editedLot.container2,
+                                      container3: int.parse(value),
+                                      container4: _editedLot.container3,
+                                      container5: _editedLot.container5);
+                                } else {
+                                  _editedLot = Lot(
+                                      container_type: _editedLot.container_type,
+                                      no_of_containers:
+                                          _editedLot.no_of_containers,
+                                      gross_weight: _editedLot.gross_weight,
+                                      leaf_grade: _editedLot.leaf_grade,
+                                      water: _editedLot.water,
+                                      course_leaf: _editedLot.course_leaf,
+                                      other: _editedLot.other,
+                                      container1: _editedLot.container1,
+                                      container2: _editedLot.container2,
+                                      container3: _editedLot.container3,
+                                      container4: _editedLot.container4,
+                                      container5: _editedLot.container5);
+                                }
+                              },
+                              keytype: TextInputType.number,
+                            ),
+                            InputField(
+                              labelText: 'Container 4',
+                              width: 0.15,
+                              validator: [],
+                              onSave: (value) {
+                                if (!value.isEmpty) {
+                                  _editedLot = Lot(
+                                      container_type: _editedLot.container_type,
+                                      no_of_containers:
+                                          _editedLot.no_of_containers,
+                                      gross_weight: _editedLot.gross_weight,
+                                      leaf_grade: _editedLot.leaf_grade,
+                                      water: _editedLot.water,
+                                      course_leaf: _editedLot.course_leaf,
+                                      other: _editedLot.other,
+                                      container1: _editedLot.container1,
+                                      container2: _editedLot.container2,
+                                      container3: _editedLot.container3,
+                                      container4: int.parse(value),
+                                      container5: _editedLot.container5);
+                                } else {
+                                  _editedLot = Lot(
+                                      container_type: _editedLot.container_type,
+                                      no_of_containers:
+                                          _editedLot.no_of_containers,
+                                      gross_weight: _editedLot.gross_weight,
+                                      leaf_grade: _editedLot.leaf_grade,
+                                      water: _editedLot.water,
+                                      course_leaf: _editedLot.course_leaf,
+                                      other: _editedLot.other,
+                                      container1: _editedLot.container1,
+                                      container2: _editedLot.container2,
+                                      container3: _editedLot.container3,
+                                      container4: _editedLot.container4,
+                                      container5: _editedLot.container5);
+                                }
+                              },
+                              keytype: TextInputType.number,
+                            ),
+                            InputField(
+                              labelText: 'Container 5',
+                              width: 0.15,
+                              validator: [],
+                              onSave: (value) {
+                                if (!value.isEmpty) {
+                                  _editedLot = Lot(
+                                    container_type: _editedLot.container_type,
+                                    no_of_containers:
+                                        _editedLot.no_of_containers,
+                                    gross_weight: _editedLot.gross_weight,
+                                    leaf_grade: _editedLot.leaf_grade,
+                                    water: _editedLot.water,
+                                    course_leaf: _editedLot.course_leaf,
+                                    other: _editedLot.other,
+                                    container1: _editedLot.container1,
+                                    container2: _editedLot.container2,
+                                    container3: _editedLot.container3,
+                                    container4: _editedLot.container3,
+                                    container5: int.parse(value),
+                                  );
+                                } else {
+                                  _editedLot = Lot(
+                                      container_type: _editedLot.container_type,
+                                      no_of_containers:
+                                          _editedLot.no_of_containers,
+                                      gross_weight: _editedLot.gross_weight,
+                                      leaf_grade: _editedLot.leaf_grade,
+                                      water: _editedLot.water,
+                                      course_leaf: _editedLot.course_leaf,
+                                      other: _editedLot.other,
+                                      container1: _editedLot.container1,
+                                      container2: _editedLot.container2,
+                                      container3: _editedLot.container3,
+                                      container4: _editedLot.container4,
+                                      container5: _editedLot.container5);
+                                }
+                              },
+                              keytype: TextInputType.number,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Container(
+                        height: mediaQuery.height * 0.1,
+                        child: SingleChildScrollView(
+                          scrollDirection: Axis.horizontal,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 30),
+                            child: const Text(
+                              'DEDUCTIONS',
+                              style: const TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 10,
+                              ),
+                            ),
                           ),
                         ),
                       ),
                       Container(
 //                      color: Colors.blue,
-                        height: mediaQuery.height * 0.4,
+                        height: mediaQuery.height * 0.3,
                         child: SingleChildScrollView(
                           scrollDirection: Axis.horizontal,
                           child: Row(
@@ -200,14 +478,20 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                 validator: [FormBuilderValidators.required()],
                                 onSave: (value) {
                                   _editedLot = Lot(
-                                      container_type: _editedLot.container_type,
-                                      no_of_containers:
-                                          _editedLot.no_of_containers,
-                                      gross_weight: _editedLot.gross_weight,
-                                      leaf_grade: _editedLot.leaf_grade,
-                                      water: int.parse(value),
-                                      course_leaf: _editedLot.course_leaf,
-                                      other: _editedLot.other);
+                                    container_type: _editedLot.container_type,
+                                    no_of_containers:
+                                        _editedLot.no_of_containers,
+                                    gross_weight: _editedLot.gross_weight,
+                                    leaf_grade: _editedLot.leaf_grade,
+                                    water: int.parse(value),
+                                    course_leaf: _editedLot.course_leaf,
+                                    other: _editedLot.other,
+                                    container1: _editedLot.container1,
+                                    container2: _editedLot.container2,
+                                    container3: _editedLot.container3,
+                                    container4: _editedLot.container4,
+                                    container5: _editedLot.container5,
+                                  );
                                 },
                                 keytype: TextInputType.number,
                               ),
@@ -220,14 +504,20 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                 validator: [FormBuilderValidators.required()],
                                 onSave: (value) {
                                   _editedLot = Lot(
-                                      container_type: _editedLot.container_type,
-                                      no_of_containers:
-                                          _editedLot.no_of_containers,
-                                      gross_weight: _editedLot.gross_weight,
-                                      leaf_grade: _editedLot.leaf_grade,
-                                      water: _editedLot.water,
-                                      course_leaf: int.parse(value),
-                                      other: _editedLot.other);
+                                    container_type: _editedLot.container_type,
+                                    no_of_containers:
+                                        _editedLot.no_of_containers,
+                                    gross_weight: _editedLot.gross_weight,
+                                    leaf_grade: _editedLot.leaf_grade,
+                                    water: _editedLot.water,
+                                    course_leaf: int.parse(value),
+                                    other: _editedLot.other,
+                                    container1: _editedLot.container1,
+                                    container2: _editedLot.container2,
+                                    container3: _editedLot.container3,
+                                    container4: _editedLot.container4,
+                                    container5: _editedLot.container5,
+                                  );
                                 },
                                 keytype: TextInputType.number,
                               ),
@@ -240,14 +530,20 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                 validator: [FormBuilderValidators.required()],
                                 onSave: (value) {
                                   _editedLot = Lot(
-                                      container_type: _editedLot.container_type,
-                                      no_of_containers:
-                                          _editedLot.no_of_containers,
-                                      gross_weight: _editedLot.gross_weight,
-                                      leaf_grade: _editedLot.leaf_grade,
-                                      water: _editedLot.water,
-                                      course_leaf: _editedLot.course_leaf,
-                                      other: int.parse(value));
+                                    container_type: _editedLot.container_type,
+                                    no_of_containers:
+                                        _editedLot.no_of_containers,
+                                    gross_weight: _editedLot.gross_weight,
+                                    leaf_grade: _editedLot.leaf_grade,
+                                    water: _editedLot.water,
+                                    course_leaf: _editedLot.course_leaf,
+                                    other: int.parse(value),
+                                    container1: _editedLot.container1,
+                                    container2: _editedLot.container2,
+                                    container3: _editedLot.container3,
+                                    container4: _editedLot.container4,
+                                    container5: _editedLot.container5,
+                                  );
                                 },
                                 keytype: TextInputType.number,
                               ),
