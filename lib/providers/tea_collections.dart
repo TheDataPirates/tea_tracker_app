@@ -1,8 +1,10 @@
 import 'dart:ffi';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:teatracker/helpers/db_helper.dart';
 import 'package:teatracker/models/lot.dart';
+import 'package:teatracker/models/user.dart';
 import '../models/supplier.dart';
 import 'package:date_format/date_format.dart';
 
@@ -13,15 +15,39 @@ class TeaCollections with ChangeNotifier {
     return [..._lot_items];
   }
 
+//  List<User> _currUser = [];
+//
+//  List<User> get currUser => _currUser;
+  var _currUser = User();
+
+  User get currUser => _currUser;
   int lotTotDeduct;
 
   Supplier _newSupplier;
-//  = Supplier("unknown",
-//      "unknown"); //set default value otherwise throws exception cant find supplierID
 
   Supplier get newSupplier => _newSupplier;
 
-  void addLot(
+  Future<void> userLogin(String id, String pwd) async {
+    try {
+      final userFromDb = await DBHelper.getLoginUserData(id, pwd);
+      print(userFromDb.toString());
+      if (userFromDb.isNotEmpty) {
+        print(userFromDb[0]);
+
+        _currUser.user_id = userFromDb[0]['user_Id'] as String;
+        _currUser.password = userFromDb[0]['password'] as String;
+      } else {
+        print('user is no valid');
+        throw Exception;
+      }
+    } catch (error) {
+      print(error);
+    }
+    print(currUser.user_id);
+    print(currUser.password);
+  }
+
+  Future<void> addLot(
       String Id,
       String supNo,
       String supName,
@@ -39,7 +65,7 @@ class TeaCollections with ChangeNotifier {
       int cont2,
       int cont3,
       int cont4,
-      int cont5) {
+      int cont5) async {
     //create lot object
     final newLot = Lot(
         lotId: Id,
@@ -64,7 +90,7 @@ class TeaCollections with ChangeNotifier {
     _lot_items.add(newLot); // add new obj to items array
 
     notifyListeners();
-    DBHelper.insert('lots', {
+    await DBHelper.insert('lots', {
       'lotId': newLot.lotId,
       'supplier_id': _newSupplier.supplierId,
       'supplier_name': _newSupplier.supplierName,

@@ -6,12 +6,36 @@ class DBHelper {
   static Future<Database> database() async {
     final dbPath = await sql.getDatabasesPath();
     return await sql.openDatabase(path.join(dbPath, 'teaLots.db'),
-        onCreate: (db, version) {
-      return db.execute(
+        onCreate: (db, version) async {
+      await db.execute(
           'CREATE TABLE lots(lotId TEXT PRIMARY KEY, supplier_id TEXT,supplier_name TEXT ,container_type TEXT, no_of_containers INTEGER,leaf_grade TEXT, g_weight INTEGER, water INTEGER, course_leaf INTEGER, other INTEGER,deductions INTEGER,net_weight INTEGER,date TEXT,is_deleted INTEGER,container1 INTEGER,container2 INTEGER,container3 INTEGER,container4 INTEGER,container5 INTEGER)');
+      await db.execute(
+          'CREATE TABLE users(user_Id TEXT PRIMARY KEY, password TEXT)');
     },
         version:
-            1); // opendb method do create db name as teaLot.db and create table lots if not exists.
+            1); // open db method do create db name as teaLot.db and create table lots if not exists.
+  }
+
+  static Future<List<Map<String, dynamic>>> getLoginUserData(
+      String id, String password) async {
+    final db = await DBHelper.database();
+    try {
+      await db.transaction((txn) async {
+        //insert hard coded user details
+        int id1 = await txn.rawInsert(
+            'INSERT INTO users(user_Id, password) VALUES("u1", "1234")');
+        print('inserted1: $id1');
+        int id2 = await txn.rawInsert(
+            'INSERT INTO users(user_Id, password) VALUES("u2", "1234")');
+        print('inserted1: $id2');
+      });
+    } catch (error) {
+      print(
+          'users are already saved'); //this will throw exception . so to avoid it used print func.
+    }
+    return await db.rawQuery(
+        'SELECT * FROM users WHERE user_Id=? AND password=?',
+        [id, password]); //see whether user available.
   }
 
   static Future<void> insert(String table, Map<String, Object> data) async {
