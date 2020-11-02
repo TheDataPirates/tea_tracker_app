@@ -69,6 +69,7 @@ class TeaCollections with ChangeNotifier {
     //create lot object
     final newLot = Lot(
         lotId: Id,
+        user_Id: currUser.user_id,
         supplier_id: supNo,
         supplier_name: supName,
         container_type: contType,
@@ -92,6 +93,7 @@ class TeaCollections with ChangeNotifier {
     notifyListeners();
     await DBHelper.insert('lots', {
       'lotId': newLot.lotId,
+      'user_Id': currUser.user_id,
       'supplier_id': _newSupplier.supplierId,
       'supplier_name': _newSupplier.supplierName,
       'container_type': newLot.container_type,
@@ -121,6 +123,7 @@ class TeaCollections with ChangeNotifier {
         .map(
           (item) => Lot(
             lotId: item['lotId'],
+            user_Id: item['user_Id'],
             supplier_id: item['supplier_id'],
             supplier_name: item['supplier_name'],
             container_type: item['container_type'],
@@ -153,6 +156,7 @@ class TeaCollections with ChangeNotifier {
         .map(
           (item) => Lot(
             lotId: item['lotId'],
+            user_Id: item['user_Id'],
             supplier_id: item['supplier_id'],
             supplier_name: item['supplier_name'],
             container_type: item['container_type'],

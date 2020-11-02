@@ -1,5 +1,6 @@
 class Lot {
   final String lotId;
+  final String user_Id; //foreign key from user table
   final String supplier_id;
   final String supplier_name;
   final String container_type;
@@ -21,6 +22,7 @@ class Lot {
 
   Lot({
     this.lotId,
+    this.user_Id,
     this.supplier_id,
     this.supplier_name,
     this.container_type,
