@@ -92,7 +92,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("images/bg1.jpg"),
+          image: AssetImage("images/bg11.jpg"),
           fit: BoxFit.cover,
           colorFilter: new ColorFilter.mode(
               Colors.black.withOpacity(0.8), BlendMode.dstATop),
