@@ -94,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
         key: _fbkey,
         child: Center(
           child: Container(
-            color: Colors.white,
+//            color: Colors.blue,
             child: Padding(
               padding: const EdgeInsets.all(30.0),
               child: SingleChildScrollView(

@@ -15,9 +15,6 @@ class TeaCollections with ChangeNotifier {
     return [..._lot_items];
   }
 
-//  List<User> _currUser = [];
-//
-//  List<User> get currUser => _currUser;
   var _currUser = User();
 
   User get currUser => _currUser;
@@ -94,8 +91,8 @@ class TeaCollections with ChangeNotifier {
     await DBHelper.insert('lots', {
       'lotId': newLot.lotId,
       'user_Id': currUser.user_id,
-      'supplier_id': _newSupplier.supplierId,
-      'supplier_name': _newSupplier.supplierName,
+      'supplier_id': newSupplier.supplierId,
+      'supplier_name': newSupplier.supplierName,
       'container_type': newLot.container_type,
       'no_of_containers': newLot.no_of_containers,
       'leaf_grade': newLot.leaf_grade,
