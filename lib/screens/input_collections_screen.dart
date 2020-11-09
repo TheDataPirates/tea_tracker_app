@@ -17,22 +17,27 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
       context: context,
       barrierDismissible: false, // user must tap button!
       builder: (BuildContext context) {
-        return AlertDialog(
-          title: const Text('Warning !'),
-          content: ListBody(
-            children: <Widget>[
-              const Text('Your are missing or added extra container'),
-              const Text('Please try again'),
-            ],
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Okay'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+        return SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: AlertDialog(
+              title: const Text('Warning !'),
+              content: ListBody(
+                children: <Widget>[
+                  const Text('Your are missing or added extra container'),
+                  const Text('Please try again'),
+                ],
+              ),
+              actions: <Widget>[
+                TextButton(
+                  child: const Text('Okay'),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                ),
+              ],
             ),
-          ],
+          ),
         );
       },
     );
