@@ -5,10 +5,10 @@ import 'package:teatracker/providers/tea_collections.dart';
 import '../constants.dart';
 
 class ListTileLot extends StatelessWidget {
-  final String supplier_id;
+  final String lot_id;
 
   ListTileLot({
-    this.supplier_id,
+    this.lot_id,
   });
 
   @override
@@ -16,8 +16,8 @@ class ListTileLot extends StatelessWidget {
     final selectedLot = Provider.of<TeaCollections>(context)
         .lot_items
         .firstWhere((supp) =>
-            supp.supplier_id ==
-            supplier_id); // provider will check selected supp id and give its lots object data along to class
+            supp.lotId ==
+            lot_id); // provider will check selected supp id and give its lots object data along to class
     return Scaffold(
       appBar: AppBar(
         title: Text("LOT details"),
@@ -128,6 +128,32 @@ class ListTileLot extends StatelessWidget {
                 children: [
                   const Text("Other % :", style: kTextLotlistStyle),
                   Text(selectedLot.other.toString(), style: kTextLotlistStyle)
+                ],
+              ),
+            ),
+          ),
+          Container(
+            width: double.infinity,
+            child: Card(
+              margin: EdgeInsets.all(10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text("Container1 :", style: kTextLotlistStyle),
+                  Text(selectedLot.container1.toString(),
+                      style: kTextLotlistStyle),
+                  const Text("Container2 :", style: kTextLotlistStyle),
+                  Text(selectedLot.container2.toString(),
+                      style: kTextLotlistStyle),
+                  const Text("Container3 :", style: kTextLotlistStyle),
+                  Text(selectedLot.container3.toString(),
+                      style: kTextLotlistStyle),
+                  const Text("Container4 :", style: kTextLotlistStyle),
+                  Text(selectedLot.container4.toString(),
+                      style: kTextLotlistStyle),
+                  const Text("Container5 :", style: kTextLotlistStyle),
+                  Text(selectedLot.container5.toString(),
+                      style: kTextLotlistStyle)
                 ],
               ),
             ),

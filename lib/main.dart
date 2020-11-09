@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:teatracker/providers/tea_collections.dart';
+import 'package:teatracker/screens/all_lot_screen.dart';
 import 'package:teatracker/screens/list_tile_lot_screen.dart';
-import 'package:teatracker/screens/lot_screen_list_screen.dart';
+import 'package:teatracker/screens/lot_list_screen.dart';
+import 'package:teatracker/screens/main_menu_screen.dart';
 import 'package:teatracker/screens/print_screen.dart';
 import 'package:teatracker/screens/supplier_input_screen.dart';
 import 'screens//login_Screen.dart';
@@ -20,12 +22,12 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider.value(
-      value: TeaCollections(),
+    return ChangeNotifierProvider(
+      create: (_) => TeaCollections(),
       child: MaterialApp(
         theme: ThemeData(
           primarySwatch: Colors.green,
-          accentColor: Colors.greenAccent,
+          accentColor: Colors.amber,
           textTheme: TextTheme(
             headline1: TextStyle(fontSize: 72.0, fontWeight: FontWeight.bold),
             headline2: TextStyle(fontSize: 60, fontWeight: FontWeight.bold),
@@ -45,7 +47,9 @@ class MyApp extends StatelessWidget {
           'LotListScreen': (ctx) => LotListScreen(),
           'ListTileLotScreen': (ctx) => ListTileLot(),
           'SupplierInputScreen': (ctx) => SupplierInputScreen(),
-          'PrintScreen': (ctx) => PrintScreen()
+          'PrintScreen': (ctx) => PrintScreen(),
+          'MainMenuScreen': (ctx) => MainMenuScreen(),
+          'AllLotsScreen': (ctx) => AllLotsScreen(),
         },
       ),
     );

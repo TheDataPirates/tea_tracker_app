@@ -2,80 +2,79 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teatracker/providers/tea_collections.dart';
-import 'package:teatracker/screens/list_tile_lot_screen.dart';
 
-class LotListScreen extends StatefulWidget {
-  final supplierID;
-  final supplierName;
+import 'list_tile_lot_screen.dart';
 
-  const LotListScreen({Key key, this.supplierID, this.supplierName})
-      : super(key: key);
-
+class AllLotsScreen extends StatefulWidget {
   @override
-  _LotListScreenState createState() => _LotListScreenState();
+  _AllLotsScreenState createState() => _AllLotsScreenState();
 }
 
-class _LotListScreenState extends State<LotListScreen> {
+class _AllLotsScreenState extends State<AllLotsScreen> {
+  Future<void> _showMyDialog(String id) async {
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Warning !'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                const Text('Your are going to delete the lot'),
+                const Text('Would you like to approve of this action?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Approve'),
+              onPressed: () {
+                Provider.of<TeaCollections>(context, listen: false)
+                    .deleteLot(id);
+
+                Navigator.of(context).pop();
+              },
+            ),
+            TextButton(
+              child: const Text('Decline'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-//    final currentSupplier =
-//        Provider.of<TeaCollections>(context, listen: false).newSupplier;
-    Future<void> _showMyDialog(String id) async {
-      return showDialog<void>(
-        context: context,
-        barrierDismissible: false, // user must tap button!
-        builder: (BuildContext context) {
-          return AlertDialog(
-            title: const Text('Warning !'),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  const Text('Your are going to delete the lot'),
-                  const Text('Would you like to approve of this action?'),
-                ],
-              ),
-            ),
-            actions: <Widget>[
-              TextButton(
-                child: const Text('Approve'),
-                onPressed: () {
-                  Provider.of<TeaCollections>(context, listen: false)
-                      .deleteLot(id);
-
-                  Navigator.of(context).pop();
-                },
-              ),
-              TextButton(
-                child: const Text('Not Approve'),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        },
-      );
-    }
-
+    final currentDate =
+        Provider.of<TeaCollections>(context, listen: false).getCurrentDate();
     return Scaffold(
       appBar: AppBar(
-        title: Text('ID: ${widget.supplierID}    NAME: ${widget.supplierName}'),
-        actions: [
-          IconButton(
-            tooltip: "printing",
-            icon: const Icon(
-              Icons.print,
-              size: 40,
-            ),
-            onPressed: () {
-              Navigator.of(context).pushNamed("PrintScreen");
-            },
-          )
-        ],
+        title: Text('DATE: $currentDate'),
+//        actions: [
+//          IconButton(
+//
+//            icon: const Icon(
+//              Icons.print,
+//              size: 40,
+//            ),
+//            onPressed: () {
+//              Navigator.popUntil(
+//                context,
+//                ModalRoute.withName("MainMenuScreen"),
+//              );
+//            },
+//          )
+//        ],
       ),
       body: FutureBuilder(
         future: Provider.of<TeaCollections>(context, listen: false)
-            .fetchAndSetLotData(),
+            .fetchAndSetLotData(
+                currentDate), //fetching lot details which is deleted 0 & Date
         builder: (ctx, snapshot) => snapshot.connectionState ==
                 ConnectionState.waiting
             ? Center(
@@ -114,7 +113,7 @@ class _LotListScreenState extends State<LotListScreen> {
                             subtitle: Row(
                               children: [
                                 Text(
-                                  "Container type : ${teaCollections.lot_items[i].container_type} ->>",
+                                  "Supplier : ${teaCollections.lot_items[i].supplier_name} ->>",
                                   style: Theme.of(context).textTheme.headline4,
                                 ),
                                 Text(
@@ -124,6 +123,8 @@ class _LotListScreenState extends State<LotListScreen> {
                               ],
                             ),
                             trailing: IconButton(
+                              iconSize: 50,
+                              color: Colors.red,
                               // deleting displayed lot by pass lot id
                               icon: const Icon(Icons.delete),
                               onPressed: () {
@@ -136,8 +137,7 @@ class _LotListScreenState extends State<LotListScreen> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) => ListTileLot(
-                                    supplier_id:
-                                        teaCollections.lot_items[i].supplier_id,
+                                    lot_id: teaCollections.lot_items[i].lotId,
                                   ),
                                 ),
                               );
@@ -149,9 +149,12 @@ class _LotListScreenState extends State<LotListScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).accentColor,
-        child: const Icon(Icons.add),
+        child: const Icon(Icons.home),
         onPressed: () {
-          Navigator.pushNamed(context, "InputCollectionScreen");
+          Navigator.popUntil(
+            context,
+            ModalRoute.withName("MainMenuScreen"),
+          );
         },
       ),
     );

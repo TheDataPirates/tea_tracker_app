@@ -10,34 +10,12 @@ class PrintScreen extends StatefulWidget {
 }
 
 class _PrintScreenState extends State<PrintScreen> {
-  var deductions;
-  Future<void> totalDeducts() async {
-    final deducts = Provider.of<TeaCollections>(context, listen: false)
-        .lot_items; // getting saved lot from SQLDB
-    try {
-      int total = 0;
-      deducts.forEach(
-          (item) => {total += item.water + item.course_leaf + item.other});
-      print(total);
-      setState(() {
-        deductions = total;
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback(
-        (_) => totalDeducts()); //calling above method when creating this screen
-  }
-
   @override
   Widget build(BuildContext context) {
-    final getCurrDate =
-        Provider.of<TeaCollections>(context, listen: false).getCurrentDate();
+    final provider = Provider.of<TeaCollections>(context, listen: false);
+    final getCurrDate = provider.getCurrentDate();
+    final deductions = provider.totalDeducts();
+
     final mediaQuery = MediaQuery.of(context).size;
     return Scaffold(
       body: Column(
@@ -45,53 +23,43 @@ class _PrintScreenState extends State<PrintScreen> {
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
-              child: FutureBuilder(
-                future: Provider.of<TeaCollections>(context, listen: false)
-                    .fetchAndSetLotData(),
-                builder: (ctx, snapshot) => snapshot.connectionState ==
-                        ConnectionState.waiting
-                    ? Center(
-                        child: CircularProgressIndicator(),
-                      )
-                    : Consumer<TeaCollections>(
-                        child: Center(
-                          child: const Text('Got no lots yet'),
+              child: Consumer<TeaCollections>(
+                child: Center(
+                  child: const Text('Got no lots yet'),
+                ),
+                builder: (ctx, teaCollections, ch) => teaCollections
+                            .lot_items.length <=
+                        0
+                    ? ch
+                    : ListView.builder(
+                        scrollDirection: Axis.vertical,
+                        shrinkWrap: true,
+                        itemCount: teaCollections.lot_items.length,
+                        itemBuilder: (ctx, i) => Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            CardContainer(
+                              mediaQuery: mediaQuery,
+                              lotData:
+                                  teaCollections.lot_items[i].container_type,
+                              labelText: 'Container type',
+                            ),
+                            CardContainer(
+                                mediaQuery: mediaQuery,
+                                lotData: teaCollections.lot_items[i].leaf_grade,
+                                labelText: 'Grade of GL'),
+                            CardContainer(
+                                mediaQuery: mediaQuery,
+                                lotData: teaCollections
+                                    .lot_items[i].no_of_containers,
+                                labelText: 'Number of Containers'),
+                            CardContainer(
+                                mediaQuery: mediaQuery,
+                                lotData:
+                                    teaCollections.lot_items[i].gross_weight,
+                                labelText: 'Gross Weight'),
+                          ],
                         ),
-                        builder: (ctx, teaCollections, ch) =>
-                            teaCollections.lot_items.length <= 0
-                                ? ch
-                                : ListView.builder(
-                                    scrollDirection: Axis.vertical,
-                                    shrinkWrap: true,
-                                    itemCount: teaCollections.lot_items.length,
-                                    itemBuilder: (ctx, i) => Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        CardContainer(
-                                          mediaQuery: mediaQuery,
-                                          lotData: teaCollections
-                                              .lot_items[i].container_type,
-                                          labelText: 'Container type',
-                                        ),
-                                        CardContainer(
-                                            mediaQuery: mediaQuery,
-                                            lotData: teaCollections
-                                                .lot_items[i].leaf_grade,
-                                            labelText: 'Grade of GL'),
-                                        CardContainer(
-                                            mediaQuery: mediaQuery,
-                                            lotData: teaCollections
-                                                .lot_items[i].no_of_containers,
-                                            labelText: 'Number of Containers'),
-                                        CardContainer(
-                                            mediaQuery: mediaQuery,
-                                            lotData: teaCollections
-                                                .lot_items[i].gross_weight,
-                                            labelText: 'Gross Weight'),
-                                      ],
-                                    ),
-                                  ),
                       ),
               ),
             ),
@@ -146,7 +114,7 @@ class _PrintScreenState extends State<PrintScreen> {
                       color: const Color(0xff43a047),
                       child: Center(
                         child: Text(
-                          "$deductions %",
+                          "$deductions KG",
                           style: TextStyle(color: Colors.white, fontSize: 40),
                         ),
                       ),
@@ -161,7 +129,10 @@ class _PrintScreenState extends State<PrintScreen> {
             width: double.infinity,
             child: RaisedButton.icon(
               onPressed: () {
-                Navigator.of(context).pop();
+                Navigator.popUntil(
+                  context,
+                  ModalRoute.withName("MainMenuScreen"),
+                );
               },
               icon: const Icon(Icons.print),
               label: const Text(
