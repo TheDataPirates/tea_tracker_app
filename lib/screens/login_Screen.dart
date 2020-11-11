@@ -126,6 +126,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           obscureText: false,
                           style: style,
                           decoration: InputDecoration(
+                            errorStyle: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                             filled: true,
                             fillColor: Colors.white.withOpacity(0.9),
                             contentPadding:
@@ -149,6 +153,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           obscureText: true,
                           style: style,
                           decoration: InputDecoration(
+                            errorStyle: TextStyle(
+                                fontSize: 20,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
                             filled: true,
                             fillColor: Colors.white.withOpacity(0.9),
                             contentPadding:
@@ -177,11 +185,13 @@ class _LoginScreenState extends State<LoginScreen> {
                           minWidth: mediaQuery.width,
                           padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           onPressed: verifyUser,
-                          child: Text("Login",
-                              textAlign: TextAlign.center,
-                              style: style.copyWith(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold)),
+                          child: Text(
+                            "Login",
+                            textAlign: TextAlign.center,
+                            style: style.copyWith(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),
+                          ),
                         ),
                       ),
                       SizedBox(

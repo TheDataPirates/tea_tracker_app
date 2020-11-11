@@ -29,7 +29,7 @@ class TeaCollections with ChangeNotifier {
       final userFromDb = await DBHelper.getLoginUserData(id, pwd);
       print(userFromDb.toString());
       if (userFromDb.isNotEmpty) {
-        print(userFromDb[0]);
+//        print(userFromDb[0]);
 
         _currUser.user_id = userFromDb[0]['user_Id'] as String;
         _currUser.password = userFromDb[0]['password'] as String;
