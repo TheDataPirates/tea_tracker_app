@@ -68,9 +68,8 @@ class MainMenuScreen extends StatelessWidget {
                       child: MaterialButton(
                         minWidth: mediaQuery.width * 0.01,
                         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushNamed('SupplierInputScreen');
+                        onPressed: () async {
+                          await provider.syncLocalDb(provider.getCurrentDate());
                         },
                         child: Text("SYNCING",
                             textAlign: TextAlign.center,

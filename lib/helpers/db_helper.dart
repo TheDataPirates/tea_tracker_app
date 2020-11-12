@@ -59,6 +59,11 @@ class DBHelper {
         ['$isDeleted', id, date]);
   }
 
+  static Future<List<Map<String, dynamic>>> getDataForSync(String date) async {
+    final db = await DBHelper.database();
+    return await db.rawQuery('SELECT * FROM lots WHERE date=?', [date]);
+  }
+
 //  static Future<void> deleteLot(String table, String id) async {
 //    final db = await DBHelper.database();
 //    await db.delete(table, where: 'lotId = ?', whereArgs: [id]);
