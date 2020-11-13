@@ -235,8 +235,10 @@ class TeaCollections with ChangeNotifier {
           }),
         );
         if (response.statusCode == 200) {
+          // print(lot_items.length);
           return;
         } else {
+          // print(lot_items.length);
           throw Exception('Failed ');
         }
       } catch (error) {
