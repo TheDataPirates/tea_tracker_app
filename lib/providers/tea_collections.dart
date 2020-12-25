@@ -1,9 +1,11 @@
 import 'dart:convert';
 import 'dart:ffi';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:teatracker/helpers/db_helper.dart';
+import 'package:teatracker/models/bulk.dart';
 import 'package:teatracker/models/lot.dart';
 import 'package:teatracker/models/user.dart';
 import '../models/supplier.dart';
@@ -25,6 +27,9 @@ class TeaCollections with ChangeNotifier {
   Supplier _newSupplier;
 
   Supplier get newSupplier => _newSupplier;
+
+  Bulk _newBulk;
+  Bulk get newBulk => _newBulk;
 
   Future<void> userLogin(String id, String pwd) async {
     try {
@@ -111,6 +116,8 @@ class TeaCollections with ChangeNotifier {
       'container3': newLot.container3,
       'container4': newLot.container4,
       'container5': newLot.container5,
+      'bulkId': newBulk.bulkId,
+      'method': newBulk.method
     });
   }
 
@@ -213,6 +220,8 @@ class TeaCollections with ChangeNotifier {
             container3: item['container3'],
             container4: item['container4'],
             container5: item['container5'],
+            bulkId: item['bulkId'],
+            method: item['method'],
           ),
         )
         .toList();
@@ -231,11 +240,26 @@ class TeaCollections with ChangeNotifier {
             'grade_GL': i.leaf_grade,
             'g_weight': i.gross_weight,
             'water': i.water,
-            'course_leaf': i.course_leaf
+            'course_leaf': i.course_leaf,
+            'other': i.other,
+            'bulkId': i.bulkId,
+            'method': i.method,
+            'suppId': i.supplier_id,
+            'deduction': i.deductions,
+            'net_weight': i.net_weight,
+            'user_Id': i.user_Id,
+            'container1': i.container1,
+            'container2': i.container2,
+            'container3': i.container3,
+            'container4': i.container4,
+            'container5': i.container5,
+            'date': i.date,
+            'container_type': i.container_type
           }),
         );
         if (response.statusCode == 200) {
           // print(lot_items.length);
+          await DBHelper.delete();
           return;
         } else {
           // print(lot_items.length);
@@ -247,12 +271,63 @@ class TeaCollections with ChangeNotifier {
     }
   }
 
-  int calDeduct(int water, int cleaf, int other, int gweight) {
+  int calDeduct(int water, int cleaf, int other, int gweight, String contType,
+      int noOfCont) {
     // calculated deductions lot wise
+    double contDeducts;
     int deductPercnt = water + cleaf + other;
-    double deductDouble = ((gweight * deductPercnt) / 100);
-    lotTotDeduct = deductDouble.toInt();
-    return deductDouble.toInt();
+    switch (contType) {
+      case 'A':
+        {
+          contDeducts = 0.5 * noOfCont;
+          gweight = (gweight - contDeducts).toInt();
+          double deductDouble =
+              ((gweight * deductPercnt) / 100) + (0.5 * noOfCont);
+          lotTotDeduct = deductDouble.toInt();
+          return deductDouble.toInt();
+        }
+        break;
+      case 'B':
+        {
+          contDeducts = 0.75 * noOfCont;
+          gweight = (gweight - contDeducts).toInt();
+          double deductDouble =
+              ((gweight * deductPercnt) / 100) + (0.75 * noOfCont);
+          lotTotDeduct = deductDouble.toInt();
+          return deductDouble.toInt();
+        }
+        break;
+      case 'C':
+        {
+          contDeducts = 1.0 * noOfCont;
+          gweight = (gweight - contDeducts).toInt();
+          double deductDouble =
+              ((gweight * deductPercnt) / 100) + (1.0 * noOfCont);
+          lotTotDeduct = deductDouble.toInt();
+          return deductDouble.toInt();
+        }
+        break;
+      case 'D':
+        {
+          contDeducts = 1.25 * noOfCont;
+          gweight = (gweight - contDeducts).toInt();
+          double deductDouble =
+              ((gweight * deductPercnt) / 100) + (1.25 * noOfCont);
+          lotTotDeduct = deductDouble.toInt();
+          return deductDouble.toInt();
+        }
+        break;
+      case 'E':
+        {
+          contDeducts = 0.0 * noOfCont;
+          gweight = (gweight - contDeducts).toInt();
+          double deductDouble =
+              ((gweight * deductPercnt) / 100) + (0.0 * noOfCont);
+          lotTotDeduct = deductDouble.toInt();
+          return deductDouble.toInt();
+        }
+        break;
+    }
   }
 
   int calNetWeight(int gWeight) {
@@ -275,6 +350,7 @@ class TeaCollections with ChangeNotifier {
   void saveSupplier(String supId, String supName) {
     _newSupplier = Supplier(supId, supName);
 
+    _newBulk = Bulk(Random().nextInt(100000000), "Original");
     notifyListeners();
   }
 
