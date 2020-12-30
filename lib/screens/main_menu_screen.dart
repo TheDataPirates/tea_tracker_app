@@ -5,6 +5,74 @@ import 'package:teatracker/providers/tea_collections.dart';
 
 class MainMenuScreen extends StatelessWidget {
   static TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+  Future<void> _syncSqlLiteToMySql(BuildContext context) async {
+    await showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Warning !'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                const Text('Your are going to syncing the lot'),
+                const Text('Would you like to approve of this action?'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Approve'),
+              onPressed: () async {
+                try {
+                  await Provider.of<TeaCollections>(context, listen: false)
+                      .syncLocalDb(
+                          Provider.of<TeaCollections>(context, listen: false)
+                              .getCurrentDate());
+                  Navigator.of(context).pop();
+                } catch (e) {
+                  await showDialog<void>(
+                    context: context,
+                    barrierDismissible: false, // user must tap button!
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('AlertDialog'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text(e.toString()),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          FlatButton(
+                            child: const Text("OK"),
+                            onPressed: () {
+                              Navigator.popUntil(
+                                context,
+                                ModalRoute.withName("MainMenuScreen"),
+                              );
+                            },
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                }
+              },
+            ),
+            TextButton(
+              child: const Text('Decline'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<TeaCollections>(context, listen: false);
@@ -69,8 +137,7 @@ class MainMenuScreen extends StatelessWidget {
                         minWidth: mediaQuery.width * 0.01,
                         padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                         onPressed: () {
-                          Navigator.of(context)
-                              .pushNamed('SupplierInputScreen');
+                          _syncSqlLiteToMySql(context);
                         },
                         child: Text("SYNCING",
                             textAlign: TextAlign.center,

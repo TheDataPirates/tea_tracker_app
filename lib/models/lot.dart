@@ -19,6 +19,8 @@ class Lot {
   final int container3;
   final int container4;
   final int container5;
+  final int bulkId;
+  final String method;
 
   Lot({
     this.lotId,
@@ -41,5 +43,7 @@ class Lot {
     this.container3,
     this.container4,
     this.container5,
+    this.bulkId,
+    this.method,
   });
 }

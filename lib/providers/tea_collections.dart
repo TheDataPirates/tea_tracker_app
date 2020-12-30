@@ -1,12 +1,16 @@
+import 'dart:convert';
 import 'dart:ffi';
+import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:teatracker/helpers/db_helper.dart';
+import 'package:teatracker/models/bulk.dart';
 import 'package:teatracker/models/lot.dart';
 import 'package:teatracker/models/user.dart';
 import '../models/supplier.dart';
 import 'package:date_format/date_format.dart';
+import 'package:http/http.dart' as http;
 
 class TeaCollections with ChangeNotifier {
   List<Lot> _lot_items = [];
@@ -24,12 +28,15 @@ class TeaCollections with ChangeNotifier {
 
   Supplier get newSupplier => _newSupplier;
 
+  Bulk _newBulk;
+  Bulk get newBulk => _newBulk;
+
   Future<void> userLogin(String id, String pwd) async {
     try {
       final userFromDb = await DBHelper.getLoginUserData(id, pwd);
       print(userFromDb.toString());
       if (userFromDb.isNotEmpty) {
-        print(userFromDb[0]);
+//        print(userFromDb[0]);
 
         _currUser.user_id = userFromDb[0]['user_Id'] as String;
         _currUser.password = userFromDb[0]['password'] as String;
@@ -109,6 +116,8 @@ class TeaCollections with ChangeNotifier {
       'container3': newLot.container3,
       'container4': newLot.container4,
       'container5': newLot.container5,
+      'bulkId': newBulk.bulkId,
+      'method': newBulk.method
     });
   }
 
@@ -148,7 +157,7 @@ class TeaCollections with ChangeNotifier {
   Future<void> fetchAndSetLotDataWhereIsDeleted(String id, String date) async {
     final dataList = await DBHelper.getDataWhereConditions(
         0, id, date); //raw query to get isdeleted = 0
-
+    _lot_items = [];
     _lot_items = dataList
         .map(
           (item) => Lot(
@@ -185,12 +194,140 @@ class TeaCollections with ChangeNotifier {
     notifyListeners();
   }
 
-  int calDeduct(int water, int cleaf, int other, int gweight) {
+  Future<void> syncLocalDb(String date) async {
+    _lot_items = [];
+    final dataList = await DBHelper.getDataForSync(date);
+    _lot_items = dataList
+        .map(
+          (item) => Lot(
+            lotId: item['lotId'],
+            user_Id: item['user_Id'],
+            supplier_id: item['supplier_id'],
+            supplier_name: item['supplier_name'],
+            container_type: item['container_type'],
+            no_of_containers: item['no_of_containers'],
+            leaf_grade: item['leaf_grade'],
+            gross_weight: item['g_weight'],
+            water: item['water'],
+            course_leaf: item['course_leaf'],
+            other: item['other'],
+            deductions: item['deductions'],
+            net_weight: item['net_weight'],
+            date: item['date'],
+            isDeleted: item['is_deleted'],
+            container1: item['container1'],
+            container2: item['container2'],
+            container3: item['container3'],
+            container4: item['container4'],
+            container5: item['container5'],
+            bulkId: item['bulkId'],
+            method: item['method'],
+          ),
+        )
+        .toList();
+    const url = 'http://10.0.2.2:8080/bleaf/sync';
+
+    for (var i in _lot_items) {
+      try {
+        final response = await http.post(
+          url,
+          headers: <String, String>{
+            'Content-Type': 'application/json; charset=UTF-8',
+          },
+          body: jsonEncode(<String, dynamic>{
+            'lotId': i.lotId,
+            'no_of_containers': i.no_of_containers,
+            'grade_GL': i.leaf_grade,
+            'g_weight': i.gross_weight,
+            'water': i.water,
+            'course_leaf': i.course_leaf,
+            'other': i.other,
+            'bulkId': i.bulkId,
+            'method': i.method,
+            'suppId': i.supplier_id,
+            'deduction': i.deductions,
+            'net_weight': i.net_weight,
+            'user_Id': i.user_Id,
+            'container1': i.container1,
+            'container2': i.container2,
+            'container3': i.container3,
+            'container4': i.container4,
+            'container5': i.container5,
+            'date': i.date,
+            'container_type': i.container_type
+          }),
+        );
+        if (response.statusCode == 200) {
+          // print(lot_items.length);
+          await DBHelper.delete();
+          return;
+        } else {
+          // print(lot_items.length);
+          throw Exception('Failed ');
+        }
+      } catch (error) {
+        throw error;
+      }
+    }
+  }
+
+  int calDeduct(int water, int cleaf, int other, int gweight, String contType,
+      int noOfCont) {
     // calculated deductions lot wise
+    double contDeducts;
     int deductPercnt = water + cleaf + other;
-    double deductDouble = ((gweight * deductPercnt) / 100);
-    lotTotDeduct = deductDouble.toInt();
-    return deductDouble.toInt();
+    switch (contType) {
+      case 'A':
+        {
+          contDeducts = 0.5 * noOfCont;
+          gweight = (gweight - contDeducts).toInt();
+          double deductDouble =
+              ((gweight * deductPercnt) / 100) + (0.5 * noOfCont);
+          lotTotDeduct = deductDouble.toInt();
+          return deductDouble.toInt();
+        }
+        break;
+      case 'B':
+        {
+          contDeducts = 0.75 * noOfCont;
+          gweight = (gweight - contDeducts).toInt();
+          double deductDouble =
+              ((gweight * deductPercnt) / 100) + (0.75 * noOfCont);
+          lotTotDeduct = deductDouble.toInt();
+          return deductDouble.toInt();
+        }
+        break;
+      case 'C':
+        {
+          contDeducts = 1.0 * noOfCont;
+          gweight = (gweight - contDeducts).toInt();
+          double deductDouble =
+              ((gweight * deductPercnt) / 100) + (1.0 * noOfCont);
+          lotTotDeduct = deductDouble.toInt();
+          return deductDouble.toInt();
+        }
+        break;
+      case 'D':
+        {
+          contDeducts = 1.25 * noOfCont;
+          gweight = (gweight - contDeducts).toInt();
+          double deductDouble =
+              ((gweight * deductPercnt) / 100) + (1.25 * noOfCont);
+          lotTotDeduct = deductDouble.toInt();
+          return deductDouble.toInt();
+        }
+        break;
+      case 'E':
+        {
+          contDeducts = 0.0 * noOfCont;
+          gweight = (gweight - contDeducts).toInt();
+          double deductDouble =
+              ((gweight * deductPercnt) / 100) + (0.0 * noOfCont);
+          lotTotDeduct = deductDouble.toInt();
+          return deductDouble.toInt();
+        }
+        break;
+    }
   }
 
   int calNetWeight(int gWeight) {
@@ -213,6 +350,7 @@ class TeaCollections with ChangeNotifier {
   void saveSupplier(String supId, String supName) {
     _newSupplier = Supplier(supId, supName);
 
+    _newBulk = Bulk(Random().nextInt(100000000), "Original");
     notifyListeners();
   }
 

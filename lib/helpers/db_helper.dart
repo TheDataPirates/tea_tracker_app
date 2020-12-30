@@ -8,7 +8,7 @@ class DBHelper {
     return await sql.openDatabase(path.join(dbPath, 'teaLots.db'),
         onCreate: (db, version) async {
       await db.execute(
-          'CREATE TABLE lots(lotId TEXT PRIMARY KEY, user_Id TEXT, supplier_id TEXT,supplier_name TEXT ,container_type TEXT, no_of_containers INTEGER,leaf_grade TEXT, g_weight INTEGER, water INTEGER, course_leaf INTEGER, other INTEGER,deductions INTEGER,net_weight INTEGER,date TEXT,is_deleted INTEGER,container1 INTEGER,container2 INTEGER,container3 INTEGER,container4 INTEGER,container5 INTEGER)');
+          'CREATE TABLE lots(lotId TEXT PRIMARY KEY, user_Id TEXT, supplier_id TEXT,supplier_name TEXT ,container_type TEXT, no_of_containers INTEGER,leaf_grade TEXT, g_weight INTEGER, water INTEGER, course_leaf INTEGER, other INTEGER,deductions INTEGER,net_weight INTEGER,date TEXT,is_deleted INTEGER,container1 INTEGER,container2 INTEGER,container3 INTEGER,container4 INTEGER,container5 INTEGER,bulkId INTEGER,method String)');
       await db.execute(
           'CREATE TABLE users(user_Id TEXT PRIMARY KEY, password TEXT)');
     },
@@ -23,10 +23,10 @@ class DBHelper {
       await db.transaction((txn) async {
         //insert hard coded user details
         int id1 = await txn.rawInsert(
-            'INSERT INTO users(user_Id, password) VALUES("deveen", "1234")');
+            'INSERT INTO users(user_Id, password) VALUES("1", "1234")');
         print('inserted1: $id1');
         int id2 = await txn.rawInsert(
-            'INSERT INTO users(user_Id, password) VALUES("damitha", "1234")');
+            'INSERT INTO users(user_Id, password) VALUES("2", "1234")');
         print('inserted1: $id2');
       });
     } catch (error) {
@@ -43,6 +43,11 @@ class DBHelper {
     db.insert(table, data, conflictAlgorithm: sql.ConflictAlgorithm.replace);
   }
 
+  static Future<void> delete() async {
+    final db = await DBHelper.database();
+    await db.rawQuery('DELETE FROM lots');
+  }
+
   static Future<List<Map<String, dynamic>>> getData(
       int isDeleted, String date) async {
     final db = await DBHelper.database();
@@ -57,6 +62,11 @@ class DBHelper {
     return await db.rawQuery(
         'SELECT * FROM lots WHERE is_deleted=? AND supplier_id=? AND date=?',
         ['$isDeleted', id, date]);
+  }
+
+  static Future<List<Map<String, dynamic>>> getDataForSync(String date) async {
+    final db = await DBHelper.database();
+    return await db.rawQuery('SELECT * FROM lots WHERE date=?', [date]);
   }
 
 //  static Future<void> deleteLot(String table, String id) async {
