@@ -8,6 +8,7 @@ import 'package:teatracker/helpers/db_helper.dart';
 import 'package:teatracker/models/bulk.dart';
 import 'package:teatracker/models/lot.dart';
 import 'package:teatracker/models/user.dart';
+import '../constants.dart';
 import '../models/supplier.dart';
 import 'package:date_format/date_format.dart';
 import 'package:http/http.dart' as http;
@@ -225,7 +226,7 @@ class TeaCollections with ChangeNotifier {
           ),
         )
         .toList();
-    const url = 'http://localhost:8080/bleaf/sync';
+    const url = '$kUrl/bleaf/sync';
 
     for (var i in _lot_items) {
       try {

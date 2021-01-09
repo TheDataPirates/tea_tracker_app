@@ -3,6 +3,7 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:provider/provider.dart';
 import 'package:teatracker/models/user.dart';
 import 'package:teatracker/providers/tea_collections.dart';
+import 'package:teatracker/constants.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -180,7 +181,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       Material(
                         elevation: 5.0,
                         borderRadius: BorderRadius.circular(30.0),
-                        color: Theme.of(context).primaryColor,
+                        color: kColor,
                         child: MaterialButton(
                           minWidth: mediaQuery.width,
                           padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),

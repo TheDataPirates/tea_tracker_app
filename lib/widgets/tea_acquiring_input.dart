@@ -26,8 +26,15 @@ class InputField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(13.0),
+      ),
       elevation: 10,
       child: Container(
+        decoration: BoxDecoration(
+          color: kColor,
+          borderRadius: BorderRadius.circular(13),
+        ),
         width: MediaQuery.of(context).size.width * width,
         child: FormBuilderTextField(
           attribute: labelText,
@@ -37,7 +44,7 @@ class InputField extends StatelessWidget {
 //            filled: true,/**/
 //          fillColor: Colors.lightGreen,
             labelText: labelText,
-            labelStyle: TextStyle(color: Colors.green, fontSize: 30),
+            labelStyle: TextStyle(color: Colors.white, fontSize: 30),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(13.0),

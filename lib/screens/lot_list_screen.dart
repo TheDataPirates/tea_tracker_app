@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:teatracker/providers/tea_collections.dart';
 import 'package:teatracker/screens/list_tile_lot_screen.dart';
+import 'package:teatracker/constants.dart';
 
 class LotListScreen extends StatefulWidget {
   final supplierID;
@@ -73,81 +74,88 @@ class _LotListScreenState extends State<LotListScreen> {
           )
         ],
       ),
-      body: FutureBuilder(
-        future: Provider.of<TeaCollections>(context, listen: false)
-            .fetchAndSetLotDataWhereIsDeleted(widget.supplierID,
-                currentDate), //fetching lot details which is deleted 0 & supplierID & Date
-        builder: (ctx, snapshot) => snapshot.connectionState ==
-                ConnectionState.waiting
-            ? Center(
-                child: CircularProgressIndicator(),
-              )
-            : Consumer<TeaCollections>(
-                child: Center(
-                  child: const Text('Got no lots yet, start adding some!'),
-                ),
-                builder: (ctx, teaCollections, ch) => teaCollections
-                            .lot_items.length <=
-                        0
-                    ? ch
-                    : ListView.builder(
-                        itemCount: teaCollections.lot_items.length,
-                        itemBuilder: (ctx, i) => Card(
-                          elevation: 10.0,
-                          child: ListTile(
-                            leading: CircleAvatar(
-                              radius: 30.0,
-                              child: Padding(
-                                padding: const EdgeInsets.all(6.0),
-                                child: FittedBox(
-                                  child: Text(
-                                    "${teaCollections.lot_items[i].leaf_grade}",
-                                    style:
-                                        Theme.of(context).textTheme.headline3,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: kUIGradient,
+        ),
+        child: FutureBuilder(
+          future: Provider.of<TeaCollections>(context, listen: false)
+              .fetchAndSetLotDataWhereIsDeleted(widget.supplierID,
+                  currentDate), //fetching lot details which is deleted 0 & supplierID & Date
+          builder: (ctx, snapshot) => snapshot.connectionState ==
+                  ConnectionState.waiting
+              ? Center(
+                  child: CircularProgressIndicator(),
+                )
+              : Consumer<TeaCollections>(
+                  child: Center(
+                    child: const Text('Got no lots yet, start adding some!', style:kTextStyle),
+                  ),
+                  builder: (ctx, teaCollections, ch) => teaCollections
+                              .lot_items.length <=
+                          0
+                      ? ch
+                      : ListView.builder(
+                          itemCount: teaCollections.lot_items.length,
+                          itemBuilder: (ctx, i) => Card(
+                            color: kCardColor,
+                            elevation: 10.0,
+                            child: ListTile(
+                              leading: CircleAvatar(
+                                backgroundColor: const Color(0xFF1B5E20),
+                                radius: 30.0,
+                                child: Padding(
+                                  padding: const EdgeInsets.all(6.0),
+                                  child: FittedBox(
+                                    child: Text(
+                                      "${teaCollections.lot_items[i].leaf_grade}",
+                                      style:
+                                          TextStyle(fontSize: 53, fontWeight: FontWeight.bold, color: Colors.white),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
-                            title: Text(
-                              "${teaCollections.lot_items[i].gross_weight} KG",
-                              style: Theme.of(context).textTheme.headline1,
-                            ),
-                            subtitle: Row(
-                              children: [
-                                Text(
-                                  "Container type : ${teaCollections.lot_items[i].container_type} ->>",
-                                  style: Theme.of(context).textTheme.headline4,
-                                ),
-                                Text(
-                                  "  Units ${teaCollections.lot_items[i].no_of_containers}",
-                                  style: Theme.of(context).textTheme.headline3,
-                                )
-                              ],
-                            ),
-                            trailing: IconButton(
-                              iconSize: 50,
-                              color: Colors.red,
-                              // deleting displayed lot by pass lot id
-                              icon: const Icon(Icons.delete),
-                              onPressed: () {
-                                _showMyDialog(
-                                    teaCollections.lot_items[i].lotId);
+                              title: Text(
+                                "${teaCollections.lot_items[i].gross_weight} KG",
+                                style: Theme.of(context).textTheme.headline1,
+                              ),
+                              subtitle: Row(
+                                children: [
+                                  Text(
+                                    "Container type : ${teaCollections.lot_items[i].container_type} ->>",
+                                    style: Theme.of(context).textTheme.headline4,
+                                  ),
+                                  Text(
+                                    "  Units ${teaCollections.lot_items[i].no_of_containers}",
+                                    style: Theme.of(context).textTheme.headline3,
+                                  )
+                                ],
+                              ),
+                              trailing: IconButton(
+                                iconSize: 50,
+                                color: Colors.red,
+                                // deleting displayed lot by pass lot id
+                                icon: const Icon(Icons.delete),
+                                onPressed: () {
+                                  _showMyDialog(
+                                      teaCollections.lot_items[i].lotId);
+                                },
+                              ),
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => ListTileLot(
+                                      lot_id: teaCollections.lot_items[i].lotId,
+                                    ),
+                                  ),
+                                );
                               },
                             ),
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ListTileLot(
-                                    lot_id: teaCollections.lot_items[i].lotId,
-                                  ),
-                                ),
-                              );
-                            },
                           ),
                         ),
-                      ),
-              ),
+                ),
+        ),
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).accentColor,
