@@ -52,7 +52,7 @@ class _PrintScreenState extends State<PrintScreen> {
                                 mediaQuery: mediaQuery,
                                 lotData: teaCollections
                                     .lot_items[i].no_of_containers,
-                                labelText: 'Number of Containers'),
+                                labelText: 'Containers'),
                             CardContainer(
                                 mediaQuery: mediaQuery,
                                 lotData:

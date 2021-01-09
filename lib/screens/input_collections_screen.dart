@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:teatracker/models/lot.dart';
 import 'package:teatracker/providers/tea_collections.dart';
 import 'package:teatracker/widgets/tea_acquiring_input.dart';
-import 'package:intl/intl.dart';
 
 class InputCollectionScreen extends StatefulWidget {
   @override
