@@ -30,6 +30,7 @@ class MainMenuScreen extends StatelessWidget {
                       .syncLocalDb(
                           Provider.of<TeaCollections>(context, listen: false)
                               .getCurrentDate());
+                  print('after sync');
                   Navigator.of(context).pop();
                 } catch (e) {
                   await showDialog<void>(

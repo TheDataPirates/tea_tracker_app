@@ -225,7 +225,7 @@ class TeaCollections with ChangeNotifier {
           ),
         )
         .toList();
-    const url = 'http://10.0.2.2:8080/bleaf/sync';
+    const url = 'http://localhost:8080/bleaf/sync';
 
     for (var i in _lot_items) {
       try {
@@ -257,18 +257,17 @@ class TeaCollections with ChangeNotifier {
             'container_type': i.container_type
           }),
         );
-        if (response.statusCode == 200) {
+        if (response.statusCode != 200) {
           // print(lot_items.length);
-          await DBHelper.delete();
-          return;
-        } else {
-          // print(lot_items.length);
+          // await DBHelper.delete();
+          // return;
           throw Exception('Failed ');
         }
       } catch (error) {
         throw error;
       }
     }
+    await DBHelper.delete();
   }
 
   int calDeduct(int water, int cleaf, int other, int gweight, String contType,
@@ -350,7 +349,7 @@ class TeaCollections with ChangeNotifier {
   void saveSupplier(String supId, String supName) {
     _newSupplier = Supplier(supId, supName);
 
-    _newBulk = Bulk(Random().nextInt(100000000), "Original");
+    _newBulk = Bulk(Random().nextInt(100000000), "AgentOriginal");
     notifyListeners();
   }
 
