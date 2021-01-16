@@ -29,14 +29,21 @@ const kTextStyle = TextStyle(
   fontWeight: FontWeight.bold,
 );
 
+const kTextStyle2 = TextStyle(
+  color: Colors.black,
+  fontSize: 26,
+  fontWeight: FontWeight.bold,
+);
+
 const kEnabledBorder = OutlineInputBorder(
-    borderSide: const BorderSide(color: const Color(0xFF1B5E20), width: 2.0),
+    borderSide: const BorderSide(color: Colors.black, width: 3.0),
     borderRadius: const BorderRadius.all(
         Radius.circular(50.0))
 );
 
 const kFocusedBorder = OutlineInputBorder(
-    borderSide: const BorderSide(color: const Color(0xFF1B5E20), width: 2.0),
+    borderSide: const BorderSide(color: Colors.black, width: 3.0),
+        // color: const Color(0xFF1B5E20), width: 2.0),
     borderRadius: const BorderRadius.all(
         Radius.circular(50.0))
 );
@@ -55,4 +62,5 @@ const kErrorBorder= OutlineInputBorder(
 
 const kColor = Color(0xFF1B5E20);
 
-const kCardColor = const Color(0xFF66BB6A);
+const kCardColor = const Color(0xff43a047);
+// const Color(0xFF66BB6A);

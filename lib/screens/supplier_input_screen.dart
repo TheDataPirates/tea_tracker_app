@@ -77,10 +77,10 @@ class SupplierInputScreen extends StatelessWidget {
                       child: TextField(
                         controller: supplierNoEditingController,
                         obscureText: false,
-                        style: const TextStyle(fontSize: 40.0),
+                        style: const TextStyle(fontSize: 40.0, color: kColor, fontWeight: FontWeight.bold),
                         decoration: InputDecoration(
                           labelText: "Supplier No :",
-                          labelStyle: kTextStyle,
+                          labelStyle: kTextStyle2,
                           contentPadding:
                               EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           // border: OutlineInputBorder(
@@ -100,9 +100,9 @@ class SupplierInputScreen extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 0.5,
                       child: TextField(
                         controller: supplierNameEditingController,
-                        style: const TextStyle(fontSize: 40.0),
+                        style: const TextStyle(fontSize: 40.0, color: kColor, fontWeight: FontWeight.bold),
                         decoration: InputDecoration(
-                          labelStyle: kTextStyle,
+                          labelStyle: kTextStyle2,
                           contentPadding:
                               EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           labelText: "Supplier Name :",
