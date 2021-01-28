@@ -116,7 +116,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(
                         height: mediaQuery.height * 0.3,
                         child: Image.asset(
-                          "images/logo.jpg",
+                          "images/logo3.png",
                           fit: BoxFit.contain,
                         ),
                       ),

@@ -1,9 +1,11 @@
+import 'package:esc_pos_bluetooth/esc_pos_bluetooth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bluetooth_basic/flutter_bluetooth_basic.dart';
 import 'package:provider/provider.dart';
 import 'package:teatracker/providers/tea_collections.dart';
-import 'package:teatracker/widgets/card_container_printing_screen.dart';
 import 'package:teatracker/constants.dart';
+import 'package:esc_pos_utils/esc_pos_utils.dart';
 
 class PrintScreen extends StatefulWidget {
   @override
@@ -11,146 +13,107 @@ class PrintScreen extends StatefulWidget {
 }
 
 class _PrintScreenState extends State<PrintScreen> {
+  PrinterBluetoothManager _printerBluetoothManager = PrinterBluetoothManager();
+  List<PrinterBluetooth> _devices = [];
+  String _devicesMsg;
+  BluetoothManager bluetoothManager = BluetoothManager.instance;
+
+  @override
+  // ignore: must_call_super
+  void initState() {
+    bluetoothManager.state.listen((val) {
+      if (!mounted) return;
+      if (val == 12) {
+        print("on");
+        initPrinter();
+      } else if (val == 10) {
+        print("off");
+        setState(() {
+          _devicesMsg = 'Bluetooth is off';
+        });
+      }
+    });
+  }
+
+  void initPrinter() {
+    _printerBluetoothManager.startScan(Duration(seconds: 2));
+    _printerBluetoothManager.scanResults.listen((val) {
+      if (!mounted) {
+        print('not mounted');
+        return;
+      }
+      setState(() => _devices = val);
+      // print(_devices);
+      if (_devices.isEmpty) setState(() => _devicesMsg = 'No Devices');
+    });
+  }
+
+  Future<void> _startPrint(PrinterBluetooth printer) async {
+    _printerBluetoothManager.selectPrinter(printer);
+    final result = await _printerBluetoothManager
+        .printTicket(await _ticket(PaperSize.mm58));
+    print(result);
+  }
+
+  Future<Ticket> _ticket(PaperSize _paperSize) async {
+    final ticket = Ticket(_paperSize);
+    ticket.text("text");
+    ticket.cut();
+    return ticket;
+  }
+
   @override
   Widget build(BuildContext context) {
     final provider = Provider.of<TeaCollections>(context, listen: false);
-    final getCurrDate = provider.getCurrentDate();
-    final deductions = provider.totalDeducts();
+    // final getCurrDate = provider.getCurrentDate();
+    // final deductions = provider.totalDeducts();
 
-    final mediaQuery = MediaQuery.of(context).size;
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Print'),
+      ),
       body: Container(
         decoration: BoxDecoration(
           gradient: kUIGradient,
         ),
-        child: Column(
-          children: [
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Consumer<TeaCollections>(
-                  child: Center(
-                    child: const Text('Got no lots yet', style: kTextStyle,),
+        child: _devices.isEmpty
+            ? Center(
+                child: Text(_devicesMsg ?? ''),
+              )
+            : ListView.builder(
+                itemCount: _devices.length,
+                itemBuilder: (ctx, i) => Card(
+                  color: kCardColor,
+                  elevation: 10.0,
+                  child: ListTile(
+                    leading: Icon(
+                      Icons.print,
+                      size: 70,
+                    ),
+                    title: Text(
+                      _devices[i].name,
+                      style: Theme.of(context).textTheme.headline1,
+                    ),
+                    subtitle: Text(_devices[i].address),
+                    onTap: () {
+                      print(_devices[i]);
+                      _startPrint(_devices[i]);
+                      // Navigator.popUntil(
+                      //   context,
+                      //   ModalRoute.withName("MainMenuScreen"),
+                      // );
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => ListTileLot(
+                      //       lot_id: teaCollections.lot_items[i].lotId,
+                      //     ),
+                      //   ),
+                      // );
+                    },
                   ),
-                  builder: (ctx, teaCollections, ch) => teaCollections
-                              .lot_items.length <=
-                          0
-                      ? ch
-                      : ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: teaCollections.lot_items.length,
-                          itemBuilder: (ctx, i) => Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              CardContainer(
-                                mediaQuery: mediaQuery,
-                                lotData:
-                                    teaCollections.lot_items[i].container_type,
-                                labelText: 'Container type',
-                              ),
-                              CardContainer(
-                                  mediaQuery: mediaQuery,
-                                  lotData: teaCollections.lot_items[i].leaf_grade,
-                                  labelText: 'Grade of GL'),
-                              CardContainer(
-                                  mediaQuery: mediaQuery,
-                                  lotData: teaCollections
-                                      .lot_items[i].no_of_containers,
-                                  labelText: 'Containers'),
-                              CardContainer(
-                                  mediaQuery: mediaQuery,
-                                  lotData:
-                                      teaCollections.lot_items[i].gross_weight,
-                                  labelText: 'Gross Weight'),
-                            ],
-                          ),
-                        ),
                 ),
               ),
-            ),
-            Container(
-              child: Text(
-                'DEDUCTIONS',
-                style: TextStyle(
-                  fontSize: 30,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 15,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(vertical: 20.0, horizontal: 40.0),
-              child: Container(
-                height: mediaQuery.height * 0.2,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Container(
-                      width: mediaQuery.width * 0.2,
-                      height: mediaQuery.height * 0.1,
-                      child: Card(
-                        elevation: 15,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        color: const Color(0xFF2E7D32),
-                        child: Center(
-                          child: Text(
-                            getCurrDate,
-                            style: TextStyle(color: Colors.white, fontSize: 40),
-                          ),
-                        ),
-                      ),
-                    ),
-                    Text(
-                      'Total deductions',
-                      style: TextStyle(color: const Color(0xFF1B5E20), fontSize: 35, fontWeight: FontWeight.bold, fontStyle: FontStyle.italic),
-                    ),
-                    Container(
-                      width: mediaQuery.width * 0.2,
-                      height: mediaQuery.height * 0.1,
-                      child: Card(
-                        elevation: 15,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(20.0),
-                        ),
-                        color: const Color(0xFF2E7D32),
-                        child: Center(
-                          child: Text(
-                            "$deductions KG",
-                            style: TextStyle(color: Colors.white, fontSize: 40),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            Container(
-              height: mediaQuery.height * 0.05,
-              width: double.infinity,
-              child: RaisedButton.icon(
-                onPressed: () {
-                  Navigator.popUntil(
-                    context,
-                    ModalRoute.withName("MainMenuScreen"),
-                  );
-                },
-                icon: const Icon(Icons.print),
-                label: const Text(
-                  'PRINT',
-                  style: TextStyle(fontSize: 20),
-                ),
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                color: Colors.amber,
-              ),
-            )
-          ],
-        ),
       ),
     );
   }
