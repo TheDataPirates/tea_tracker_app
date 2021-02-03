@@ -30,26 +30,27 @@ class TeaCollections with ChangeNotifier {
   Supplier get newSupplier => _newSupplier;
 
   Bulk _newBulk;
+
   Bulk get newBulk => _newBulk;
 
-  Future<void> userLogin(String id, String pwd) async {
+  Future<bool> userLogin(String id, String pwd) async {
     try {
       final userFromDb = await DBHelper.getLoginUserData(id, pwd);
-      print(userFromDb.toString());
       if (userFromDb.isNotEmpty) {
-//        print(userFromDb[0]);
+        print(userFromDb[0]);
 
         _currUser.user_id = userFromDb[0]['user_Id'] as String;
         _currUser.password = userFromDb[0]['password'] as String;
+        return true;
       } else {
         print('user is no valid');
-        throw Exception;
+        return false;
       }
     } catch (error) {
       print(error);
     }
-    print(currUser.user_id);
-    print(currUser.password);
+    // print(currUser.user_id);
+    // print(currUser.password);
   }
 
   Future<void> addLot(

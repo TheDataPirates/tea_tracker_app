@@ -21,13 +21,9 @@ class _LoginScreenState extends State<LoginScreen> {
     if (_fbkey.currentState.saveAndValidate()) {
       final provider = Provider.of<TeaCollections>(context, listen: false);
       try {
-        await provider.userLogin(_editedUser.user_id,
+        bool isAuth = await provider.userLogin(_editedUser.user_id,
             _editedUser.password); // passing id & pwd to db
-        if (provider //here i check input data with db fetching data(can access via curruser)
-                    .currUser
-                    .user_id ==
-                _editedUser.user_id &&
-            provider.currUser.password == _editedUser.password)
+        if (isAuth)
           Navigator.of(context).pushNamed('MainMenuScreen');
         else {
           await showDialog<void>(

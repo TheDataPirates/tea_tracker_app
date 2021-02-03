@@ -1,8 +1,14 @@
+import 'dart:convert';
+
+import 'package:flutter_bcrypt/flutter_bcrypt.dart';
 import 'package:sqflite/sqflite.dart' as sql;
+import 'package:http/http.dart' as http;
 import 'package:path/path.dart' as path;
 import 'package:sqflite/sqflite.dart';
 
 class DBHelper {
+  static List _users = [];
+  static String hash;
   static Future<Database> database() async {
     final dbPath = await sql.getDatabasesPath();
     return await sql.openDatabase(path.join(dbPath, 'teaLots.db'),
@@ -18,24 +24,49 @@ class DBHelper {
 
   static Future<List<Map<String, dynamic>>> getLoginUserData(
       String id, String password) async {
+    // var salt10 = await FlutterBcrypt.saltWithRounds(rounds: 08);
+
+    // print('hashed pw');
+    // print(hash);
     final db = await DBHelper.database();
+    final url = 'http://10.0.2.2:8080/auth/users';
+
     try {
+      final dataList = await http.get(
+        url,
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+        },
+      );
+      final extractedDataList = jsonDecode(dataList.body);
+      // print(extractedDataList);
+      List loadedUsers = extractedDataList['users'];
+
       await db.transaction((txn) async {
         //insert hard coded user details
-        int id1 = await txn.rawInsert(
-            'INSERT INTO users(user_Id, password) VALUES("1", "1234")');
-        print('inserted1: $id1');
-        int id2 = await txn.rawInsert(
-            'INSERT INTO users(user_Id, password) VALUES("2", "1234")');
-        print('inserted1: $id2');
+        for (var i in loadedUsers) {
+          // print(i);
+          var pw = i['password'];
+          await txn.rawInsert(
+              "INSERT INTO users(user_Id, password) VALUES(${i['user_id']}, '$pw')");
+        }
+
+        // int id1 = await txn.rawInsert(
+        //     'INSERT INTO users(user_Id, password) VALUES("1", "1234")');
+        // print('inserted1: $id1');
+        // int id2 = await txn.rawInsert(
+        //     'INSERT INTO users(user_Id, password) VALUES("2", "1234")');
+        // print('inserted1: $id2');
       });
     } catch (error) {
       print(
           'users are already saved'); //this will throw exception . so to avoid it used print func.
     }
+    hash = await FlutterBcrypt.hashPw(
+        password: '$password', salt: r'$2a$08$bjJcpjHjmRMcsbGlsfXUpO');
     return await db.rawQuery(
         'SELECT * FROM users WHERE user_Id=? AND password=?',
-        [id, password]); //see whether user available.
+        [id, hash]); //see whether user available.
   }
 
   static Future<void> insert(String table, Map<String, Object> data) async {
