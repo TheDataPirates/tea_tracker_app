@@ -56,11 +56,14 @@ class _LotListScreenState extends State<LotListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final currSupplier =
+        Provider.of<TeaCollections>(context, listen: false).newSupplier;
     final currentDate =
         Provider.of<TeaCollections>(context, listen: false).getCurrentDate();
     return Scaffold(
       appBar: AppBar(
-        title: Text('ID: ${widget.supplierID}    NAME: ${widget.supplierName}'),
+        title: Text(
+            'ID: ${currSupplier.supplierId}    NAME: ${currSupplier.supplierName}'),
         actions: [
           IconButton(
             tooltip: "printing",
