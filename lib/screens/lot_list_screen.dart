@@ -110,7 +110,7 @@ class _LotListScreenState extends State<LotListScreen> {
                                     child: Text(
                                       "${teaCollections.lot_items[i].leaf_grade}",
                                       style:
-                                          TextStyle(fontSize: 53, fontWeight: FontWeight.bold, color: Colors.white),
+                                          TextStyle(fontSize: 50, fontWeight: FontWeight.bold, color: Colors.white),
                                     ),
                                   ),
                                 ),

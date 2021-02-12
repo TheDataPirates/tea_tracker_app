@@ -173,7 +173,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                           vertical: 40.0),
                                       labelStyle: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 30,
+                                          fontSize: 22,
                                           fontWeight: FontWeight.w700),
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -183,7 +183,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                       ),
                                     ),
                                     style: TextStyle(
-                                        fontSize: 40,
+                                        fontSize: 30,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                     // initialValue:
@@ -242,7 +242,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                           vertical: 40.0),
                                       labelStyle: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 30,
+                                          fontSize: 19.5,
                                           fontWeight: FontWeight.w700),
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -252,7 +252,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                       ),
                                     ),
                                     style: TextStyle(
-                                        fontSize: 40,
+                                        fontSize: 30,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                     // initialValue:
@@ -294,6 +294,75 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                               SizedBox(
                                 width: mediaQuery.width * 0.005,
                               ),
+                              Card(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(13.0),
+                                ),
+                                elevation: 10,
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: kColor,
+                                    borderRadius: BorderRadius.circular(13),
+                                  ),
+                                  width: mediaQuery.width * width,
+                                  child: FormBuilderDropdown(
+                                    attribute: "Grade of GL",
+                                    decoration: InputDecoration(
+                                      labelText: " Grade of GL",
+                                      errorStyle: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700),
+                                      contentPadding: const EdgeInsets.symmetric(
+                                          vertical: 40.0),
+                                      labelStyle: TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 22,
+                                          fontWeight: FontWeight.w700),
+                                      enabledBorder: OutlineInputBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(13.0),
+                                        ),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                    ),
+                                    style: TextStyle(
+                                        fontSize: 30,
+                                        color: Colors.black,
+                                        fontWeight: FontWeight.bold),
+                                    // initialValue:
+
+                                    validators: [
+                                      FormBuilderValidators.required(),
+                                      // ignore: missing_retur
+                                    ],
+                                    items: ['A', 'B', 'C']
+                                        .map((container) => DropdownMenuItem(
+                                        value: container,
+                                        child: Text("$container")))
+                                        .toList(),
+                                    onSaved: (value) {
+                                      _editedLot = Lot(
+                                        container_type: _editedLot.container_type,
+                                        no_of_containers:
+                                        _editedLot.no_of_containers,
+                                        gross_weight: _editedLot.gross_weight,
+                                        leaf_grade: value,
+                                        water: _editedLot.water,
+                                        course_leaf: _editedLot.course_leaf,
+                                        other: _editedLot.other,
+                                        container1: _editedLot.container1,
+                                        container2: _editedLot.container2,
+                                        container3: _editedLot.container3,
+                                        container4: _editedLot.container4,
+                                        container5: _editedLot.container5,
+                                      );
+                                    },
+                                  ),
+                                ),
+                              ),
+                              SizedBox(
+                                width: mediaQuery.width * 0.005,
+                              ),
                               InputField(
                                 labelText: ' Gross weight',
                                 width: width,
@@ -319,81 +388,12 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                               SizedBox(
                                 width: mediaQuery.width * 0.005,
                               ),
-                              Card(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(13.0),
-                                ),
-                                elevation: 10,
-                                child: Container(
-                                  decoration: BoxDecoration(
-                                    color: kColor,
-                                    borderRadius: BorderRadius.circular(13),
-                                  ),
-                                  width: mediaQuery.width * width,
-                                  child: FormBuilderDropdown(
-                                    attribute: "Grade of GL",
-                                    decoration: InputDecoration(
-                                      labelText: " Grade of GL",
-                                      errorStyle: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700),
-                                      contentPadding: const EdgeInsets.symmetric(
-                                          vertical: 40.0),
-                                      labelStyle: TextStyle(
-                                          color: Colors.white,
-                                          fontSize: 30,
-                                          fontWeight: FontWeight.w700),
-                                      enabledBorder: OutlineInputBorder(
-                                        borderRadius: BorderRadius.all(
-                                          Radius.circular(13.0),
-                                        ),
-                                        borderSide: BorderSide.none,
-                                      ),
-                                    ),
-                                    style: TextStyle(
-                                        fontSize: 40,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.bold),
-                                    // initialValue:
-
-                                    validators: [
-                                      FormBuilderValidators.required(),
-                                      // ignore: missing_retur
-                                    ],
-                                    items: ['A', 'B', 'C']
-                                        .map((container) => DropdownMenuItem(
-                                            value: container,
-                                            child: Text("$container")))
-                                        .toList(),
-                                    onSaved: (value) {
-                                      _editedLot = Lot(
-                                        container_type: _editedLot.container_type,
-                                        no_of_containers:
-                                            _editedLot.no_of_containers,
-                                        gross_weight: _editedLot.gross_weight,
-                                        leaf_grade: value,
-                                        water: _editedLot.water,
-                                        course_leaf: _editedLot.course_leaf,
-                                        other: _editedLot.other,
-                                        container1: _editedLot.container1,
-                                        container2: _editedLot.container2,
-                                        container3: _editedLot.container3,
-                                        container4: _editedLot.container4,
-                                        container5: _editedLot.container5,
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: mediaQuery.width * 0.005,
-                              ),
                             ],
                           ),
                         ),
                         Container(
                           height: mediaQuery.height * 0.2,
-                          padding: EdgeInsets.only(top: 80),
+                          padding: EdgeInsets.only(top: 20),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
@@ -607,7 +607,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                           child: SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 30),
+                              padding: const EdgeInsets.only(top: 20),
                               child: const Text(
                                 'DEDUCTIONS',
                                 style: const TextStyle(

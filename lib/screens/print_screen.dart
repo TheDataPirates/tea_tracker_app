@@ -98,9 +98,12 @@ class _PrintScreenState extends State<PrintScreen> {
                         ),
                         color: const Color(0xFF2E7D32),
                         child: Center(
-                          child: Text(
-                            getCurrDate,
-                            style: TextStyle(color: Colors.white, fontSize: 40),
+                          child: Padding(
+                            padding: const EdgeInsets.only(bottom: 8, left: 8, right: 8, top: 8),
+                            child: Text(
+                              getCurrDate,
+                              style: TextStyle(color: Colors.white, fontSize: 28),
+                            ),
                           ),
                         ),
                       ),
@@ -121,7 +124,7 @@ class _PrintScreenState extends State<PrintScreen> {
                         child: Center(
                           child: Text(
                             "$deductions KG",
-                            style: TextStyle(color: Colors.white, fontSize: 40),
+                            style: TextStyle(color: Colors.white, fontSize: 28),
                           ),
                         ),
                       ),

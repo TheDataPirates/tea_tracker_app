@@ -8,7 +8,7 @@ import 'package:flutter/material.dart';
 );*/
 
 const kLotDetailTextStyle = TextStyle(
-  fontSize: 25,
+  fontSize: 24,
   fontWeight: FontWeight.w700,
   color: Colors.black,
   height: 2,
