@@ -33,6 +33,7 @@ class TeaCollections with ChangeNotifier {
 
   Bulk get newBulk => _newBulk;
 
+  // ignore: missing_return
   Future<bool> userLogin(String id, String pwd) async {
     try {
       final userFromDb = await DBHelper.getLoginUserData(id, pwd);
@@ -348,6 +349,7 @@ class TeaCollections with ChangeNotifier {
     }
   }
 
+  // ignore: missing_return
   Future<bool> saveSupplier(String supId, String supName) async {
     try {
       if (supId.isNotEmpty) {
