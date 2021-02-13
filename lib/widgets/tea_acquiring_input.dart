@@ -44,7 +44,7 @@ class InputField extends StatelessWidget {
 //            filled: true,/**/
 //          fillColor: Colors.lightGreen,
             labelText: labelText,
-            labelStyle: TextStyle(color: Colors.white, fontSize: 30),
+            labelStyle: TextStyle(color: Colors.white, fontSize: 22,),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.all(
                 Radius.circular(13.0),
@@ -57,7 +57,7 @@ class InputField extends StatelessWidget {
           keyboardType: keytype,
           onSaved: onSave,
           style: TextStyle(
-              fontSize: 40, color: Colors.black, fontWeight: FontWeight.bold),
+              fontSize: 30, color: Colors.black, fontWeight: FontWeight.bold),
         ),
       ),
     );

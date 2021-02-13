@@ -17,7 +17,7 @@ class CardContainer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: mediaQuery.width * 0.2,
-      height: mediaQuery.height * 0.1,
+      height: mediaQuery.height * 0.15,
       child: Card(
         elevation: 15,
         shape: RoundedRectangleBorder(
