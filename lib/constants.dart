@@ -16,7 +16,7 @@ const kLotDetailTextStyle = TextStyle(
 
 const kUIGradient = LinearGradient(
   begin: Alignment.topCenter,
-  end:Alignment.bottomCenter,
+  end: Alignment.bottomCenter,
   colors: [
     const Color(0xffDCE35B),
     const Color(0xff45B649),
@@ -37,16 +37,12 @@ const kTextStyle2 = TextStyle(
 
 const kEnabledBorder = OutlineInputBorder(
     borderSide: const BorderSide(color: Colors.black, width: 3.0),
-    borderRadius: const BorderRadius.all(
-        Radius.circular(50.0))
-);
+    borderRadius: const BorderRadius.all(Radius.circular(50.0)));
 
 const kFocusedBorder = OutlineInputBorder(
     borderSide: const BorderSide(color: Colors.black, width: 3.0),
-        // color: const Color(0xFF1B5E20), width: 2.0),
-    borderRadius: const BorderRadius.all(
-        Radius.circular(50.0))
-);
+    // color: const Color(0xFF1B5E20), width: 2.0),
+    borderRadius: const BorderRadius.all(Radius.circular(50.0)));
 
 /*const kFocusedErrorBorder = OutlineInputBorder(
     borderSide: const BorderSide(color: Colors.red, width: 2.0),
