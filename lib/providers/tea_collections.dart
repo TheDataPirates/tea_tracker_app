@@ -8,6 +8,7 @@ import 'package:teatracker/helpers/db_helper.dart';
 import 'package:teatracker/models/bulk.dart';
 import 'package:teatracker/models/lot.dart';
 import 'package:teatracker/models/user.dart';
+import '../constants.dart';
 import '../models/supplier.dart';
 import 'package:date_format/date_format.dart';
 import 'package:http/http.dart' as http;
@@ -29,26 +30,27 @@ class TeaCollections with ChangeNotifier {
   Supplier get newSupplier => _newSupplier;
 
   Bulk _newBulk;
+
   Bulk get newBulk => _newBulk;
 
-  Future<void> userLogin(String id, String pwd) async {
+  Future<bool> userLogin(String id, String pwd) async {
     try {
       final userFromDb = await DBHelper.getLoginUserData(id, pwd);
-      print(userFromDb.toString());
       if (userFromDb.isNotEmpty) {
-//        print(userFromDb[0]);
+        print(userFromDb[0]);
 
         _currUser.user_id = userFromDb[0]['user_Id'] as String;
         _currUser.password = userFromDb[0]['password'] as String;
+        return true;
       } else {
         print('user is no valid');
-        throw Exception;
+        return false;
       }
     } catch (error) {
       print(error);
     }
-    print(currUser.user_id);
-    print(currUser.password);
+    // print(currUser.user_id);
+    // print(currUser.password);
   }
 
   Future<void> addLot(
@@ -225,7 +227,7 @@ class TeaCollections with ChangeNotifier {
           ),
         )
         .toList();
-    const url = 'http://localhost:8080/bleaf/sync';
+    const url = '$kUrl/bleaf/sync';
 
     for (var i in _lot_items) {
       try {
@@ -346,11 +348,61 @@ class TeaCollections with ChangeNotifier {
     }
   }
 
-  void saveSupplier(String supId, String supName) {
-    _newSupplier = Supplier(supId, supName);
+  Future<bool> saveSupplier(String supId, String supName) async {
+    try {
+      if (supId.isNotEmpty) {
+//        supName = null;
+        var _supName = null;
+        // final dataList = await http.get(
+        //   'http://10.0.2.2:8080/supp/supplier/$supId/$_supName',
+        //   headers: <String, String>{
+        //     'Content-Type': 'application/json; charset=UTF-8',
+        //     'Authorization': 'Bearer $authToken'
+        //   },
+        // );
+        //
+        // final extractedDataList = jsonDecode(dataList.body);
+        // print(extractedDataList);
+        List suppliers = await DBHelper.selectSupByID(supId);
+//        print('dajcn');
+        if (suppliers[0]['name'] == supName || supName.isEmpty) {
+          supName = suppliers[0]['name'];
+          if (suppliers.length != 0) {
+            _newSupplier = Supplier(supId, supName);
 
-    _newBulk = Bulk(Random().nextInt(100000000), "AgentOriginal");
-    notifyListeners();
+            _newBulk = Bulk(Random().nextInt(100000000), "AgentOriginal");
+            notifyListeners();
+            return true;
+          } else {
+            print("failed");
+            return false;
+            // throw Exception('Failed ');
+          }
+        } else {
+          print('Name is not matched.');
+          return false;
+          // throw Exception('Name is not matched.');
+        }
+      } else if (supName.isNotEmpty) {
+        supId = null;
+        List suppliers = await DBHelper.selectSupByName(supName);
+
+        if (suppliers.length != 0) {
+          supId = suppliers[0]['supplier_id'];
+          _newSupplier = Supplier(supId, supName);
+
+          _newBulk = Bulk(Random().nextInt(100000000), "AgentOriginal");
+          notifyListeners();
+          return true;
+        } else {
+          print("Failed");
+          return false;
+        }
+      }
+    } catch (err) {
+      print(err);
+      throw err;
+    }
   }
 
   String getCurrentDate() {

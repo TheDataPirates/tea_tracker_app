@@ -13,7 +13,7 @@ class SupplierInputScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future<void> saveLot() async {
-      if (supplierNoEditingController.text.isEmpty ||
+      if (supplierNoEditingController.text.isEmpty &&
           supplierNameEditingController.text.isEmpty) {
         return showDialog<void>(
           context: context,
@@ -41,19 +41,46 @@ class SupplierInputScreen extends StatelessWidget {
           },
         );
       } else {
-        Provider.of<TeaCollections>(context, listen: false).saveSupplier(
-            supplierNoEditingController.text,
-            supplierNameEditingController.text);
-
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => LotListScreen(
-              supplierID: supplierNoEditingController.text,
-              supplierName: supplierNameEditingController.text,
+        final isTrue = await Provider.of<TeaCollections>(context, listen: false)
+            .saveSupplier(supplierNoEditingController.text,
+                supplierNameEditingController.text);
+        if (isTrue) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => LotListScreen(
+                supplierID: supplierNoEditingController.text,
+                supplierName: supplierNameEditingController.text,
+              ),
             ),
-          ),
-        );
+          );
+        } else {
+          return showDialog<void>(
+            context: context,
+            barrierDismissible: false, // user must tap button!
+            builder: (BuildContext context) {
+              return AlertDialog(
+                title: const Text('AlertDialog'),
+                content: SingleChildScrollView(
+                  child: ListBody(
+                    children: <Widget>[
+                      const Text('wrong credentials'),
+                      const Text('Please Enter again'),
+                    ],
+                  ),
+                ),
+                actions: <Widget>[
+                  FlatButton(
+                    child: const Text("OK"),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              );
+            },
+          );
+        }
       }
     }
 
@@ -66,8 +93,8 @@ class SupplierInputScreen extends StatelessWidget {
           children: [
             Expanded(
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 10.0, horizontal: 40.0),
+                padding: const EdgeInsets.symmetric(
+                    vertical: 10.0, horizontal: 40.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -77,7 +104,7 @@ class SupplierInputScreen extends StatelessWidget {
                       child: TextField(
                         controller: supplierNoEditingController,
                         obscureText: false,
-                        style: const TextStyle(fontSize: 40.0, color: kColor, fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontSize: 40.0),
                         decoration: InputDecoration(
                           labelText: "Supplier No :",
                           labelStyle: kTextStyle2,
@@ -100,7 +127,7 @@ class SupplierInputScreen extends StatelessWidget {
                       width: MediaQuery.of(context).size.width * 0.5,
                       child: TextField(
                         controller: supplierNameEditingController,
-                        style: const TextStyle(fontSize: 40.0, color: kColor, fontWeight: FontWeight.bold),
+                        style: const TextStyle(fontSize: 40.0),
                         decoration: InputDecoration(
                           labelStyle: kTextStyle2,
                           contentPadding:

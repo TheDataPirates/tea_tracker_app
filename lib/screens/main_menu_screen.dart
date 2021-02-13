@@ -110,7 +110,7 @@ class MainMenuScreen extends StatelessWidget {
                               textAlign: TextAlign.center,
                               style: style.copyWith(
                                   color: Colors.white,
-                                  fontWeight: FontWeight.bold,)),
+                                  fontWeight: FontWeight.bold)),
                         ),
                       ),
                       SizedBox(
@@ -142,7 +142,7 @@ class MainMenuScreen extends StatelessWidget {
                         borderRadius: BorderRadius.circular(30.0),
                         color: kColor,
                         child: MaterialButton(
-                          minWidth: mediaQuery.width * 0.15,
+                          minWidth: mediaQuery.width * 0.01,
                           height: mediaQuery.height * 0.06,
                           padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           onPressed: () {

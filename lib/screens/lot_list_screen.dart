@@ -56,11 +56,14 @@ class _LotListScreenState extends State<LotListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final currSupplier =
+        Provider.of<TeaCollections>(context, listen: false).newSupplier;
     final currentDate =
         Provider.of<TeaCollections>(context, listen: false).getCurrentDate();
     return Scaffold(
       appBar: AppBar(
-        title: Text('ID: ${widget.supplierID}    NAME: ${widget.supplierName}'),
+        title: Text(
+            'ID: ${currSupplier.supplierId}    NAME: ${currSupplier.supplierName}'),
         actions: [
           IconButton(
             tooltip: "printing",
@@ -69,7 +72,7 @@ class _LotListScreenState extends State<LotListScreen> {
               size: 40,
             ),
             onPressed: () {
-              Navigator.of(context).pushNamed("PrintScreen");
+              Navigator.of(context).pushNamed("PrintPreviewScreen");
             },
           )
         ],
@@ -89,7 +92,8 @@ class _LotListScreenState extends State<LotListScreen> {
                 )
               : Consumer<TeaCollections>(
                   child: Center(
-                    child: const Text('Got no lots yet, start adding some!', style:kTextStyle),
+                    child: const Text('Got no lots yet, start adding some!',
+                        style: kTextStyle),
                   ),
                   builder: (ctx, teaCollections, ch) => teaCollections
                               .lot_items.length <=
@@ -109,8 +113,10 @@ class _LotListScreenState extends State<LotListScreen> {
                                   child: FittedBox(
                                     child: Text(
                                       "${teaCollections.lot_items[i].leaf_grade}",
-                                      style:
-                                          TextStyle(fontSize: 53, fontWeight: FontWeight.bold, color: Colors.white),
+                                      style: TextStyle(
+                                          fontSize: 53,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
                                     ),
                                   ),
                                 ),
@@ -123,11 +129,13 @@ class _LotListScreenState extends State<LotListScreen> {
                                 children: [
                                   Text(
                                     "Container type : ${teaCollections.lot_items[i].container_type} ->>",
-                                    style: Theme.of(context).textTheme.headline4,
+                                    style:
+                                        Theme.of(context).textTheme.headline4,
                                   ),
                                   Text(
                                     "  Units ${teaCollections.lot_items[i].no_of_containers}",
-                                    style: Theme.of(context).textTheme.headline3,
+                                    style:
+                                        Theme.of(context).textTheme.headline3,
                                   )
                                 ],
                               ),

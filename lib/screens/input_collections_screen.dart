@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:teatracker/models/lot.dart';
 import 'package:teatracker/providers/tea_collections.dart';
 import 'package:teatracker/widgets/tea_acquiring_input.dart';
+import 'package:intl/intl.dart';
 import 'package:teatracker/constants.dart';
 
 class InputCollectionScreen extends StatefulWidget {
@@ -146,21 +147,26 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                         Container(
 //                      color: Colors.amber,
                           height: mediaQuery.height * 0.3,
+
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
                               Card(
-                                elevation: 10,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(13.0),
                                 ),
-                                color: kColor,
+    color: kColor,              color: kColor,
+                                elevation: 10,
                                 child: Container(
+                                  decoration: BoxDecoration(
+                                    color: kColor,
+                                    borderRadius: BorderRadius.circular(13),
+                                  ),
                                   width: mediaQuery.width * width,
                                   child: FormBuilderDropdown(
                                     attribute: "Container Type",
                                     decoration: InputDecoration(
-                                      labelText: "Container Type",
+                                      labelText: " Container Type",
                                       errorStyle: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w700),
@@ -216,17 +222,20 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                 width: mediaQuery.width * 0.005,
                               ),
                               Card(
-                                elevation: 10,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(13.0),
                                 ),
-                                color: kColor,
+                                elevation: 10,
                                 child: Container(
+                                  decoration: BoxDecoration(
+                                    color: kColor,
+                                    borderRadius: BorderRadius.circular(13),
+                                  ),
                                   width: mediaQuery.width * width,
                                   child: FormBuilderDropdown(
                                     attribute: "No of Containers",
                                     decoration: InputDecoration(
-                                      labelText: "No of Containers",
+                                      labelText: " No of Containers",
                                       errorStyle: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w700),
@@ -287,7 +296,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                 width: mediaQuery.width * 0.005,
                               ),
                               InputField(
-                                labelText: 'Gross weight',
+                                labelText: ' Gross weight',
                                 width: width,
                                 validator: [FormBuilderValidators.required()],
                                 onSave: (value) {
@@ -312,17 +321,20 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                 width: mediaQuery.width * 0.005,
                               ),
                               Card(
-                                elevation: 10,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(13.0),
                                 ),
-                                color: kColor,
+                                elevation: 10,
                                 child: Container(
+                                  decoration: BoxDecoration(
+                                    color: kColor,
+                                    borderRadius: BorderRadius.circular(13),
+                                  ),
                                   width: mediaQuery.width * width,
                                   child: FormBuilderDropdown(
                                     attribute: "Grade of GL",
                                     decoration: InputDecoration(
-                                      labelText: "Grade of GL",
+                                      labelText: " Grade of GL",
                                       errorStyle: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w700),
@@ -387,7 +399,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
                               InputField(
-                                labelText: 'Container 1',
+                                labelText: ' Container 1',
                                 width: 0.15,
                                 // ignore: missing_return
                                 validator: [],
@@ -428,7 +440,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                 keytype: TextInputType.number,
                               ),
                               InputField(
-                                labelText: 'Container 2',
+                                labelText: ' Container 2',
                                 width: 0.15,
                                 validator: [],
                                 onSave: (value) {
@@ -468,7 +480,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                 keytype: TextInputType.number,
                               ),
                               InputField(
-                                labelText: 'Container 3',
+                                labelText: ' Container 3',
                                 width: 0.15,
                                 validator: [],
                                 onSave: (value) {
@@ -508,7 +520,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                 keytype: TextInputType.number,
                               ),
                               InputField(
-                                labelText: 'Container 4',
+                                labelText: ' Container 4',
                                 width: 0.15,
                                 validator: [],
                                 onSave: (value) {
@@ -548,7 +560,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                 keytype: TextInputType.number,
                               ),
                               InputField(
-                                labelText: 'Container 5',
+                                labelText: ' Container 5',
                                 width: 0.15,
                                 validator: [],
                                 onSave: (value) {
@@ -618,7 +630,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 InputField(
-                                  labelText: 'Water %',
+                                  labelText: ' Water %',
                                   width: deduct_width,
                                   validator: [FormBuilderValidators.required()],
                                   onSave: (value) {
@@ -644,7 +656,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                   width: mediaQuery.width * 0.05,
                                 ),
                                 InputField(
-                                  labelText: 'Course Leaf %',
+                                  labelText: ' Course Leaf %',
                                   width: deduct_width,
                                   validator: [FormBuilderValidators.required()],
                                   onSave: (value) {
@@ -670,7 +682,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                   width: mediaQuery.width * 0.05,
                                 ),
                                 InputField(
-                                  labelText: 'Other %',
+                                  labelText: ' Other %',
                                   width: deduct_width,
                                   validator: [FormBuilderValidators.required()],
                                   onSave: (value) {
