@@ -170,8 +170,9 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                       errorStyle: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w700),
-                                      contentPadding: const EdgeInsets.symmetric(
-                                          vertical: 40.0),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 40.0),
                                       labelStyle: TextStyle(
                                           color: Colors.white,
                                           fontSize: 30,
@@ -239,8 +240,9 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                       errorStyle: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w700),
-                                      contentPadding: const EdgeInsets.symmetric(
-                                          vertical: 40.0),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 40.0),
                                       labelStyle: TextStyle(
                                           color: Colors.white,
                                           fontSize: 30,
@@ -275,7 +277,8 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                         .toList(),
                                     onSaved: (value) {
                                       _editedLot = Lot(
-                                        container_type: _editedLot.container_type,
+                                        container_type:
+                                            _editedLot.container_type,
                                         no_of_containers: int.parse(value),
                                         gross_weight: _editedLot.gross_weight,
                                         leaf_grade: _editedLot.leaf_grade,
@@ -291,31 +294,6 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                     },
                                   ),
                                 ),
-                              ),
-                              SizedBox(
-                                width: mediaQuery.width * 0.005,
-                              ),
-                              InputField(
-                                labelText: ' Gross weight',
-                                width: width,
-                                validator: [FormBuilderValidators.required()],
-                                onSave: (value) {
-                                  _editedLot = Lot(
-                                    container_type: _editedLot.container_type,
-                                    no_of_containers: _editedLot.no_of_containers,
-                                    gross_weight: int.parse(value),
-                                    leaf_grade: _editedLot.leaf_grade,
-                                    water: _editedLot.water,
-                                    course_leaf: _editedLot.course_leaf,
-                                    other: _editedLot.other,
-                                    container1: _editedLot.container1,
-                                    container2: _editedLot.container2,
-                                    container3: _editedLot.container3,
-                                    container4: _editedLot.container4,
-                                    container5: _editedLot.container5,
-                                  );
-                                },
-                                keytype: TextInputType.number,
                               ),
                               SizedBox(
                                 width: mediaQuery.width * 0.005,
@@ -338,8 +316,9 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                       errorStyle: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w700),
-                                      contentPadding: const EdgeInsets.symmetric(
-                                          vertical: 40.0),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 40.0),
                                       labelStyle: TextStyle(
                                           color: Colors.white,
                                           fontSize: 30,
@@ -368,7 +347,8 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                         .toList(),
                                     onSaved: (value) {
                                       _editedLot = Lot(
-                                        container_type: _editedLot.container_type,
+                                        container_type:
+                                            _editedLot.container_type,
                                         no_of_containers:
                                             _editedLot.no_of_containers,
                                         gross_weight: _editedLot.gross_weight,
@@ -385,6 +365,32 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                     },
                                   ),
                                 ),
+                              ),
+                              SizedBox(
+                                width: mediaQuery.width * 0.005,
+                              ),
+                              InputField(
+                                labelText: ' Gross weight',
+                                width: width,
+                                validator: [FormBuilderValidators.required()],
+                                onSave: (value) {
+                                  _editedLot = Lot(
+                                    container_type: _editedLot.container_type,
+                                    no_of_containers:
+                                        _editedLot.no_of_containers,
+                                    gross_weight: int.parse(value),
+                                    leaf_grade: _editedLot.leaf_grade,
+                                    water: _editedLot.water,
+                                    course_leaf: _editedLot.course_leaf,
+                                    other: _editedLot.other,
+                                    container1: _editedLot.container1,
+                                    container2: _editedLot.container2,
+                                    container3: _editedLot.container3,
+                                    container4: _editedLot.container4,
+                                    container5: _editedLot.container5,
+                                  );
+                                },
+                                keytype: TextInputType.number,
                               ),
                               SizedBox(
                                 width: mediaQuery.width * 0.005,
@@ -407,7 +413,8 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                   if (!value.isEmpty) {
                                     count += 1;
                                     _editedLot = Lot(
-                                        container_type: _editedLot.container_type,
+                                        container_type:
+                                            _editedLot.container_type,
                                         no_of_containers:
                                             _editedLot.no_of_containers,
                                         gross_weight: _editedLot.gross_weight,
@@ -422,7 +429,8 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                         container5: _editedLot.container5);
                                   } else {
                                     _editedLot = Lot(
-                                        container_type: _editedLot.container_type,
+                                        container_type:
+                                            _editedLot.container_type,
                                         no_of_containers:
                                             _editedLot.no_of_containers,
                                         gross_weight: _editedLot.gross_weight,
@@ -447,7 +455,8 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                   if (!value.isEmpty) {
                                     count += 1;
                                     _editedLot = Lot(
-                                        container_type: _editedLot.container_type,
+                                        container_type:
+                                            _editedLot.container_type,
                                         no_of_containers:
                                             _editedLot.no_of_containers,
                                         gross_weight: _editedLot.gross_weight,
@@ -462,7 +471,8 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                         container5: _editedLot.container5);
                                   } else {
                                     _editedLot = Lot(
-                                        container_type: _editedLot.container_type,
+                                        container_type:
+                                            _editedLot.container_type,
                                         no_of_containers:
                                             _editedLot.no_of_containers,
                                         gross_weight: _editedLot.gross_weight,
@@ -487,7 +497,8 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                   if (!value.isEmpty) {
                                     count += 1;
                                     _editedLot = Lot(
-                                        container_type: _editedLot.container_type,
+                                        container_type:
+                                            _editedLot.container_type,
                                         no_of_containers:
                                             _editedLot.no_of_containers,
                                         gross_weight: _editedLot.gross_weight,
@@ -502,7 +513,8 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                         container5: _editedLot.container5);
                                   } else {
                                     _editedLot = Lot(
-                                        container_type: _editedLot.container_type,
+                                        container_type:
+                                            _editedLot.container_type,
                                         no_of_containers:
                                             _editedLot.no_of_containers,
                                         gross_weight: _editedLot.gross_weight,
@@ -527,7 +539,8 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                   if (!value.isEmpty) {
                                     count += 1;
                                     _editedLot = Lot(
-                                        container_type: _editedLot.container_type,
+                                        container_type:
+                                            _editedLot.container_type,
                                         no_of_containers:
                                             _editedLot.no_of_containers,
                                         gross_weight: _editedLot.gross_weight,
@@ -542,7 +555,8 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                         container5: _editedLot.container5);
                                   } else {
                                     _editedLot = Lot(
-                                        container_type: _editedLot.container_type,
+                                        container_type:
+                                            _editedLot.container_type,
                                         no_of_containers:
                                             _editedLot.no_of_containers,
                                         gross_weight: _editedLot.gross_weight,
@@ -583,7 +597,8 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                     );
                                   } else {
                                     _editedLot = Lot(
-                                        container_type: _editedLot.container_type,
+                                        container_type:
+                                            _editedLot.container_type,
                                         no_of_containers:
                                             _editedLot.no_of_containers,
                                         gross_weight: _editedLot.gross_weight,
