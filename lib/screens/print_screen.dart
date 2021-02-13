@@ -22,11 +22,12 @@ class _PrintScreenState extends State<PrintScreen> {
   // ignore: must_call_super
   void initState() {
     bluetoothManager.state.listen((val) {
+      print(val);
       if (!mounted) return;
       if (val == 12) {
         print("on");
         initPrinter();
-      } else if (val == 10) {
+      } else if (val == 10|| val == 0) {
         print("off");
         setState(() {
           _devicesMsg = 'Bluetooth is off';
