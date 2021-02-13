@@ -107,7 +107,7 @@ class SupplierInputScreen extends StatelessWidget {
                         style: const TextStyle(fontSize: 40.0),
                         decoration: InputDecoration(
                           labelText: "Supplier No :",
-                          labelStyle: kTextStyle,
+                          labelStyle: kTextStyle2,
                           contentPadding:
                               EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           // border: OutlineInputBorder(
@@ -129,7 +129,7 @@ class SupplierInputScreen extends StatelessWidget {
                         controller: supplierNameEditingController,
                         style: const TextStyle(fontSize: 40.0),
                         decoration: InputDecoration(
-                          labelStyle: kTextStyle,
+                          labelStyle: kTextStyle2,
                           contentPadding:
                               EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           labelText: "Supplier Name :",

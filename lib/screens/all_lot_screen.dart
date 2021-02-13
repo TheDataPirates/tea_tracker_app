@@ -156,7 +156,7 @@ class _AllLotsScreenState extends State<AllLotsScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).accentColor,
-        child: const Icon(Icons.home),
+        child: const Icon(Icons.home, size: 40,),
         onPressed: () {
           Navigator.popUntil(
             context,

@@ -5,7 +5,7 @@ import 'package:teatracker/providers/tea_collections.dart';
 import 'package:teatracker/constants.dart';
 
 class MainMenuScreen extends StatelessWidget {
-  static TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 20.0);
+  static TextStyle style = TextStyle(fontFamily: 'Montserrat', fontSize: 30.0, fontStyle: FontStyle.italic);
   Future<void> _syncSqlLiteToMySql(BuildContext context) async {
     await showDialog<void>(
       context: context,
@@ -97,9 +97,10 @@ class MainMenuScreen extends StatelessWidget {
                       Material(
                         elevation: 10.0,
                         borderRadius: BorderRadius.circular(30.0),
-                        color: Theme.of(context).accentColor,
+                        color: kColor,
                         child: MaterialButton(
                           minWidth: mediaQuery.width * 0.4,
+                          height: mediaQuery.height * 0.06,
                           padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           onPressed: () {
                             Navigator.of(context)
@@ -108,7 +109,7 @@ class MainMenuScreen extends StatelessWidget {
                           child: Text("New Lot",
                               textAlign: TextAlign.center,
                               style: style.copyWith(
-                                  color: kColor,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.bold)),
                         ),
                       ),
@@ -118,9 +119,10 @@ class MainMenuScreen extends StatelessWidget {
                       Material(
                         elevation: 5.0,
                         borderRadius: BorderRadius.circular(30.0),
-                        color: Theme.of(context).accentColor,
+                        color: kColor,
                         child: MaterialButton(
                           minWidth: mediaQuery.width * 0.4,
+                          height: mediaQuery.height * 0.06,
                           padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           onPressed: () {
                             Navigator.of(context).pushNamed('AllLotsScreen');
@@ -128,7 +130,7 @@ class MainMenuScreen extends StatelessWidget {
                           child: Text("All Lots",
                               textAlign: TextAlign.center,
                               style: style.copyWith(
-                                  color: kColor,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.bold)),
                         ),
                       ),
@@ -138,9 +140,10 @@ class MainMenuScreen extends StatelessWidget {
                       Material(
                         elevation: 5.0,
                         borderRadius: BorderRadius.circular(30.0),
-                        color: Theme.of(context).accentColor,
+                        color: kColor,
                         child: MaterialButton(
                           minWidth: mediaQuery.width * 0.01,
+                          height: mediaQuery.height * 0.06,
                           padding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
                           onPressed: () {
                             _syncSqlLiteToMySql(context);
@@ -148,7 +151,7 @@ class MainMenuScreen extends StatelessWidget {
                           child: Text("SYNCING",
                               textAlign: TextAlign.center,
                               style: style.copyWith(
-                                  color: kColor,
+                                  color: Colors.white,
                                   fontWeight: FontWeight.bold)),
                         ),
                       ),

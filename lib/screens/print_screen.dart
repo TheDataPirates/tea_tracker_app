@@ -19,14 +19,21 @@ class _PrintScreenState extends State<PrintScreen> {
   BluetoothManager bluetoothManager = BluetoothManager.instance;
 
   @override
+  void dispose() {
+    _printerBluetoothManager.stopScan();
+    super.dispose();
+  }
+
+  @override
   // ignore: must_call_super
   void initState() {
     bluetoothManager.state.listen((val) {
+      print(val);
       if (!mounted) return;
       if (val == 12) {
         print("on");
         initPrinter();
-      } else if (val == 10) {
+      } else if (val == 10 || val == 0) {
         print("off");
         setState(() {
           _devicesMsg = 'Bluetooth is off';
@@ -52,7 +59,35 @@ class _PrintScreenState extends State<PrintScreen> {
     _printerBluetoothManager.selectPrinter(printer);
     final result = await _printerBluetoothManager
         .printTicket(await _ticket(PaperSize.mm58));
-    print(result);
+    // print(result.msg);
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(printer.name),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text(result.msg),
+                Text('Please check printed receipt'),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('Approve'),
+              onPressed: () {
+                Navigator.popUntil(
+                  context,
+                  ModalRoute.withName("MainMenuScreen"),
+                );
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Future<Ticket> _ticket(PaperSize _paperSize) async {
