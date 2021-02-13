@@ -167,7 +167,10 @@ class _LotListScreenState extends State<LotListScreen> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: Theme.of(context).accentColor,
-        child: const Icon(Icons.add, size: 40,),
+        child: const Icon(
+          Icons.add,
+          size: 40,
+        ),
         onPressed: () {
           Navigator.pushNamed(context, "InputCollectionScreen");
         },

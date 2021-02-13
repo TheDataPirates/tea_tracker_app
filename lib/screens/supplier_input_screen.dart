@@ -87,7 +87,7 @@ class SupplierInputScreen extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
-          height:MediaQuery.of(context).size.height,
+          height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             gradient: kUIGradient,
           ),
@@ -95,8 +95,8 @@ class SupplierInputScreen extends StatelessWidget {
             children: [
               Expanded(
                 child: Padding(
-                  padding:
-                      const EdgeInsets.symmetric(vertical: 10.0, horizontal: 40.0),
+                  padding: const EdgeInsets.symmetric(
+                      vertical: 10.0, horizontal: 40.0),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     mainAxisAlignment: MainAxisAlignment.center,

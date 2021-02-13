@@ -12,7 +12,7 @@ class ListTileLot extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final selectedLot = Provider.of<TeaCollections>(context)
+    final selectedLot = Provider.of<TeaCollections>(context, listen: false)
         .lot_items
         .firstWhere((supp) =>
             supp.lotId ==
@@ -23,6 +23,7 @@ class ListTileLot extends StatelessWidget {
       ),
       body: SingleChildScrollView(
         child: Container(
+          height: MediaQuery.of(context).size.height,
           decoration: BoxDecoration(
             gradient: kUIGradient,
           ),
@@ -34,12 +35,14 @@ class ListTileLot extends StatelessWidget {
                   color: kCardColor,
                   margin: EdgeInsets.all(10),
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                    padding:
+                        const EdgeInsets.only(bottom: 10, left: 10, right: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text("Supplier :", style: kLotDetailTextStyle),
-                        Text(selectedLot.supplier_id, style: kLotDetailTextStyle),
+                        Text(selectedLot.supplier_id,
+                            style: kLotDetailTextStyle),
                       ],
                     ),
                   ),
@@ -51,12 +54,15 @@ class ListTileLot extends StatelessWidget {
                   color: kCardColor,
                   margin: EdgeInsets.all(10),
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                    padding:
+                        const EdgeInsets.only(bottom: 10, left: 10, right: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text("Container type :", style: kLotDetailTextStyle),
-                        Text(selectedLot.container_type, style: kLotDetailTextStyle),
+                        const Text("Container type :",
+                            style: kLotDetailTextStyle),
+                        Text(selectedLot.container_type,
+                            style: kLotDetailTextStyle),
                       ],
                     ),
                   ),
@@ -68,7 +74,8 @@ class ListTileLot extends StatelessWidget {
                   color: kCardColor,
                   margin: EdgeInsets.all(10),
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                    padding:
+                        const EdgeInsets.only(bottom: 10, left: 10, right: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -87,11 +94,13 @@ class ListTileLot extends StatelessWidget {
                   color: kCardColor,
                   margin: EdgeInsets.all(10),
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                    padding:
+                        const EdgeInsets.only(bottom: 10, left: 10, right: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text("Gross weight :", style: kLotDetailTextStyle),
+                        const Text("Gross weight :",
+                            style: kLotDetailTextStyle),
                         Text(selectedLot.gross_weight.toString(),
                             style: kLotDetailTextStyle),
                       ],
@@ -105,7 +114,8 @@ class ListTileLot extends StatelessWidget {
                   color: kCardColor,
                   margin: EdgeInsets.all(10),
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                    padding:
+                        const EdgeInsets.only(bottom: 10, left: 10, right: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -122,12 +132,14 @@ class ListTileLot extends StatelessWidget {
                   color: kCardColor,
                   margin: EdgeInsets.all(10),
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                    padding:
+                        const EdgeInsets.only(bottom: 10, left: 10, right: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text("Water % :", style: kLotDetailTextStyle),
-                        Text(selectedLot.water.toString(), style: kLotDetailTextStyle)
+                        Text(selectedLot.water.toString(),
+                            style: kLotDetailTextStyle)
                       ],
                     ),
                   ),
@@ -143,7 +155,8 @@ class ListTileLot extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const Text("Course leaf % :", style: kLotDetailTextStyle),
+                        const Text("Course leaf % :",
+                            style: kLotDetailTextStyle),
                         Text(selectedLot.course_leaf.toString(),
                             style: kLotDetailTextStyle)
                       ],
@@ -157,12 +170,14 @@ class ListTileLot extends StatelessWidget {
                   color: kCardColor,
                   margin: EdgeInsets.all(10),
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                    padding:
+                        const EdgeInsets.only(bottom: 10, left: 10, right: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text("Other % :", style: kLotDetailTextStyle),
-                        Text(selectedLot.other.toString(), style: kLotDetailTextStyle)
+                        Text(selectedLot.other.toString(),
+                            style: kLotDetailTextStyle)
                       ],
                     ),
                   ),
@@ -174,7 +189,8 @@ class ListTileLot extends StatelessWidget {
                   color: kCardColor,
                   margin: EdgeInsets.all(10),
                   child: Padding(
-                    padding: const EdgeInsets.only(bottom: 10, left: 10, right: 10),
+                    padding:
+                        const EdgeInsets.only(bottom: 10, left: 10, right: 10),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

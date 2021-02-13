@@ -170,11 +170,12 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                       errorStyle: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w700),
-                                      contentPadding: const EdgeInsets.symmetric(
-                                          vertical: 40.0),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 40.0),
                                       labelStyle: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 30,
+                                          fontSize: 22,
                                           fontWeight: FontWeight.w700),
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -184,7 +185,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                       ),
                                     ),
                                     style: TextStyle(
-                                        fontSize: 40,
+                                        fontSize: 30,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                     // initialValue:
@@ -239,11 +240,12 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                       errorStyle: TextStyle(
                                           fontSize: 20,
                                           fontWeight: FontWeight.w700),
-                                      contentPadding: const EdgeInsets.symmetric(
-                                          vertical: 40.0),
+                                      contentPadding:
+                                          const EdgeInsets.symmetric(
+                                              vertical: 40.0),
                                       labelStyle: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 30,
+                                          fontSize: 22,
                                           fontWeight: FontWeight.w700),
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
@@ -253,7 +255,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                       ),
                                     ),
                                     style: TextStyle(
-                                        fontSize: 40,
+                                        fontSize: 30,
                                         color: Colors.black,
                                         fontWeight: FontWeight.bold),
                                     // initialValue:
@@ -275,7 +277,8 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                         .toList(),
                                     onSaved: (value) {
                                       _editedLot = Lot(
-                                        container_type: _editedLot.container_type,
+                                        container_type:
+                                            _editedLot.container_type,
                                         no_of_containers: int.parse(value),
                                         gross_weight: _editedLot.gross_weight,
                                         leaf_grade: _editedLot.leaf_grade,
@@ -339,8 +342,8 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                     ],
                                     items: ['A', 'B', 'C']
                                         .map((container) => DropdownMenuItem(
-                                        value: container,
-                                        child: Text("$container")))
+                                            value: container,
+                                            child: Text("$container")))
                                         .toList(),
                                     onSaved: (value) {
                                       _editedLot = Lot(
@@ -594,7 +597,8 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                     );
                                   } else {
                                     _editedLot = Lot(
-                                        container_type: _editedLot.container_type,
+                                        container_type:
+                                            _editedLot.container_type,
                                         no_of_containers:
                                             _editedLot.no_of_containers,
                                         gross_weight: _editedLot.gross_weight,
