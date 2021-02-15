@@ -30,9 +30,10 @@ dependencies:
   date_format: ^1.0.9
   flutter_form_builder: ^3.14.1
   intl: ^0.16.1
-  esc_pos_bluetooth: ^0.2.8
-  flutter_bluetooth_basic: ^0.1.5
+#esc_pos_bluetooth: ^0.2.8
+#flutter_bluetooth_basic: ^0.1.5
   flutter_bcrypt: ^1.0.5
+  flutter_blue: ^0.7.3
 
 
   # The following adds the Cupertino Icons font to your application.
