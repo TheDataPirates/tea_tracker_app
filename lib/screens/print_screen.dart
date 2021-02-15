@@ -1,11 +1,11 @@
-import 'package:esc_pos_bluetooth/esc_pos_bluetooth.dart';
+import 'package:blue_thermal_printer/blue_thermal_printer.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bluetooth_basic/flutter_bluetooth_basic.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:teatracker/models/receipt.dart';
 import 'package:teatracker/providers/tea_collections.dart';
 import 'package:teatracker/constants.dart';
-import 'package:esc_pos_utils/esc_pos_utils.dart';
 
 class PrintScreen extends StatefulWidget {
   @override
@@ -13,142 +13,218 @@ class PrintScreen extends StatefulWidget {
 }
 
 class _PrintScreenState extends State<PrintScreen> {
-  PrinterBluetoothManager _printerBluetoothManager = PrinterBluetoothManager();
-  List<PrinterBluetooth> _devices = [];
-  String _devicesMsg;
-  BluetoothManager bluetoothManager = BluetoothManager.instance;
+  BlueThermalPrinter bluetooth = BlueThermalPrinter.instance;
+
+  List<BluetoothDevice> _devices = [];
+  BluetoothDevice _device;
+  bool _connected = false;
+  String pathImage;
+  Receipt receipt;
 
   @override
-  void dispose() {
-    _printerBluetoothManager.stopScan();
-    super.dispose();
-  }
-
-  @override
-  // ignore: must_call_super
   void initState() {
-    bluetoothManager.state.listen((val) {
-      print(val);
-      if (!mounted) return;
-      if (val == 12) {
-        print("on");
-        initPrinter();
-      } else if (val == 10 || val == 0) {
-        print("off");
-        setState(() {
-          _devicesMsg = 'Bluetooth is off';
-        });
+    super.initState();
+    initPlatformState();
+    // initSavetoPath();
+    receipt = Receipt();
+  }
+
+  // initSavetoPath() async {
+  //   //read and write
+  //   //image max 300px X 300px
+  //   final filename = 'yourlogo.png';
+  //   var bytes = await rootBundle.load("assets/images/yourlogo.png");
+  //   String dir = (await getApplicationDocumentsDirectory()).path;
+  //   writeToFile(bytes, '$dir/$filename');
+  //   setState(() {
+  //     pathImage = '$dir/$filename';
+  //   });
+  // }
+
+  Future<void> initPlatformState() async {
+    bool isConnected = await bluetooth.isConnected;
+    List<BluetoothDevice> devices = [];
+    try {
+      devices = await bluetooth.getBondedDevices();
+    } on PlatformException {
+      // TODO - Error
+    }
+
+    bluetooth.onStateChanged().listen((state) {
+      switch (state) {
+        case BlueThermalPrinter.CONNECTED:
+          setState(() {
+            _connected = true;
+          });
+          break;
+        case BlueThermalPrinter.DISCONNECTED:
+          setState(() {
+            _connected = false;
+          });
+          break;
+        default:
+          print(state);
+          break;
       }
     });
-  }
 
-  void initPrinter() {
-    _printerBluetoothManager.startScan(Duration(seconds: 2));
-    _printerBluetoothManager.scanResults.listen((val) {
-      if (!mounted) {
-        print('not mounted');
-        return;
-      }
-      setState(() => _devices = val);
-      // print(_devices);
-      if (_devices.isEmpty) setState(() => _devicesMsg = 'No Devices');
+    if (!mounted) return;
+    setState(() {
+      _devices = devices;
     });
-  }
 
-  Future<void> _startPrint(PrinterBluetooth printer) async {
-    _printerBluetoothManager.selectPrinter(printer);
-    final result = await _printerBluetoothManager
-        .printTicket(await _ticket(PaperSize.mm58));
-    // print(result.msg);
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(printer.name),
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text(result.msg),
-                Text('Please check printed receipt'),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('Approve'),
-              onPressed: () {
-                Navigator.popUntil(
-                  context,
-                  ModalRoute.withName("MainMenuScreen"),
-                );
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
-  Future<Ticket> _ticket(PaperSize _paperSize) async {
-    final ticket = Ticket(_paperSize);
-    ticket.text("text");
-    ticket.cut();
-    return ticket;
+    if (isConnected) {
+      setState(() {
+        _connected = true;
+      });
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final provider = Provider.of<TeaCollections>(context, listen: false);
-    // final getCurrDate = provider.getCurrentDate();
-    // final deductions = provider.totalDeducts();
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Print'),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: kUIGradient,
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Blue Thermal Printer'),
         ),
-        child: _devices.isEmpty
-            ? Center(
-                child: Text(_devicesMsg ?? ''),
-              )
-            : ListView.builder(
-                itemCount: _devices.length,
-                itemBuilder: (ctx, i) => Card(
-                  color: kCardColor,
-                  elevation: 10.0,
-                  child: ListTile(
-                    leading: Icon(
-                      Icons.print,
-                      size: 70,
+        body: Container(
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView(
+              children: <Widget>[
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: <Widget>[
+                    SizedBox(
+                      width: 10,
                     ),
-                    title: Text(
-                      _devices[i].name,
-                      style: Theme.of(context).textTheme.headline1,
+                    Text(
+                      'Device:',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
-                    subtitle: Text(_devices[i].address),
-                    onTap: () {
-                      print(_devices[i]);
-                      _startPrint(_devices[i]);
-                      // Navigator.popUntil(
-                      //   context,
-                      //   ModalRoute.withName("MainMenuScreen"),
-                      // );
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => ListTileLot(
-                      //       lot_id: teaCollections.lot_items[i].lotId,
-                      //     ),
-                      //   ),
-                      // );
+                    SizedBox(
+                      width: 30,
+                    ),
+                    Expanded(
+                      child: DropdownButton(
+                        items: _getDeviceItems(),
+                        onChanged: (value) => setState(() => _device = value),
+                        value: _device,
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 10,
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: <Widget>[
+                    RaisedButton(
+                      color: Colors.brown,
+                      onPressed: () {
+                        initPlatformState();
+                      },
+                      child: Text(
+                        'Refresh',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    RaisedButton(
+                      color: _connected ? Colors.red : Colors.green,
+                      onPressed: _connected ? _disconnect : _connect,
+                      child: Text(
+                        _connected ? 'Disconnect' : 'Connect',
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ),
+                  ],
+                ),
+                Padding(
+                  padding:
+                      const EdgeInsets.only(left: 10.0, right: 10.0, top: 50),
+                  child: RaisedButton(
+                    color: Colors.brown,
+                    onPressed: () {
+                      receipt.sample(pathImage);
                     },
+                    child: Text('PRINT TEST',
+                        style: TextStyle(color: Colors.white)),
                   ),
                 ),
-              ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  List<DropdownMenuItem<BluetoothDevice>> _getDeviceItems() {
+    List<DropdownMenuItem<BluetoothDevice>> items = [];
+    if (_devices.isEmpty) {
+      items.add(DropdownMenuItem(
+        child: Text('NONE'),
+      ));
+    } else {
+      _devices.forEach((device) {
+        items.add(DropdownMenuItem(
+          child: Text(device.name),
+          value: device,
+        ));
+      });
+    }
+    return items;
+  }
+
+  void _connect() {
+    if (_device == null) {
+      show('No device selected.');
+    } else {
+      bluetooth.isConnected.then((isConnected) {
+        if (!isConnected) {
+          bluetooth.connect(_device).catchError((error) {
+            setState(() => _connected = false);
+          });
+          setState(() => _connected = true);
+        }
+      });
+    }
+  }
+
+  void _disconnect() {
+    bluetooth.disconnect();
+    setState(() => _connected = true);
+  }
+
+// //write to app path
+//   Future<void> writeToFile(ByteData data, String path) {
+//     final buffer = data.buffer;
+//     return new File(path).writeAsBytes(
+//         buffer.asUint8List(data.offsetInBytes, data.lengthInBytes));
+//   }
+
+  Future show(
+    String message, {
+    Duration duration: const Duration(seconds: 3),
+  }) async {
+    await new Future.delayed(new Duration(milliseconds: 100));
+    Scaffold.of(context).showSnackBar(
+      new SnackBar(
+        content: new Text(
+          message,
+          style: new TextStyle(
+            color: Colors.white,
+          ),
+        ),
+        duration: duration,
       ),
     );
   }
