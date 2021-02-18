@@ -104,7 +104,7 @@ class _PrintPreviewScreenState extends State<PrintPreviewScreen> {
                         child: Center(
                           child: Text(
                             getCurrDate,
-                            style: TextStyle(color: Colors.white, fontSize: 40),
+                            style: TextStyle(color: Colors.white, fontSize: 30),
                           ),
                         ),
                       ),

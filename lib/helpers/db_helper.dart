@@ -18,7 +18,7 @@ class DBHelper {
       await db.execute(
           'CREATE TABLE lots(lotId TEXT PRIMARY KEY, user_Id TEXT, supplier_id TEXT,supplier_name TEXT ,container_type TEXT, no_of_containers INTEGER,leaf_grade TEXT, g_weight INTEGER, water INTEGER, course_leaf INTEGER, other INTEGER,deductions INTEGER,net_weight INTEGER,date TEXT,is_deleted INTEGER,container1 INTEGER,container2 INTEGER,container3 INTEGER,container4 INTEGER,container5 INTEGER,bulkId INTEGER,method String)');
       await db.execute(
-          'CREATE TABLE users(user_Id TEXT PRIMARY KEY, password TEXT)');
+          'CREATE TABLE users(user_Id TEXT PRIMARY KEY, password TEXT, name TEXT)');
       await db.execute(
           'CREATE TABLE suppliers(supplier_id TEXT PRIMARY KEY, name TEXT)');
     },
@@ -44,7 +44,7 @@ class DBHelper {
         },
       );
       final extractedDataList = jsonDecode(dataListUsers.body);
-      // print(extractedDataList);
+       print(extractedDataList);
       List loadedUsers = extractedDataList['users'];
 
       final dataListSuppliers = await http.get(
@@ -54,7 +54,7 @@ class DBHelper {
         },
       );
       final extractedDataList2 = jsonDecode(dataListSuppliers.body);
-      print(extractedDataList2);
+//      print(extractedDataList2);
       List loadedSuppliers = extractedDataList2['suppliers'];
 
       await db.transaction((txn) async {
@@ -62,8 +62,9 @@ class DBHelper {
         for (var i in loadedUsers) {
           // print(i);
           var pw = i['password'];
+          var name = i['name'];
           await txn.rawInsert(
-              "INSERT INTO users(user_Id, password) VALUES(${i['user_id']}, '$pw')");
+              "INSERT INTO users(user_Id, password, name) VALUES(${i['user_id']}, '$pw', '$name')");
         }
         for (var i in loadedSuppliers) {
           // print(i['supplier_id']);

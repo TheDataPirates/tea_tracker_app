@@ -82,15 +82,20 @@ class _PrintScreenState extends State<PrintScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<TeaCollections>(context, listen: false);
+    final deductions = provider.totalDeducts();
+    final net = provider.netWeight();
+    final gross = provider.grossWeight();
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('Blue Thermal Printer'),
-        ),
         body: Container(
+          decoration: BoxDecoration(
+            gradient: kUIGradient,
+          ),
           child: Padding(
             padding: const EdgeInsets.all(8.0),
-            child: ListView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -100,9 +105,10 @@ class _PrintScreenState extends State<PrintScreen> {
                       width: 10,
                     ),
                     Text(
-                      'Device:',
+                      'Device : ',
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
+                        fontSize: 25,
                       ),
                     ),
                     SizedBox(
@@ -113,6 +119,13 @@ class _PrintScreenState extends State<PrintScreen> {
                         items: _getDeviceItems(),
                         onChanged: (value) => setState(() => _device = value),
                         value: _device,
+                        iconSize: 25,
+                        style: TextStyle(
+                          fontSize: 20,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+
                       ),
                     ),
                   ],
@@ -125,24 +138,34 @@ class _PrintScreenState extends State<PrintScreen> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: <Widget>[
                     RaisedButton(
-                      color: Colors.brown,
+                      color: Colors.blueAccent,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      elevation: 15,
                       onPressed: () {
                         initPlatformState();
                       },
                       child: Text(
                         'Refresh',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                     ),
                     SizedBox(
                       width: 20,
                     ),
                     RaisedButton(
-                      color: _connected ? Colors.red : Colors.green,
+                      elevation: 15,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+                      ),
+                      padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                      color: _connected ? Colors.red : Colors.deepPurple,
                       onPressed: _connected ? _disconnect : _connect,
                       child: Text(
                         _connected ? 'Disconnect' : 'Connect',
-                        style: TextStyle(color: Colors.white),
+                        style: TextStyle(color: Colors.white, fontSize: 20),
                       ),
                     ),
                   ],
@@ -151,12 +174,19 @@ class _PrintScreenState extends State<PrintScreen> {
                   padding:
                       const EdgeInsets.only(left: 10.0, right: 10.0, top: 50),
                   child: RaisedButton(
-                    color: Colors.brown,
+                    elevation: 15,
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(25.0),
+
+                    ),
+                    padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
+                    color: Colors.orange,
                     onPressed: () {
-                      receipt.sample(pathImage);
+                      receipt.sample(provider.currUser.user_name, provider.newSupplier.supplierId, provider.newSupplier.supplierName, gross, deductions, net);
+                      Navigator.pushNamed(context, "MainMenuScreen");
                     },
-                    child: Text('PRINT TEST',
-                        style: TextStyle(color: Colors.white)),
+                    child: Text('PRINT',
+                        style: TextStyle(color: Colors.white, fontSize: 30)),
                   ),
                 ),
               ],

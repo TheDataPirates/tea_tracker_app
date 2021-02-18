@@ -41,6 +41,7 @@ class TeaCollections with ChangeNotifier {
         print(userFromDb[0]);
 
         _currUser.user_id = userFromDb[0]['user_Id'] as String;
+        _currUser.user_name = userFromDb[0]['name'] as String;
         _currUser.password = userFromDb[0]['password'] as String;
         return true;
       } else {
@@ -342,11 +343,26 @@ class TeaCollections with ChangeNotifier {
     try {
       int total = 0;
       lot_items.forEach((item) => total += item.deductions);
-      print(total);
+//      print(total);
       return total;
     } catch (e) {
       print(e);
     }
+  }
+
+  int grossWeight(){
+    try {
+      int total = 0;
+      lot_items.forEach((item) => total += item.gross_weight);
+//      print(total);
+      return total;
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  int netWeight(){
+    return grossWeight() - totalDeducts();
   }
 
   // ignore: missing_return

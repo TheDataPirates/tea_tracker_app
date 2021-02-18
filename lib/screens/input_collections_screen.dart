@@ -245,7 +245,7 @@ class _InputCollectionScreenState extends State<InputCollectionScreen> {
                                               vertical: 40.0),
                                       labelStyle: TextStyle(
                                           color: Colors.white,
-                                          fontSize: 22,
+                                          fontSize: 20,
                                           fontWeight: FontWeight.w700),
                                       enabledBorder: OutlineInputBorder(
                                         borderRadius: BorderRadius.all(
